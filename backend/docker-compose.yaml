@@ -6,7 +6,7 @@ services:
     working_dir: /todojs
     volumes:
       - .:/todojs
-      - ./nginx.conf:/etc/nginx/sites-available/default
+      - ./src/config/nginx.conf:/etc/nginx/sites-available/default
     ports:
       - "881:80"
       - "882:22"
