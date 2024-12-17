@@ -1,5 +1,5 @@
 #!/bin/bash
 
-inotifywait -m -e modify,create,delete /path/to/directory | while read; do
-    bash /todojs/backend/scripts/reboot.sh
+inotifywait -m -e modify,create,delete /todojs/src/server/* | while read; do
+    bash /todojs/src/scripts/reboot.sh
 done

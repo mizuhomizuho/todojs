@@ -1,9 +1,9 @@
 services:
-  todojs:
-    container_name: todojs
+  todojs_backend:
+    image: todojs_server
+    container_name: todojs_backend
     build:
       context: .
-    working_dir: /todojs
     volumes:
       - .:/todojs
       - ./src/config/nginx.conf:/etc/nginx/sites-available/default
@@ -15,13 +15,13 @@ services:
 
   todojs_postgres:
     image: postgres
+    container_name: todojs_postgres
     ports:
       - '883:5432'
     environment:
       - POSTGRES_DB=todojs_postgres
       - POSTGRES_USER=todojs_postgres
       - POSTGRES_PASSWORD=todojs_postgres
-    container_name: todojs_postgres
     volumes:
       - postgresql_data:/var/lib/postgresql/data
 
