@@ -1,12 +1,10 @@
 
 const setup = {port:8000}
 const express = require ('express');
-// const xxx = require("./test");
 const app = express ();
-app.get('/test', (req, res) => {
-    res.send('Тест6');
-    // xxx(res);
+app.get('', (req, res) => {
+    res.send('Hi!');
 });
 app.listen(setup.port, () => {
-    console.log('Сервер: порт %s - старт!', setup.port);
+    console.log('Server start on port %s...', setup.port);
 });

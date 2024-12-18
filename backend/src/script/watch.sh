@@ -1,7 +1,5 @@
 #!/bin/bash
 
-#https://stackoverflow.com/questions/66909254/watchdog-observers-observer-works-in-windows-works-in-docker-on-linux-does-not
-#fswatch -o /todojs/src/server/app | xargs -n1 -I{} echo "File changed"
 inotifywait \
     --event create \
     --event delete \

@@ -25,6 +25,4 @@ pm2 start /todojs/src/server/app/server.js
 pm2 save
 pm2 startup
 
-#npm install chokidar -g
-
 echo "End." >> "$FILE_LOG"
