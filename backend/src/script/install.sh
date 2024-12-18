@@ -1,11 +1,22 @@
 #!/bin/bash
 
-mkdir /var/run/sshd
-echo 'root:root123' | chpasswd
-sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
+FILE_LOG="/todojs/install/install.log"
+FILE_FLAG="/todojs/install/installed.conf"
+INSTALLED="[installed]"
 
-echo -e "\n\ndaemon off;" >> /etc/nginx/nginx.conf
-chown -R www-data /todojs/src/server
+while [ ! -f "$FILE_FLAG" ]; do
+  sleep 1
+done
+
+if [ "$(cat "$FILE_FLAG")" = "$INSTALLED" ]; then
+  exit 0
+fi
+
+echo "$INSTALLED" > "$FILE_FLAG"
+
+cat /dev/null > "$FILE_LOG"
+
+echo "Start..." >> "$FILE_LOG"
 
 cd /todojs || exit
 npm init -y
@@ -14,4 +25,6 @@ pm2 start /todojs/src/server/app/server.js
 pm2 save
 pm2 startup
 
-cat /todojs/src/config/supervisord.conf > /etc/supervisor/conf.d/supervisord.conf
+#npm install chokidar -g
+
+echo "End." >> "$FILE_LOG"

@@ -1,6 +1,12 @@
 
 ```shell
-cd ./backend
-docker build -t todojs_server ./image
-docker-compose up -d
+docker build -t todojs_server ./backend/image
+```
+
+```shell
+sudo make del
+```
+
+```shell
+sudo make rebuild
 ```

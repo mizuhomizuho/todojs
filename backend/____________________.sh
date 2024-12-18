@@ -8,6 +8,7 @@ pm2 startup
 nginx -s reload
 
 
+    privileged: true
 
 
 
@@ -16,7 +17,10 @@ nginx -s reload
 
 
 
-
+if [ -f "/todojs/src/config/install.conf" ]; then
+  exit 0
+fi
+echo -e "[supervisord]\ninstalled=true" > /todojs/src/config/install.conf
 
 
 RUN bash /todojs/install.sh

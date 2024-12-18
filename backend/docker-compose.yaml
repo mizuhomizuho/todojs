@@ -1,7 +1,6 @@
 services:
-  todojs_backend:
-    image: todojs_server
-    container_name: todojs_backend
+  todojs_server:
+    container_name: todojs_server
     build:
       context: .
     volumes:
