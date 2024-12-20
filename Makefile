@@ -2,8 +2,8 @@
 .PHONY: del
 del:
 	find ./backend/src/log -mindepth 1 ! -name '.gitignore' -delete
-	rm -f ./backend/install/install.log
-	cat /dev/null > ./backend/install/installed.conf
+	rm -f ./backend/install/installed
+	cat /dev/null > ./backend/install/install.conf
 	rm -rf ./backend/node_modules
 	rm -f ./backend/package.json
 	rm -f ./backend/package-lock.json
