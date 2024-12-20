@@ -14,15 +14,7 @@ fi
 
 echo "$INSTALLED" > "$FILE_CONF"
 
-cd /todojs || exit
-npm init -y
-npm install express --save
-npm install -D typescript @types/node @types/express
-tsc --init
-
-#npm install -D tslint
-#jq ".scripts.lint = \"tslint -p .\"" package.json > tmp_package.json
-#mv tmp_package.json package.json
+bash /todojs/src/script/init.sh
 
 chown -R ubuntu:ubuntu /todojs
 
