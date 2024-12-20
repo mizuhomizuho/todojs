@@ -2,8 +2,8 @@
 
 **/.DS_Store
 
-/backend/install/initialized_
-/backend/install/installed_
+/backend/install/initialized
+/backend/install/installed
 /backend/node_modules
 /node_modules
 
