@@ -18,12 +18,6 @@ RUN echo "ubuntu:123" | chpasswd
 
 RUN tsc --init
 
-RUN chown -R ubuntu:ubuntu /todojs
-
-RUN pm2 start /todojs/src/server/app/server.ts --interpreter ts-node
-RUN pm2 save
-RUN pm2 startup
-
 RUN cat /todojs/src/config/supervisord.conf > /etc/supervisor/conf.d/supervisord.conf
 
 CMD ["/usr/bin/supervisord", "-n"]

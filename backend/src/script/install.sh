@@ -24,5 +24,11 @@ tsc --init
 #jq ".scripts.lint = \"tslint -p .\"" package.json > tmp_package.json
 #mv tmp_package.json package.json
 
+chown -R ubuntu:ubuntu /todojs
+
+pm2 start /todojs/src/server/app/server.ts --interpreter ts-node
+pm2 save
+pm2 startup
+
 cat /dev/null > "$FILE_INSTALLED"
 
