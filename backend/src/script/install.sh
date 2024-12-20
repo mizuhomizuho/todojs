@@ -16,11 +16,11 @@ echo "$INSTALLED" > "$FILE_CONF"
 
 bash /todojs/src/script/init.sh
 
-chown -R ubuntu:ubuntu /todojs
-
 pm2 start /todojs/src/server/app/server.ts --interpreter ts-node
 pm2 save
 pm2 startup
 
 cat /dev/null > "$FILE_INSTALLED"
+
+chown -R ubuntu:ubuntu /todojs
 
