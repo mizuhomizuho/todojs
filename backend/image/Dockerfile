@@ -1,5 +1,5 @@
 FROM ubuntu:latest
-RUN apt-get update && apt-get install -y mc inotify-tools openssh-server nginx curl supervisor
+RUN apt-get update && apt-get install -y mc inotify-tools openssh-server nginx curl supervisor jq
 RUN ( curl -sSLf https://deb.nodesource.com/setup_18.x -o - || echo 'return 1' ) | bash -s
 RUN apt-get install -y nodejs
-RUN npm install pm2 -g
+RUN npm install pm2 ts-node typescript -g

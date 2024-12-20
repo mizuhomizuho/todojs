@@ -7,6 +7,8 @@ del:
 	rm -rf ./backend/node_modules
 	rm -f ./backend/package.json
 	rm -f ./backend/package-lock.json
+	rm -f ./backend/tsconfig.json
+	rm -f ./backend/tslint.json
 	docker stop todojs_server || echo "..."
 	docker stop todojs_postgres || echo "..."
 	docker rm todojs_server || echo "..."

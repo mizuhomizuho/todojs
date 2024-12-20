@@ -12,9 +12,12 @@ To track file changes on Windows, the project needs to be run on WSL.
 
 ## Links:
 
-- http://localhost:881/
-- http://localhost:881/static/ - for static files
-- SSH: ssh -p 882 root@127.0.0.1 - password: root123
+```shell
+# http://localhost:881/
+# http://localhost:881/static/ - for static files
+ssh -p 882 root@127.0.0.1 # password: 123
+ssh -p 882 ubuntu@127.0.0.1 # password: 123
+```
 
 ## Build:
 
