@@ -1,4 +1,5 @@
 services:
+
   todojs_server:
     container_name: todojs_server
     build:
@@ -10,19 +11,21 @@ services:
       - "881:80"
       - "882:22"
     depends_on:
-      - todojs_postgres
+      - todojs_mysql
 
-  todojs_postgres:
-    image: postgres
-    container_name: todojs_postgres
-    ports:
-      - '883:5432'
+  todojs_mysql:
+    build:
+      context: .
+    container_name: todojs_mysql
     environment:
-      - POSTGRES_DB=todojs_postgres
-      - POSTGRES_USER=todojs_postgres
-      - POSTGRES_PASSWORD=todojs_postgres
+      MYSQL_DATABASE: 'todojs_mysql'
+      MYSQL_USER: 'todojs_mysql'
+      MYSQL_PASSWORD: 'todojs_mysql'
+      MYSQL_ROOT_PASSWORD: 'todojs_mysql_root'
+    ports:
+      - '883:3306'
     volumes:
-      - postgresql_data:/var/lib/postgresql/data
+      - mysql-db:/var/lib/mysql
 
 volumes:
-  postgresql_data: null
+  mysql-db: null
