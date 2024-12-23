@@ -1,19 +1,8 @@
 #!/bin/bash
 
-inotifywait \
-    --event create \
-    --event delete \
-    --event modify \
-    --event move \
-    --event attrib \
-    --format "%e %w%f" \
-    --monitor \
-    --syslog \
-    --quiet \
-    --recursive \
-    /todojs/src/server/app |
-while read CHANGED;
-do
-    echo "$CHANGED"
-    bash /todojs/src/script/reboot.sh
-done
+#[program:watch]
+#command=bash /todojs/src/script/watch.sh
+#autostart=true
+#autorestart=true
+#stderr_logfile=/todojs/src/log/watch.err.log
+#stdout_logfile=/todojs/src/log/watch.out.log

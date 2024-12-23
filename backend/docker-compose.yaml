@@ -2,7 +2,6 @@ services:
 
   todojs_server:
     container_name: todojs_server
-    working_dir: /todojs
     build:
       context: .
     volumes:

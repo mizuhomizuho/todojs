@@ -6,4 +6,3 @@
 #pm2 startup
 #nginx -s reload
 
-pm2 restart server
