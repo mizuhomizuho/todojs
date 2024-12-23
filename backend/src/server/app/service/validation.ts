@@ -1,4 +1,5 @@
 import {Request} from "express";
+import {IError, IResult, IUserCreateResult} from "../types";
 
 export namespace TodojsServiceValidation {
 
@@ -10,21 +11,26 @@ export namespace TodojsServiceValidation {
             this._req = req;
         }
 
-        public register() {
-            const errors: {}[] = [];
+        public register(): IResult<IError[]> {
+            const errors: IError[] = [];
             if (typeof this.req.body.username !== 'string' || this.req.body.username.trim() === '') {
-                errors.push({username: 'Username cannot be empty.'});
+                errors.push();
             }
             if (typeof this.req.body.password !== 'string' || this.req.body.password.trim() === '') {
-                errors.push({password: 'Password cannot be empty.'});
+                errors.push({field: 'password', message: 'Password cannot be empty.'});
             }
             if (typeof this.req.body.password2 !== 'string' || this.req.body.password !== this.req.body.password2) {
-                errors.push({password2: 'Passwords do not match.'});
+                errors.push({field: 'password2', message: 'Passwords do not match.'});
             }
             if (errors.length) {
-                return errors;
+                return {
+                    success: false,
+                    data: errors,
+                };
             }
-            return true;
+            return {
+                success: true,
+            };
         }
 
         private get req(): Request {

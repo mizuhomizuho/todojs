@@ -1,7 +1,8 @@
 import {Request, Response} from "express";
 import {TodojsServiceResponse} from "../service/response";
 import {TodojsServiceValidation} from "../service/validation";
-import bcryptjs from 'bcryptjs';
+import {TodojsServiceUser} from "../service/user";
+import {IError, IResult, IUserCreateResult} from "../types";
 
 export namespace TodojsControllerUser {
 
@@ -17,16 +18,25 @@ export namespace TodojsControllerUser {
 
         public async register() {
 
-            // const response = new TodojsServiceResponse.Main(this.res);
-            // const validation = new TodojsServiceValidation.Main(this.req);
-            // const resultValidation = validation.register();
-            //
-            // if (resultValidation !== true) {
-            //     response.sendError(resultValidation);
-            //     return;
-            // }
+            const serviceResponse = new TodojsServiceResponse.Main(this.res);
+            const serviceValidation = new TodojsServiceValidation.Main(this.req);
 
-            console.log(await bcryptjs.genSalt(10));
+            const resultValidation = serviceValidation.register();
+            if (!resultValidation.success) {
+                serviceResponse.sendError(resultValidation.data as IError[]);
+                return;
+            }
+
+            const serviceUser = new TodojsServiceUser.Main(this.req);
+            const resultUserCreate = await serviceUser.create();
+            if (!resultUserCreate.success) {
+                serviceResponse.sendError(resultUserCreate.data as IError[]);
+                return;
+            }
+
+
+            this.res.send('4');
+            return;
 
 
             //

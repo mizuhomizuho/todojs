@@ -25,11 +25,11 @@ else
   else
     cd /todojs || exit
     npm init -y
-    npm install express --save
-    npm install -D typescript @types/node @types/express
+    npm i express --save
+    npm i -D typescript @types/node @types/express @types/bcryptjs @types/jsonwebtoken
     tsc --init
     npm i prisma --save-dev
-    npm install jsonwebtoken cors bcryptjs
+    npm i jsonwebtoken cors bcryptjs
   fi
 
   if [ -d "/todojs/prisma" ]; then

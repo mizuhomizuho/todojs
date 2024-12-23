@@ -4,6 +4,9 @@
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
+// npx prisma migrate reset
+// npx prisma migrate init
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -24,6 +27,6 @@ model Todo {
 
 model User {
   id Int @id @default(autoincrement())
-  username String @db.VarChar(32)
+  username String @db.VarChar(32) @unique
   password String @db.VarChar(32)
 }
