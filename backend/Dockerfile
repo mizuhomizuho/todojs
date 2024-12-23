@@ -2,6 +2,8 @@ FROM todojs_server:latest
 
 RUN mkdir /todojs
 
+WORKDIR /todojs
+
 COPY src /todojs/src
 
 RUN mkdir /var/run/sshd

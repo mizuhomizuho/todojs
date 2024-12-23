@@ -5,10 +5,11 @@ del:
 	rm -f ./backend/install/installed
 	cat /dev/null > ./backend/install/install.conf
 	docker stop todojs_server || echo "..."
-	docker stop todojs_postgres || echo "..."
+	docker stop todojs_mysql || echo "..."
 	docker rm todojs_server || echo "..."
-	docker rm todojs_postgres || echo "..."
+	docker rm todojs_mysql || echo "..."
 	docker rmi backend-todojs_server || echo "..."
+	docker rmi backend-todojs_mysql || echo "..."
 
 .PHONY: build
 build:

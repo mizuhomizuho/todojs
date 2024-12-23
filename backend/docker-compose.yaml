@@ -2,6 +2,7 @@ services:
 
   todojs_server:
     container_name: todojs_server
+    working_dir: /todojs
     build:
       context: .
     volumes:
@@ -14,8 +15,7 @@ services:
       - todojs_mysql
 
   todojs_mysql:
-    build:
-      context: .
+    image: mysql
     container_name: todojs_mysql
     environment:
       MYSQL_DATABASE: 'todojs_mysql'
