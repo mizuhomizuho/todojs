@@ -1,10 +1,3 @@
 .idea
 
 **/.DS_Store
-
-backend/install/initialized
-backend/install/installed
-backend/node_modules
-backend/src/config/supervisord.log
-backend/src/config/supervisord.pid
-backend/prisma/migrations

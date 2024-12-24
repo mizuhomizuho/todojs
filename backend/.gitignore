@@ -1,3 +1,9 @@
 node_modules
-# Keep environment variables out of version control
+
 .env
+
+install/initialized
+install/installed
+src/config/supervisord.log
+src/config/supervisord.pid
+prisma/migrations
