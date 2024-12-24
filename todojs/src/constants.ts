@@ -1,4 +1,4 @@
-import {IItemStatus, INavigationItem, IPageItem} from "../../types";
+import {IItemStatus, INavigationItem, IPageItem} from "../types";
 
 export const STORAGE_NAVIGATION_ID_KEY = 'navigationCurrentPageId';
 

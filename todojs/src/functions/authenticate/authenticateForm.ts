@@ -1,6 +1,7 @@
 import {useState} from "react";
 import {useAppContext} from "../app";
-import {IAppContext} from "../../../../types";
+
+import {IAppContext} from "../../../types";
 
 export function useAuthenticateForm() {
 

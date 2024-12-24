@@ -3,7 +3,8 @@ import BaseActivityIndicator from "./BaseActivityIndicator";
 import {StyleSheet, View} from "react-native";
 import {useAppContext} from "../../functions/app";
 import {debug} from "../../functions/debug";
-import {IStyle} from "../../../../types";
+
+import {IStyle} from "../../../types";
 
 const BaseLoading = () => {
 

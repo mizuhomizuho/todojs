@@ -5,7 +5,8 @@ import {getPage} from "../../../functions/navigation";
 import BaseButton from "../../bases/BaseButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useAppContext} from "../../../functions/app";
-import {INavigationItem} from "../../../../../types";
+
+import {INavigationItem} from "../../../../types";
 
 type NavigationItemProps = {
     item: INavigationItem;

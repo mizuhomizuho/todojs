@@ -2,7 +2,8 @@ import React from 'react';
 import {StyleSheet} from 'react-native';
 import BaseText from "./BaseText";
 import {BaseTouchableOpacity, BaseTouchableOpacityProps} from "./BaseTouchableOpacity";
-import {IStyle} from "../../../../types";
+
+import {IStyle} from "../../../types";
 
 interface BaseButtonProps extends BaseTouchableOpacityProps {
     title: string;

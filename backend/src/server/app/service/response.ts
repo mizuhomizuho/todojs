@@ -1,7 +1,5 @@
 import {Response} from 'express';
 
-import {IError, IResult, IResultData, IUserCreateResult} from "../../../../../types";
-
 export namespace TodojsServiceResponse {
 
     export class Main {

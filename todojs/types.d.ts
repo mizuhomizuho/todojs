@@ -1,5 +1,3 @@
-import {IItemBase, IItemCommon} from "../types";
-
 export interface IItemBase {
 }
 

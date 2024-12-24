@@ -4,7 +4,8 @@ import PageAuthenticate from "./components/pages/authenticate/PageAuthenticate";
 import PageHome from "./components/pages/PageHome";
 import PageTodoEdit from "./components/pages/todo/PageTodoEdit";
 import PageRegister from "./components/pages/authenticate/PageRegister";
-import {IComponentMap} from "../../types";
+
+import {IComponentMap} from "../types";
 
 export const COMPONENT_MAP: IComponentMap = {
     PageTodoList,

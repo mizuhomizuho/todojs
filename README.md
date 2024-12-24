@@ -1,5 +1,7 @@
 # TodoJs
 
+//npx create-expo-app@latest --template blank-typescript
+
 ## Backend
 
 To track file changes on Windows, the project needs to be run on WSL.

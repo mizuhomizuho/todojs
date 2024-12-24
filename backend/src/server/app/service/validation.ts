@@ -1,7 +1,5 @@
 import {Request} from "express";
 
-import {IError, IResult} from "../../../../../types";
-
 export namespace TodojsServiceValidation {
 
     export class Main {

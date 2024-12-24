@@ -1,16 +1,16 @@
 import {createContext, useContext, useEffect, useState} from "react";
 import {getCurrentPage, getPage} from "./navigation";
 import {PAGE_AUTHENTICATE, PAGE_HOME} from "../constants";
-import {IAppContext, IAuthenticateItem, IItemCommon, IPreloaderItem} from "../../../types";
 import {checkAuthenticate, isAuthenticate} from "./authenticate/authenticate";
 import {api} from "./api";
 import {debug} from "./debug";
+import {IAppContext, IAuthenticateItem, IItemCommon, IPreloaderItem} from "../../types";
 
-const AppContext = createContext<IAppContext | undefined>(undefined);
+export const AppContext = createContext<IAppContext | null>(null);
 
 export function useAppContext() {
     const context = useContext(AppContext);
-    if (context === undefined) {
+    if (context === null) {
         throw new Error('AppContext is undefined');
     }
     return context;

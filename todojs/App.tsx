@@ -12,8 +12,6 @@ const App = () => {
     const appContext = useApp();
     const CurrentPageComponent = COMPONENT_MAP[appContext.nav.currentPage.component];
 
-    // console.log("CurrentPageComponent", appContext.nav, CurrentPageComponent);
-
     return (
         <AppContext.Provider value={appContext}>
 

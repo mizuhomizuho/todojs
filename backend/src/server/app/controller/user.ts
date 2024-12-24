@@ -3,8 +3,6 @@ import {TodojsServiceResponse} from "../service/response";
 import {TodojsServiceValidation} from "../service/validation";
 import {TodojsServiceUser} from "../service/user";
 
-import {IError, IResult, IUserCreateResult} from "../../../../../types";
-
 export namespace TodojsControllerUser {
 
     export class Main {

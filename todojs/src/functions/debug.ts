@@ -1,4 +1,4 @@
-import {IAppContext, IItemCommon} from "../../../types";
+import {IAppContext, IItemCommon} from "../../types";
 
 let debugStream = 'main';
 debugStream = 'todo_edit';
