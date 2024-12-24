@@ -1,6 +1,5 @@
-import {IAppContext} from "../../types/types";
-
 import {debug} from "../debug";
+import {IAppContext} from "../../../../types";
 
 export async function checkAuthenticate(appContext: IAppContext) {
     return await new Promise<void>((resolve) => {

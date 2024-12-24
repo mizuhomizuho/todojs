@@ -1,10 +1,8 @@
 import {useEffect, useState} from "react";
 import {STATUS_ITEMS} from "../../constants";
 import dayjs from "dayjs";
-import {useAppContext} from "../app";
-import {IAppContext, IItemCommon} from "../../types/types";
+import {IAppContext, IItemCommon} from "../../../../types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {debug} from "../debug";
 
 export const DEADLINE_DAYJS_FORMAT = 'YYYY-MM-DD HH:mm';
 
@@ -22,7 +20,7 @@ export const useTodoItemForm = (appContext: IAppContext, storageId: string, edit
     const [status, setStatus] = useState(defaultValues);
     const [comments, setComments] = useState(defaultValues);
     const [deadline, setDeadline] = useState(defaultValues);
-    
+
     const formParams = [
         {
             variableName: 'title',
@@ -31,28 +29,28 @@ export const useTodoItemForm = (appContext: IAppContext, storageId: string, edit
             setFunction: setTitle,
             defaultValue: '',
             defaultValue2: 'title1',
-        },{
+        }, {
             variableName: 'description',
             variable: description,
             setFunctionName: 'setDescription',
             setFunction: setDescription,
             defaultValue: '',
             defaultValue2: 'description1',
-        },{
+        }, {
             variableName: 'status',
             variable: status,
             setFunctionName: 'setStatus',
             setFunction: setStatus,
             defaultValue: STATUS_ITEMS[0].id,
             defaultValue2: STATUS_ITEMS[2].id,
-        },{
+        }, {
             variableName: 'comments',
             variable: comments,
             setFunctionName: 'setComments',
             setFunction: setComments,
             defaultValue: '',
             defaultValue2: 'comments1',
-        },{
+        }, {
             variableName: 'deadline',
             variable: deadline,
             setFunctionName: 'setDeadline',
@@ -112,6 +110,7 @@ const loadData = (appContext: IAppContext, formParams: IItemCommon[], editId: st
     if (typeof editId !== 'string') {
         return;
     }
+
     async function init() {
         await new Promise<void>((resolve) => {
             setTimeout(() => {
@@ -123,6 +122,7 @@ const loadData = (appContext: IAppContext, formParams: IItemCommon[], editId: st
             }, 1500);
         });
     }
+
     useEffect(() => {
         appContext.load.setPreloader(true);
         init();

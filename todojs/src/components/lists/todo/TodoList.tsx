@@ -1,8 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import TodoItem from "./TodoItem";
 import BaseFlatList from "../../bases/BaseFlatList";
-import {IAppContext, IItemTodo} from "../../../types/types";
-import {StyleSheet} from "react-native";
+import {IItemTodo} from "../../../../../types";
 import {useAppContext} from "../../../functions/app";
 import {debug} from "../../../functions/debug";
 

@@ -1,5 +1,5 @@
 import axios from "axios";
-import {IItemCommon} from "../types/types";
+import {IItemCommon} from "../../../types";
 
 export const api = async (route: string, params: IItemCommon) => {
 

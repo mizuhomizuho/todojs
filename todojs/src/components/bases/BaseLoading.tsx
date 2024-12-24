@@ -2,33 +2,8 @@ import React, {useEffect} from 'react';
 import BaseActivityIndicator from "./BaseActivityIndicator";
 import {StyleSheet, View} from "react-native";
 import {useAppContext} from "../../functions/app";
-import {IStyle} from "../../types/types";
 import {debug} from "../../functions/debug";
-
-// interface BaseLoadingProps extends BaseViewProps {
-// }
-//
-// const BaseLoading = forwardRef((props: BaseLoadingProps, ref) => {
-//
-//     const appContext = useAppContext();
-//
-//     useEffect(() => {
-//         debug(appContext, {
-//             'BaseLoading_mount': 1,
-//         });
-//     }, []);
-//
-//     const bosStyles: IStyle[] = [];
-//     bosStyles.push(styles.container);
-//     if (appContext.load.preloader) {
-//         bosStyles.push({display: 'flex'});
-//     }
-//
-//     // @ts-ignore
-//     return <View ref={ref} style={bosStyles}>
-//         <BaseActivityIndicator size="large" color="#24a1a2"/>
-//     </View>;
-// });
+import {IStyle} from "../../../../types";
 
 const BaseLoading = () => {
 

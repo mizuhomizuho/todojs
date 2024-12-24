@@ -19,7 +19,8 @@ export interface IItem extends IItemBase {
     id: string,
 }
 
-export interface IItemStatus extends IItemCommon, IItem {
+export interface IItemStatus extends IItem {
+    label: string,
 }
 
 export interface IItemTodo extends IItem {

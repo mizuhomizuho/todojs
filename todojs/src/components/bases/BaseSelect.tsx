@@ -1,12 +1,9 @@
-import {IItemCommon, IItemStatus, IStyle} from "../../types/types";
-import BaseFlatList from "./BaseFlatList";
+import {IItemCommon, IStyle} from "../../../../types";
 import React from "react";
-import {StyleSheet, Text, View} from "react-native";
+import {StyleSheet} from "react-native";
 import BaseText from "./BaseText";
 import {BaseTouchableOpacity} from "./BaseTouchableOpacity";
 import BaseView from "./BaseView";
-import {NAVIGATION_ITEMS} from "../../constants";
-import NavigationItem from "../lists/navigation/NavigationItem";
 
 type BaseSelectProps = {
     onPress: CallableFunction;

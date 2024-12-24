@@ -1,7 +1,6 @@
-import {IPageItem} from "../types/types";
-import {PAGE_AUTHENTICATE, PAGE_HOME, PAGE_ITEMS, STORAGE_NAVIGATION_ID_KEY} from "../constants";
+import {PAGE_HOME, PAGE_ITEMS, STORAGE_NAVIGATION_ID_KEY} from "../constants";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import dayjs from "dayjs";
+import {IPageItem} from "../../../types";
 
 export async function getCurrentPage(): Promise<IPageItem> {
     let pageId = await AsyncStorage.getItem(STORAGE_NAVIGATION_ID_KEY);

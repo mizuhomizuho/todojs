@@ -1,6 +1,6 @@
-import {IAppContext} from "../../types/types";
 import {useState} from "react";
 import {useAppContext} from "../app";
+import {IAppContext} from "../../../../types";
 
 export const useAuthenticateForm = () => {
 
