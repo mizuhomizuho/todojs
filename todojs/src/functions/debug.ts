@@ -1,6 +1,6 @@
 import {IAppContext, IItemCommon} from "../../../types";
 
-export let debugStream = 'main';
+let debugStream = 'main';
 debugStream = 'todo_edit';
 
 // debugStream = 'none';
@@ -13,7 +13,7 @@ debugStream = 'todo_edit';
 //     stream: 'todo_edit',
 // });
 
-export const debug = (appContext: IAppContext, variables: IItemCommon, params: IItemCommon = {}) => {
+export function debug(appContext: IAppContext, variables: IItemCommon, params: IItemCommon = {}) {
     let currentStream = 'main';
     if (typeof params.stream !== 'undefined') {
         currentStream = params.stream;
@@ -37,4 +37,4 @@ export const debug = (appContext: IAppContext, variables: IItemCommon, params: I
         console.log('dump_error', e);
     }
     console.log(variables);
-};
+}

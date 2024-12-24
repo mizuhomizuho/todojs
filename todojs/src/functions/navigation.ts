@@ -15,10 +15,10 @@ export async function getCurrentPage(): Promise<IPageItem> {
     return page;
 }
 
-export const getPage = (pageId: string) => {
+export function getPage(pageId: string) {
     const page = PAGE_ITEMS.find(({id}) => id === pageId);
     if (!page) {
         throw new Error('Page is undefined');
     }
     return page;
-};
+}

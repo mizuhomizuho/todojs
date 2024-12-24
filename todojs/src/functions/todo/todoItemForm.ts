@@ -1,16 +1,14 @@
 import {useEffect, useState} from "react";
-import {STATUS_ITEMS} from "../../constants";
+import {DEADLINE_DAYJS_FORMAT, STATUS_ITEMS} from "../../constants";
 import dayjs from "dayjs";
 import {IAppContext, IItemCommon} from "../../../../types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export const DEADLINE_DAYJS_FORMAT = 'YYYY-MM-DD HH:mm';
-
-export const setValue = (value: string, isMount: boolean = false) => {
+export function setValue(value: string, isMount: boolean = false) {
     return {isMount: isMount, value: value};
-};
+}
 
-export const useTodoItemForm = (appContext: IAppContext, storageId: string, editId: string | null) => {
+export function useTodoItemForm(appContext: IAppContext, storageId: string, editId: string | null) {
 
     const defaultValues: IItemCommon = {isMount: true, value: ''};
     const storagePrefix = `todoItemForm-v6-${storageId}-`;
@@ -65,16 +63,16 @@ export const useTodoItemForm = (appContext: IAppContext, storageId: string, edit
     bindStorage(formParams, storagePrefix);
 
     return getReturnUseTodoItemForm(formParams);
-};
+}
 
-export const handleTodoItemForm = async (
+export async function handleTodoItemForm(
     title: string,
     description: string,
     status: string,
     comments: string,
     deadline: number,
     appContext: IAppContext,
-) => {
+) {
 
     if (!checkAuthenticateForm(title, deadline)) {
         return;
@@ -82,9 +80,9 @@ export const handleTodoItemForm = async (
     appContext.load.setPreloader(true);
     await new Promise(resolve => setTimeout(resolve, 1000));
     appContext.load.setPreloader(false);
-};
+}
 
-const bindStorage = (formParams: IItemCommon[], storagePrefix: string) => {
+function bindStorage(formParams: IItemCommon[], storagePrefix: string) {
     formParams.forEach((item, index) => {
         useEffect(() => {
             // debug(appContext, {
@@ -104,9 +102,9 @@ const bindStorage = (formParams: IItemCommon[], storagePrefix: string) => {
             })();
         }, [item.variable]);
     });
-};
+}
 
-const loadData = (appContext: IAppContext, formParams: IItemCommon[], editId: string | null) => {
+function loadData(appContext: IAppContext, formParams: IItemCommon[], editId: string | null) {
     if (typeof editId !== 'string') {
         return;
     }
@@ -127,12 +125,12 @@ const loadData = (appContext: IAppContext, formParams: IItemCommon[], editId: st
         appContext.load.setPreloader(true);
         init();
     }, []);
-};
+}
 
-const checkAuthenticateForm = (
+function checkAuthenticateForm(
     title: string,
     deadline: number,
-) => {
+) {
     const errors: string[] = [];
     if (!title.trim()) {
         errors.push('Title cannot be empty.');
@@ -145,13 +143,13 @@ const checkAuthenticateForm = (
         return false;
     }
     return true;
-};
+}
 
-const getReturnUseTodoItemForm = (formParams: IItemCommon[]) => {
+function getReturnUseTodoItemForm(formParams: IItemCommon[]) {
     const result: IItemCommon = {};
     formParams.forEach((item) => {
         result[item.variableName] = item.variable;
         result[item.setFunctionName] = item.setFunction;
     });
     return result;
-};
+}

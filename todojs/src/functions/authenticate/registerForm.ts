@@ -2,7 +2,7 @@ import {useState} from "react";
 import {query} from "../app";
 import {IAppContext} from "../../../../types";
 
-export const useRegisterForm = () => {
+export function useRegisterForm() {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -16,14 +16,14 @@ export const useRegisterForm = () => {
         password2,
         setPassword2,
     };
-};
+}
 
-export const handleRegisterForm = async (
+export async function handleRegisterForm(
     username: string,
     password: string,
     password2: string,
     appContext: IAppContext,
-) => {
+) {
     if (!checkRegisterForm(username, password, password2)) {
         return;
     }
@@ -42,9 +42,9 @@ export const handleRegisterForm = async (
     //     alert('Authentication failed');
     // }
     appContext.load.setPreloader(false);
-};
+}
 
-const checkRegisterForm = (username: string, password: string, password2: string) => {
+function checkRegisterForm(username: string, password: string, password2: string) {
     const errors: string[] = [];
     if (!username.trim()) {
         errors.push('Username cannot be empty.');
@@ -60,4 +60,4 @@ const checkRegisterForm = (username: string, password: string, password2: string
         return false;
     }
     return true;
-};
+}

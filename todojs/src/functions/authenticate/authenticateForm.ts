@@ -2,7 +2,7 @@ import {useState} from "react";
 import {useAppContext} from "../app";
 import {IAppContext} from "../../../../types";
 
-export const useAuthenticateForm = () => {
+export function useAuthenticateForm() {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -17,11 +17,11 @@ export const useAuthenticateForm = () => {
     };
 };
 
-export const handleAuthenticateForm = async (
+export async function handleAuthenticateForm(
     username: string,
     password: string,
     appContext: IAppContext,
-) => {
+) {
     if (!checkAuthenticateForm(username, password)) {
         return;
     }
@@ -34,7 +34,7 @@ export const handleAuthenticateForm = async (
     appContext.load.setPreloader(false);
 };
 
-const checkAuthenticateForm = (username: string, password: string) => {
+function checkAuthenticateForm(username: string, password: string) {
     // const errors: string[] = [];
     // if (!username.trim()) {
     //     errors.push('Username cannot be empty.');

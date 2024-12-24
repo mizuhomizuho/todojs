@@ -2,6 +2,8 @@ import {IItemStatus, INavigationItem, IPageItem} from "../../types";
 
 export const STORAGE_NAVIGATION_ID_KEY = 'navigationCurrentPageId';
 
+export const DEADLINE_DAYJS_FORMAT = 'YYYY-MM-DD HH:mm';
+
 export const PAGE_HOME = 'home';
 export const PAGE_LIST = 'todoList';
 export const PAGE_ADD = 'todoAdd';

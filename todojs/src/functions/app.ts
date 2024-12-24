@@ -6,15 +6,15 @@ import {checkAuthenticate, isAuthenticate} from "./authenticate/authenticate";
 import {api} from "./api";
 import {debug} from "./debug";
 
-export const AppContext = createContext<IAppContext | undefined>(undefined);
+const AppContext = createContext<IAppContext | undefined>(undefined);
 
-export const useAppContext = () => {
+export function useAppContext() {
     const context = useContext(AppContext);
     if (context === undefined) {
         throw new Error('AppContext is undefined');
     }
     return context;
-};
+}
 
 export function useApp() {
 
@@ -62,13 +62,13 @@ export function useApp() {
     return appContext;
 }
 
-export const query = async (
+export async function query(
     appContext: IAppContext,
     route: string,
     params: IItemCommon
-) => {
+) {
     await api(route, params);
-};
+}
 
 async function init(appContext: IAppContext) {
     debug(appContext, {

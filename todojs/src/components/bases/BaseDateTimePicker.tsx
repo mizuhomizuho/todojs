@@ -1,7 +1,8 @@
 import React from 'react';
 import DateTimePicker from "react-native-ui-datepicker";
 import dayjs from "dayjs";
-import {DEADLINE_DAYJS_FORMAT} from "../../functions/todo/todoItemForm";
+
+import {DEADLINE_DAYJS_FORMAT} from "../../constants";
 
 export interface BaseDateTimePickerProps {
     date: string;

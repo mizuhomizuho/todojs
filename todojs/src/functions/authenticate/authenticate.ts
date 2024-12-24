@@ -17,7 +17,7 @@ export async function checkAuthenticate(appContext: IAppContext) {
     });
 }
 
-export const isAuthenticate = (appContext: IAppContext) => {
+export function isAuthenticate(appContext: IAppContext) {
 
     debug(appContext, {
             'isAuthenticate': 1,

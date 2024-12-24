@@ -1,7 +1,7 @@
 import axios from "axios";
 import {IItemCommon} from "../../../types";
 
-export const api = async (route: string, params: IItemCommon) => {
+export async function api(route: string, params: IItemCommon) {
 
     const axiosInstance = axios.create({
         baseURL: 'http://localhost:881',

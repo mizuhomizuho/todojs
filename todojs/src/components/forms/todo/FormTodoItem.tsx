@@ -5,9 +5,8 @@ import BaseButton from "../../bases/BaseButton";
 import BaseDateTimePicker from "../../bases/BaseDateTimePicker";
 import BaseText from "../../bases/BaseText";
 import {BaseSelect} from "../../bases/BaseSelect";
-import {STATUS_ITEMS} from "../../../constants";
+import {DEADLINE_DAYJS_FORMAT, STATUS_ITEMS} from "../../../constants";
 import {
-    DEADLINE_DAYJS_FORMAT,
     handleTodoItemForm,
     setValue,
     useTodoItemForm
