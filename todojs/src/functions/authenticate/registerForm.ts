@@ -1,7 +1,7 @@
 import {useState} from "react";
 import {query} from "../app";
 
-import {IAppContext} from "../../../types";
+import {IAppContext} from "../../../../types";
 
 export function useRegisterForm() {
 

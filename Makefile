@@ -13,7 +13,7 @@ del:
 
 .PHONY: build
 build:
-	docker-compose -f backend/docker-compose.yaml up -d
+	docker-compose -f ./backend/docker-compose.yaml up -d
 
 .PHONY: rebuild
 rebuild: del build

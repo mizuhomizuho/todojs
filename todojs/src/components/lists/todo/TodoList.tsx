@@ -3,7 +3,7 @@ import TodoItem from "./TodoItem";
 import BaseFlatList from "../../bases/BaseFlatList";
 import {useAppContext} from "../../../functions/app";
 import {debug} from "../../../functions/debug";
-import {IItemTodo} from "../../../../types";
+import {IItemTodo} from "../../../../../types";
 
 const TodoList = () => {
 

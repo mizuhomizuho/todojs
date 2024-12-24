@@ -1,7 +1,7 @@
 import React from 'react';
 import {FlatList, FlatListProps} from 'react-native';
 
-import {IItemCommon} from "../../../types";
+import {IItemCommon} from "../../../../types";
 
 interface BaseFlatListProps<ItemType extends IItemCommon> extends FlatListProps<ItemType> {
 }
