@@ -2,7 +2,8 @@ import {Request, Response} from "express";
 import {TodojsServiceResponse} from "../service/response";
 import {TodojsServiceValidation} from "../service/validation";
 import {TodojsServiceUser} from "../service/user";
-import {IError, IResult, IUserCreateResult} from "../types";
+
+import {IError, IResult, IUserCreateResult} from "../../../../../types";
 
 export namespace TodojsControllerUser {
 
@@ -34,6 +35,7 @@ export namespace TodojsControllerUser {
                 return;
             }
 
+            serviceResponse.sendResultCreate(resultUserCreate.data as IUserCreateResult);
 
             this.res.send('4');
             return;

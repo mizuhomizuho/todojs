@@ -1,5 +1,6 @@
 import {Request} from "express";
-import {IError, IResult, IUserCreateResult} from "../types";
+
+import {IError, IResult} from "../../../../../types";
 
 export namespace TodojsServiceValidation {
 
@@ -14,7 +15,7 @@ export namespace TodojsServiceValidation {
         public register(): IResult<IError[]> {
             const errors: IError[] = [];
             if (typeof this.req.body.username !== 'string' || this.req.body.username.trim() === '') {
-                errors.push();
+                errors.push({field: 'password', message: 'Username cannot be empty.'});
             }
             if (typeof this.req.body.password !== 'string' || this.req.body.password.trim() === '') {
                 errors.push({field: 'password', message: 'Password cannot be empty.'});

@@ -1,5 +1,6 @@
 import {Response} from 'express';
-import {IError} from "../types";
+
+import {IError, IResult, IResultData, IUserCreateResult} from "../../../../../types";
 
 export namespace TodojsServiceResponse {
 
@@ -14,12 +15,12 @@ export namespace TodojsServiceResponse {
         public sendError(errors: IError[]) {
             this.res.status(400).send({
                 'status': 'error',
-                'message': 'Invalid request data.',
+                'message': 'Invalid data.',
                 'errors': errors
             });
         }
 
-        public sendResultCreate(data: {}) {
+        public sendResultCreate(data: IResultData<any>) {
             this.res.status(201).send({
                 'status': 'success',
                 'message': 'Created successfully',

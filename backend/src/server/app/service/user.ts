@@ -2,7 +2,8 @@ import {Request} from 'express';
 import {Prisma, PrismaClient} from '@prisma/client';
 import bcrypt from 'bcryptjs';
 import jwt, {JwtPayload} from 'jsonwebtoken';
-import {IError, IResult, IUserCreateResult} from "../types";
+
+import {IError, IResult, IUserCreateResult} from "../../../../../types";
 
 export namespace TodojsServiceUser {
 
@@ -33,13 +34,12 @@ export namespace TodojsServiceUser {
         }
 
         public async create(): Promise<IResult<IError[] | IUserCreateResult>> {
-
-            const salt = await bcrypt.genSalt(8);
-            const hash = await bcrypt.hash(this.req.body.password, salt);
-
-            const prisma = new PrismaClient();
-
             try {
+                const salt = await bcrypt.genSalt(8);
+                const hash = await bcrypt.hash(this.req.body.password, salt);
+
+                const prisma = new PrismaClient();
+
                 const newUser = await prisma.user.create({
                     data: {
                         username: this.req.body.username,
@@ -57,26 +57,15 @@ export namespace TodojsServiceUser {
             } catch (error) {
                 if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
                     return {
-                        success: true,
-                        data: [{field: 'username', message: 'Username cannot be empty.'}],
+                        success: false,
+                        data: [{field: 'username', message: 'Username is invalid.'}],
                     };
                 }
-                throw error;
-                // console.log(111, e, 112, JSON.stringify(e), 113);
+                return {
+                    success: false,
+                    data: [{message: 'Cant create a new user.'}],
+                };
             }
-
-
-            // const newUser = await prisma.user.create({
-            //     data: {
-            //         username: this.req.body.username,
-            //         password: hash,
-            //     },
-            // });
-
-            // console.log(newUser);
-            // return ;
-
-
         }
 
         private get req(): Request {
