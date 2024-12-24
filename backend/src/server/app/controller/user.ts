@@ -2,7 +2,7 @@ import {Request, Response} from "express";
 import {TodojsServiceResponse} from "../service/response";
 import {TodojsServiceValidation} from "../service/validation";
 import {TodojsServiceUser} from "../service/user";
-import {IError, IUserCreateResult} from "../../../../../types";
+import {IError, IUserCreateResult} from "../../../../types";
 
 export namespace TodojsControllerUser {
 

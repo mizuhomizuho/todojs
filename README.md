@@ -30,15 +30,19 @@ sudo docker build -t todojs_server ./backend/image
 ```
 
 ```shell
-sudo make build
+make build
 ```
 
 ```shell
-sudo make del
+make dev
 ```
 
 ```shell
-sudo make rebuild
+make del
+```
+
+```shell
+make rebuild
 ```
 
 ---

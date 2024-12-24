@@ -3,7 +3,7 @@ import {StyleSheet} from "react-native";
 import BaseText from "./BaseText";
 import {BaseTouchableOpacity} from "./BaseTouchableOpacity";
 import BaseView from "./BaseView";
-import {IItemCommon, IStyle} from "../../../../types";
+import {IItemCommon, IStyle} from "../../../../backend/types";
 
 type BaseSelectProps = {
     onPress: CallableFunction;

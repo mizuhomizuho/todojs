@@ -1,20 +1,3 @@
-//
-//
-// import express, {Request, Response} from 'express';
-//
-// const app = express();
-// const port = 8000;
-//
-// app.use(express.json());
-//
-// app.get('', (req: Request, res: Response) => {
-//     res.send('Hello, TypeScript with Express!');
-// });
-//
-// app.listen(port, () => {
-//     console.log(`Server is running at http://localhost:${port}`);
-// });
-
 import express, {Request, Response} from 'express';
 import {TodojsControllerUser} from "./controller/user";
 
@@ -22,10 +5,9 @@ const app = express();
 const cors = require('cors');
 const port = 8000;
 
-require('dotenv').config({path: '/todojs/.env'});
-
 app.use(express.json());
 app.use(cors());
+require('dotenv').config({path: '/todojs/.env'});
 
 app.get('', (req: Request, res: Response) => {
     res.send('Hello!');

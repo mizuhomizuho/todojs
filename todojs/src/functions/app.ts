@@ -4,7 +4,7 @@ import {PAGE_AUTHENTICATE, PAGE_HOME} from "../constants";
 import {checkAuthenticate, isAuthenticate} from "./authenticate/authenticate";
 import {api} from "./api";
 import {debug} from "./debug";
-import {IAppContext, IAuthenticateItem, IItemCommon, IPreloaderItem} from "../../../types";
+import {IAppContext, IAuthenticateItem, IItemCommon, IPreloaderItem} from "../../../backend/types";
 
 export const AppContext = createContext<IAppContext | null>(null);
 

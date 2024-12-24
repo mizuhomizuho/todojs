@@ -51,20 +51,20 @@ pm2 start /todojs/src/server/app/server.ts --interpreter ts-node
 pm2 save
 pm2 startup
 
-inotifywait \
-  --event create \
-  --event delete \
-  --event modify \
-  --event move \
-  --event attrib \
-  --format "%e %w%f" \
-  --monitor \
-  --syslog \
-  --quiet \
-  --recursive \
-  /todojs/src/server/app |
-while read CHANGED;
-do
-  echo "$CHANGED"
-  pm2 restart server
-done
+#inotifywait \
+#  --event create \
+#  --event delete \
+#  --event modify \
+#  --event move \
+#  --event attrib \
+#  --format "%e %w%f" \
+#  --monitor \
+#  --syslog \
+#  --quiet \
+#  --recursive \
+#  /todojs/src/server/app |
+#while read CHANGED;
+#do
+#  echo "$CHANGED"
+#  pm2 restart server
+#done

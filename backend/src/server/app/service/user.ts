@@ -2,6 +2,7 @@ import {Request} from 'express';
 import {Prisma, PrismaClient} from '@prisma/client';
 import bcrypt from 'bcryptjs';
 import jwt, {JwtPayload} from 'jsonwebtoken';
+import {IError, IResult, IUserCreateResult} from "../../../../types";
 
 export namespace TodojsServiceUser {
 

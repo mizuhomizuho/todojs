@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import {DEADLINE_DAYJS_FORMAT, STATUS_ITEMS} from "../../constants";
 import dayjs from "dayjs";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {IAppContext, IItemCommon} from "../../../../types";
+import {IAppContext, IItemCommon} from "../../../../backend/types";
 
 export function setValue(value: string, isMount: boolean = false) {
     return {isMount: isMount, value: value};

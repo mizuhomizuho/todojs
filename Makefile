@@ -1,9 +1,7 @@
 
 .PHONY: del
 del:
-	find ./backend/src/log -mindepth 1 ! -name '.gitignore' -delete
-	rm -f ./backend/install/installed
-	cat /dev/null > ./backend/install/install.conf
+	node ./backend/src/script/clear.js
 	docker stop todojs_server || echo "..."
 	docker stop todojs_mysql || echo "..."
 	docker rm todojs_server || echo "..."
@@ -17,3 +15,7 @@ build:
 
 .PHONY: rebuild
 rebuild: del build
+
+.PHONY: dev
+rebuild:
+	chokidar "backend/src/server/app/**/*" -c "docker exec todojs_server pm2 restart server"
