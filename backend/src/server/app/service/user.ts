@@ -1,6 +1,6 @@
 import {Prisma, PrismaClient} from '@prisma/client';
 import bcrypt from 'bcryptjs';
-import {IError, IResult, IUserCreateResult} from "../../../../types";
+import {IError, IResult, IAuthenticate} from "../../../../types";
 import {ServiceAuthenticate} from "./authenticate";
 import {App} from "../app";
 
@@ -8,7 +8,7 @@ export namespace ServiceUser {
 
     export class Main {
 
-        public async create(): Promise<IResult<IError[] | IUserCreateResult>> {
+        public async create(): Promise<IResult<IError[] | IAuthenticate>> {
             try {
                 const username = App.context.req.body.username.trim();
                 const password = App.context.req.body.password.trim();

@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
         zIndex: 1,
         flexDirection: 'row',
         borderTopWidth: 1,
+        borderColor: '#1e1f22',
     },
     item0: {
         flexGrow: 1,

@@ -1,4 +1,4 @@
-import {IError, IItemCommon, IResult} from "../../../../types";
+import {IError, IItemBase, IItemCommon, IResult} from "../../../../types";
 import {App} from "../app";
 
 export namespace ServiceResponse {
@@ -13,24 +13,31 @@ export namespace ServiceResponse {
             });
         }
 
-        public sendResultCreate(data: IItemCommon) {
-            App.context.res.status(201).send({
+        public sendResultSuccess(data: IItemCommon) {
+            App.context.res.status(200).send({
                 'status': 'success',
-                'message': 'Created successfully',
+                'message': 'Successfully',
                 'data': data
             });
         }
 
-        public getResult(errors: IError[] | [] = []): IResult<IError[] | undefined> {
+        public getResult(
+            errors: IError[] | [] = [],
+            data: any = undefined
+        ): IResult<IError[] | any> {
             if (errors.length) {
                 return {
                     success: false,
                     data: errors,
                 };
             }
-            return {
+            let result = {
                 success: true,
             };
+            if (data !== undefined) {
+                result = {...result, ...{data}};
+            }
+            return result;
         }
     }
 }

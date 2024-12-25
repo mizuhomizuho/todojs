@@ -17,13 +17,15 @@ export async function api(route: string, params: IItemCommon) {
     try {
         const userJWT = await AsyncStorage.getItem(STORAGE_USER_JWT);
 
+        // console.log('route:', route);
+
         const response = await axiosInstance.post(
             'http://localhost:881/' + route, {...params, userJWT}
         );
-        // console.log('Response:', response.data);
+        console.log('Response:', response.data);
         return response.data;
     } catch (error) {
-        // console.error('Error during the request:', error);
+        console.error('Error during the request:', error);
         processingError(error);
     }
     return false;

@@ -1,7 +1,7 @@
 import {ServiceResponse} from "../service/response";
 import {ServiceValidationUser} from "../service/validation/user";
 import {ServiceUser} from "../service/user";
-import {IError, IUserCreateResult} from "../../../../types";
+import {IError, IResult, IAuthenticate} from "../../../../types";
 import {ServiceAuthenticate} from "../service/authenticate";
 
 export namespace ControllerUser {
@@ -26,7 +26,7 @@ export namespace ControllerUser {
                 return;
             }
 
-            serviceResponse.sendResultCreate(resultUserCreate.data as IUserCreateResult);
+            serviceResponse.sendResultSuccess(resultUserCreate.data as IAuthenticate);
         }
 
         public async authenticate() {
@@ -47,7 +47,8 @@ export namespace ControllerUser {
                 return;
             }
 
-            serviceResponse.sendResultCreate(resultVerifyAuthenticate.data as IUserCreateResult);
+
+            serviceResponse.sendResultSuccess(resultVerifyAuthenticate as IResult<IAuthenticate>);
         }
     }
 }

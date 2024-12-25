@@ -1,8 +1,8 @@
 import {debug} from "../debug";
-
 import {IAppContext} from "../../../../backend/types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {STORAGE_USER_JWT} from "../../constants";
+import {PAGE_AUTHENTICATE, STORAGE_USER_JWT} from "../../constants";
+import {getPage} from "../navigation";
 
 export async function checkAuthenticate(appContext: IAppContext) {
 
@@ -36,4 +36,11 @@ export function isAuthenticate(appContext: IAppContext) {
 
     return typeof appContext.auth.authenticate === 'boolean'
         && appContext.auth.authenticate;
+}
+
+export async function logout(appContext: IAppContext) {
+    appContext.auth.authenticate = false;
+    appContext.auth.setAuthenticate(appContext.auth.authenticate);
+    await AsyncStorage.removeItem(STORAGE_USER_JWT);
+    appContext.nav.setCurrentPage(getPage(PAGE_AUTHENTICATE));
 }

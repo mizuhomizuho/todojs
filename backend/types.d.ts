@@ -10,11 +10,11 @@ export interface IItemCommon extends IItemBase {
     [key: string]: any,
 }
 
-export interface IStyle extends IItemBase {
+export interface IStyle extends IItemCommon {
     [key: string]: string | number,
 }
 
-export interface IComponentMap extends IItemBase {
+export interface IComponentMap extends IItemCommon {
     [key: string]: ReactElement,
 }
 
@@ -83,7 +83,7 @@ export interface IError extends IItemBase {
     message: string,
 }
 
-export interface IUserCreateResult extends IItemBase {
+export interface IAuthenticate extends IItemBase {
     payload: { username: string },
     token: string,
 }

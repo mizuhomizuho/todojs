@@ -1,7 +1,7 @@
 import jwt, {JwtPayload} from 'jsonwebtoken';
 import {PrismaClient} from "@prisma/client";
 import {App} from "../app";
-import {IError, IResult} from "../../../../types";
+import {IError, IResult, IAuthenticate} from "../../../../types";
 import bcrypt from "bcryptjs";
 import {ServiceResponse} from "./response";
 
@@ -9,7 +9,7 @@ export namespace ServiceAuthenticate {
 
     export class Main {
 
-        public async verifyAuthenticate(): Promise<IResult<IError[] | undefined>> {
+        public async verifyAuthenticate(): Promise<IResult<IError[] | IAuthenticate>> {
 
             const prisma = new PrismaClient();
 
@@ -43,7 +43,13 @@ export namespace ServiceAuthenticate {
                 return serviceResponse.getResult([error]);
             }
 
-            return serviceResponse.getResult();
+            const payload = {username};
+            const serviceAuthenticate = new ServiceAuthenticate.Main();
+            return serviceResponse.getResult([], {
+                payload,
+                token: await serviceAuthenticate.generateToken(payload),
+            });
+            // as IResult<IAuthenticate>
         }
 
         public async generateToken(payload: {}): Promise<string> {

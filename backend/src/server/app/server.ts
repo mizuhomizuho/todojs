@@ -15,10 +15,10 @@ app.get('', (req: Request, res: Response) => {
     res.send('Hello!');
 });
 
-app.post('/api/user/authenticate', (req: Request, res: Response) => {
+app.post('/api/user/authenticate', async (req: Request, res: Response) => {
     App.context = new ServiceContext.Main(req, res);
     const controller = new ControllerUser.Main();
-    await controller.register();
+    await controller.authenticate();
 });
 
 app.post('/api/user/register', async (req: Request, res: Response) => {
