@@ -1,25 +1,27 @@
-import {Request} from "express";
-import {IError, IResult} from "../../../../types";
+import {appContext, IError, IResult} from "../../../../types";
 
-export namespace TodojsServiceValidation {
+export namespace ServiceValidationUser {
 
     export class Main {
 
-        private _req: Request;
-
-        constructor(req: Request) {
-            this._req = req;
-        }
-
         public register(): IResult<IError[]> {
             const errors: IError[] = [];
-            if (typeof this.req.body.username !== 'string' || this.req.body.username.trim() === '') {
+            if (
+                typeof appContext.service.req.body.username !== 'string'
+                || appContext.service.req.body.username.trim() === ''
+            ) {
                 errors.push({field: 'password', message: 'Username cannot be empty.'});
             }
-            if (typeof this.req.body.password !== 'string' || this.req.body.password.trim() === '') {
+            if (
+                typeof appContext.service.body.password !== 'string'
+                || appContext.service.req.body.password.trim() === ''
+            ) {
                 errors.push({field: 'password', message: 'Password cannot be empty.'});
             }
-            if (typeof this.req.body.password2 !== 'string' || this.req.body.password !== this.req.body.password2) {
+            if (
+                typeof appContext.service.body.password2 !== 'string'
+                || appContext.service.req.body.password !== appContext.service.req.body.password2
+            ) {
                 errors.push({field: 'password2', message: 'Passwords do not match.'});
             }
             if (errors.length) {
@@ -31,14 +33,6 @@ export namespace TodojsServiceValidation {
             return {
                 success: true,
             };
-        }
-
-        private get req(): Request {
-            return this._req;
-        }
-
-        private set req(value: Request) {
-            this._req = value;
         }
     }
 }

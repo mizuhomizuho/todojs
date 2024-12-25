@@ -1,6 +1,7 @@
 # TodoJs
 
 [//]: # (npx create-expo-app@latest --template blank-typescript)
+[//]: # (docker container exec -u root -it todojs_server bash)
 
 ## Backend
 
@@ -31,6 +32,7 @@ sudo docker build -t todojs_server ./backend/image
 
 ```shell
 make build
+npx prisma db push
 ```
 
 ```shell

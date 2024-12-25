@@ -1,10 +1,10 @@
-import {PAGE_HOME, PAGE_ITEMS, STORAGE_NAVIGATION_ID_KEY} from "../constants";
+import {PAGE_HOME, PAGE_ITEMS, STORAGE_NAVIGATION_ID} from "../constants";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import {IPageItem} from "../../../backend/types";
 
 export async function getCurrentPage(): Promise<IPageItem> {
-    let pageId = await AsyncStorage.getItem(STORAGE_NAVIGATION_ID_KEY);
+    let pageId = await AsyncStorage.getItem(STORAGE_NAVIGATION_ID);
     if (pageId === null) {
         return getPage(PAGE_HOME);
     }

@@ -2,6 +2,9 @@ import {useState} from "react";
 import {query} from "../app";
 
 import {IAppContext} from "../../../../backend/types";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import {getPage} from "../navigation";
+import {PAGE_ADD, STORAGE_USER_JWT} from "../../constants";
 
 export function useRegisterForm() {
 
@@ -25,9 +28,13 @@ export async function handleRegisterForm(
     password2: string,
     appContext: IAppContext,
 ) {
+
     if (!checkRegisterForm(username, password, password2)) {
         return;
     }
+
+    appContext.nav.setCurrentPage(getPage(PAGE_ADD));
+
     appContext.load.setPreloader(true);
     const result = await query(appContext, 'api/user/register', {
         username,
@@ -35,7 +42,12 @@ export async function handleRegisterForm(
         password2,
     });
 
-    console.log(result);
+    if (result !== false) {
+        await AsyncStorage.setItem(STORAGE_USER_JWT, JSON.stringify(result.data));
+    }
+
+
+    console.log(result, 111);
 
     // await new Promise(resolve => setTimeout(resolve, 1000));
     // appContext.auth.authenticate.isAuthenticated = true;

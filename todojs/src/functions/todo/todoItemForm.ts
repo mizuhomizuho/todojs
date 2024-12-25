@@ -85,13 +85,6 @@ export async function handleTodoItemForm(
 function bindStorage(formParams: IItemCommon[], storagePrefix: string) {
     formParams.forEach((item, index) => {
         useEffect(() => {
-            // debug(appContext, {
-            //     'setItem': item.variableName,
-            //     'item.variable': item.variable,
-            // }, {
-            //     // style: {backgroundColor: 'green'}
-            //     stream: 'todo_edit',
-            // });
             (async () => {
                 if (item.variable.isMount) {
                     const storageValue = await AsyncStorage.getItem(storagePrefix + item.variableName);

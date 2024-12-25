@@ -17,5 +17,5 @@ build:
 rebuild: del build
 
 .PHONY: dev
-rebuild:
+dev:
 	chokidar "backend/src/server/app/**/*" -c "docker exec todojs_server pm2 restart server"

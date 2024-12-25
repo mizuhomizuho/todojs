@@ -1,6 +1,8 @@
 import axios from "axios";
 
 import {IItemCommon} from "../../../backend/types";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import {STORAGE_USER_JWT} from "../constants";
 
 export async function api(route: string, params: IItemCommon) {
 
@@ -13,13 +15,19 @@ export async function api(route: string, params: IItemCommon) {
     });
 
     try {
-        const response = await axiosInstance.post('http://localhost:881/' + route, params);
-        console.log('Response:', response.data);
+        const userJWT = await AsyncStorage.getItem(STORAGE_USER_JWT);
+
+        const response = await axiosInstance.post(
+            'http://localhost:881/' + route, {...params, userJWT}
+        );
+        // console.log('Response:', response.data);
+        return response.data;
     } catch (error) {
         // console.error('Error during the request:', error);
         processingError(error);
     }
-};
+    return false;
+}
 
 function processingError(error: unknown) {
     if (!(error instanceof axios.AxiosError)) {

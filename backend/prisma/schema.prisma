@@ -4,8 +4,6 @@
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
-// npx prisma db push
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -16,16 +14,16 @@ datasource db {
 }
 
 model Todo {
-  id Int @id @default(autoincrement())
-  title String @db.VarChar(255)
-  description String @db.Text
-  status String @db.VarChar(32)
-  comments String @db.Text
-  deadline DateTime
+  id          Int      @id @default(autoincrement())
+  title       String   @db.VarChar(255)
+  description String   @db.Text
+  status      String   @db.VarChar(32)
+  comments    String   @db.Text
+  deadline    DateTime
 }
 
 model User {
-  id Int @id @default(autoincrement())
-  username String @db.VarChar(32) @unique
+  id       Int    @id @default(autoincrement())
+  username String @unique @db.VarChar(32)
   password String @db.VarChar(64)
 }

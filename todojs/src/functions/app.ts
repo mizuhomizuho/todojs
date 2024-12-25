@@ -67,7 +67,7 @@ export async function query(
     route: string,
     params: IItemCommon
 ) {
-    await api(route, params);
+    return await api(route, params);
 }
 
 async function init(appContext: IAppContext) {

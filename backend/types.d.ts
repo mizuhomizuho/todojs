@@ -1,3 +1,6 @@
+
+declare const appContext: IItemCommon;
+
 export interface IItemBase {
 }
 
@@ -79,7 +82,7 @@ export interface IError extends IItemBase {
 }
 
 export interface IUserCreateResult extends IItemBase {
-    data: { username: string },
+    payload: { username: string },
     token: string,
 }
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet} from 'react-native';
-import {STORAGE_NAVIGATION_ID_KEY} from "../../../constants";
+import {STORAGE_NAVIGATION_ID} from "../../../constants";
 import {getPage} from "../../../functions/navigation";
 import BaseButton from "../../bases/BaseButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -22,7 +22,7 @@ const NavigationItem = (props: NavigationItemProps) => {
     };
 
     const setPage = async () => {
-        await AsyncStorage.setItem(STORAGE_NAVIGATION_ID_KEY, props.item.id);
+        await AsyncStorage.setItem(STORAGE_NAVIGATION_ID, props.item.id);
         appContext.nav.setCurrentPage(getPage(props.item.id));
     };
 

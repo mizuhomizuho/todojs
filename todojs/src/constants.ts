@@ -1,6 +1,7 @@
 import {IItemStatus, INavigationItem, IPageItem} from "../../backend/types";
 
-export const STORAGE_NAVIGATION_ID_KEY = 'navigationCurrentPageId';
+export const STORAGE_NAVIGATION_ID = 'navigationCurrentPageId';
+export const STORAGE_USER_JWT = 'authenticateUserJWT';
 
 export const DEADLINE_DAYJS_FORMAT = 'YYYY-MM-DD HH:mm';
 

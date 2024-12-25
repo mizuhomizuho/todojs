@@ -1,5 +1,7 @@
 import express, {Request, Response} from 'express';
-import {TodojsControllerUser} from "./controller/user";
+import {ControllerUser} from "./controller/user";
+import {ServiceContext} from "./service/context";
+import {appContext} from "../../../types";
 
 const app = express();
 const cors = require('cors');
@@ -18,7 +20,8 @@ app.post('/api/user/authenticate', (req: Request, res: Response) => {
 });
 
 app.post('/api/user/register', async (req: Request, res: Response) => {
-    const controller = new TodojsControllerUser.Main(req, res);
+    appContext.service = new ServiceContext.Main(req, res);
+    const controller = new ControllerUser.Main();
     await controller.register();
 });
 
