@@ -1,5 +1,11 @@
 import {IItemStatus, INavigationItem, IPageItem} from "../../backend/types";
 
+const TODO_STATUS = {
+    WAITING: 'WAITING',
+    IN_PROGRESS: 'IN_PROGRESS',
+    DONE: 'DONE',
+};
+
 export const STORAGE_NAVIGATION_ID = 'navigationCurrentPageId';
 export const STORAGE_USER_JWT = 'authenticateUserJWT-v1';
 
@@ -46,9 +52,9 @@ export const PAGE_ITEMS: IPageItem[] = [
 ];
 
 export const STATUS_ITEMS: IItemStatus[] = [
-    {id: 'waiting', label: 'Waiting'},
-    {id: 'inProgress', label: 'In progress'},
-    {id: 'done', label: 'Done'},
+    {id: TODO_STATUS.WAITING, label: 'Waiting'},
+    {id: TODO_STATUS.IN_PROGRESS, label: 'In progress'},
+    {id: TODO_STATUS.DONE, label: 'Done'},
 ];
 
 export const NAVIGATION_ITEMS: INavigationItem[] = [

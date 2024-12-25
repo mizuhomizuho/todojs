@@ -1,4 +1,4 @@
-import {IError, IItemBase, IItemCommon, IResult} from "../../../../types";
+import {IError, IItemCommon, IResult} from "../../../../types";
 import {App} from "../app";
 
 export namespace ServiceResponse {
@@ -23,7 +23,7 @@ export namespace ServiceResponse {
 
         public getResult(
             errors: IError[] | [] = [],
-            data: any = undefined
+            data: any = undefined,
         ): IResult<IError[] | any> {
             if (errors.length) {
                 return {

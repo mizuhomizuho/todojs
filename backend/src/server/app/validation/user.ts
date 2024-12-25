@@ -1,15 +1,12 @@
-import {IError, IResult} from "../../../../../types";
-import {App} from "../../app";
-import {ServiceResponse} from "../response";
+import {App} from "../app";
+import {ValidationBase} from "./base";
 
-export namespace ServiceValidationUser {
+export namespace ValidationUser {
 
-    export class Main {
-
-        private _errors: IError[];
+    export class Main extends ValidationBase.Main {
 
         constructor() {
-            this._errors = [];
+            super();
         }
 
         public register() {
@@ -52,19 +49,6 @@ export namespace ServiceValidationUser {
             ) {
                 this.errors.push({field: 'password', message: 'Password cannot be empty.'});
             }
-        }
-
-        private getResult(): IResult<IError[] | undefined> {
-            const serviceResponse = new ServiceResponse.Main();
-            return serviceResponse.getResult(this.errors);
-        }
-
-        private get errors(): IError[] {
-            return this._errors;
-        }
-
-        private set errors(value: IError[]) {
-            this._errors = value;
         }
     }
 }

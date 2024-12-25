@@ -16,7 +16,7 @@ const TheHeader = () => {
 
     return <BaseView style={styles.container}>
         <BaseView style={styles.box}>
-            <BaseText style={styles.text}>Todo List</BaseText>
+            <BaseText style={styles.text}>TodoJs</BaseText>
             {isAuthenticate(appContext)
                 ? <BaseTouchableOpacity style={styles.button} onPress={handleLogout}>
                     <BaseText>Logout</BaseText>

@@ -1,12 +1,18 @@
 import {Prisma, PrismaClient} from '@prisma/client';
 import bcrypt from 'bcryptjs';
 import {IError, IResult, IAuthenticate} from "../../../../types";
-import {ServiceAuthenticate} from "./authenticate";
+import {ServiceAuthenticate} from "../service/authenticate";
 import {App} from "../app";
 
-export namespace ServiceUser {
+export namespace RepositoryTodo {
 
     export class Main {
+
+        public static readonly TODO_STATUS = {
+            WAITING: 'WAITING',
+            IN_PROGRESS: 'IN_PROGRESS',
+            DONE: 'DONE',
+        };
 
         public async create(): Promise<IResult<IError[] | IAuthenticate>> {
             try {

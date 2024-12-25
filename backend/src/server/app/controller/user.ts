@@ -1,6 +1,6 @@
 import {ServiceResponse} from "../service/response";
-import {ServiceValidationUser} from "../service/validation/user";
-import {ServiceUser} from "../service/user";
+import {ValidationUser} from "../validation/user";
+import {RepositoryUser} from "../repository/user";
 import {IError, IResult, IAuthenticate} from "../../../../types";
 import {ServiceAuthenticate} from "../service/authenticate";
 
@@ -11,44 +11,43 @@ export namespace ControllerUser {
         public async register() {
 
             const serviceResponse = new ServiceResponse.Main();
-            const serviceValidationUser = new ServiceValidationUser.Main();
+            const validation = new ValidationUser.Main();
 
-            const resultValidationUser = serviceValidationUser.register();
-            if (!resultValidationUser.success) {
-                serviceResponse.sendResultError(resultValidationUser.data as IError[]);
+            const resultValidation = validation.register();
+            if (!resultValidation.success) {
+                serviceResponse.sendResultError(resultValidation.data as IError[]);
                 return;
             }
 
-            const serviceUser = new ServiceUser.Main();
-            const resultUserCreate = await serviceUser.create();
-            if (!resultUserCreate.success) {
-                serviceResponse.sendResultError(resultUserCreate.data as IError[]);
+            const repository = new RepositoryUser.Main();
+            const resultCreate = await repository.create();
+            if (!resultCreate.success) {
+                serviceResponse.sendResultError(resultCreate.data as IError[]);
                 return;
             }
 
-            serviceResponse.sendResultSuccess(resultUserCreate.data as IAuthenticate);
+            serviceResponse.sendResultSuccess(resultCreate.data as IAuthenticate);
         }
 
         public async authenticate() {
 
             const serviceResponse = new ServiceResponse.Main();
-            const serviceValidationUser = new ServiceValidationUser.Main();
+            const validation = new ValidationUser.Main();
 
-            const resultValidationUser = serviceValidationUser.authenticate();
-            if (!resultValidationUser.success) {
-                serviceResponse.sendResultError(resultValidationUser.data as IError[]);
+            const resultValidation = validation.authenticate();
+            if (!resultValidation.success) {
+                serviceResponse.sendResultError(resultValidation.data as IError[]);
                 return;
             }
 
             const serviceAuthenticate = new ServiceAuthenticate.Main();
-            const resultVerifyAuthenticate = await serviceAuthenticate.verifyAuthenticate();
-            if (!resultVerifyAuthenticate.success) {
-                serviceResponse.sendResultError(resultVerifyAuthenticate.data as IError[]);
+            const resultVerify = await serviceAuthenticate.verifyAuthenticate();
+            if (!resultVerify.success) {
+                serviceResponse.sendResultError(resultVerify.data as IError[]);
                 return;
             }
 
-
-            serviceResponse.sendResultSuccess(resultVerifyAuthenticate as IResult<IAuthenticate>);
+            serviceResponse.sendResultSuccess(resultVerify as IResult<IAuthenticate>);
         }
     }
 }

@@ -2,6 +2,7 @@ import express, {Request, Response} from 'express';
 import {ControllerUser} from "./controller/user";
 import {ServiceContext} from "./service/context";
 import {App} from "./app";
+import {ControllerTodo} from "./controller/todo";
 
 const app = express();
 const cors = require('cors');
@@ -27,8 +28,10 @@ app.post('/api/user/register', async (req: Request, res: Response) => {
     await controller.register();
 });
 
-app.post('/api/todo/add', (req: Request, res: Response) => {
-    res.send('add');
+app.post('/api/todo/add', async (req: Request, res: Response) => {
+    App.context = new ServiceContext.Main(req, res);
+    const controller = new ControllerTodo.Main();
+    await controller.add();
 });
 
 app.put('/api/todo/edit', (req: Request, res: Response) => {
