@@ -1,5 +1,5 @@
 import {ServiceResponse} from "../service/response";
-import {IAuthenticate, IError, IItem} from "../../../../types";
+import {IError, IItem, IItemCommon} from "../../../../types";
 import {ValidationTodo} from "../validation/todo";
 import {RepositoryTodo} from "../repository/todo";
 
@@ -25,7 +25,7 @@ export namespace ControllerTodo {
                 return;
             }
 
-            serviceResponse.sendResultSuccess(resultCreate.data as IItem);
+            serviceResponse.sendResultSuccess(resultCreate.data as IItemCommon);
         }
     }
 }

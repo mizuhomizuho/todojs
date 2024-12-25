@@ -24,5 +24,20 @@ export namespace ValidationBase {
         protected set errors(value: IError[]) {
             this._errors = value;
         }
+
+        protected validateString(field: string, message: string) {
+            if (typeof App.context.req.body[field] !== 'string') {
+                this.errors.push({field, message});
+            }
+        }
+
+        protected validateNoEmptyString(field: string, message: string) {
+            if (
+                typeof App.context.req.body[field] !== 'string'
+                || App.context.req.body[field].trim() === ''
+            ) {
+                this.errors.push({field: field, message: message});
+            }
+        }
     }
 }

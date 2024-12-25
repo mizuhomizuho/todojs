@@ -1,20 +1,18 @@
-import {Prisma, PrismaClient} from '@prisma/client';
-import bcrypt from 'bcryptjs';
-import {IError, IResult, IAuthenticate, IItemTodo} from "../../../../types";
-import {ServiceAuthenticate} from "../service/authenticate";
+import {PrismaClient} from '@prisma/client';
+import {IError, IItemTodo, IResult} from "../../../../types";
 import {App} from "../app";
 
 export namespace RepositoryTodo {
 
     export class Main {
 
-        public static readonly TODO_STATUS = {
+        public readonly TODO_STATUS = {
             WAITING: 'WAITING',
             IN_PROGRESS: 'IN_PROGRESS',
             DONE: 'DONE',
         };
 
-        public async create(): Promise<IResult<IError[] | {newItem: IItemTodo}>> {
+        public async create(): Promise<IResult<IError[] | { newItem: IItemTodo }>> {
 
             const title = App.context.req.body.title.trim();
             const description = App.context.req.body.description.trim();
@@ -39,8 +37,8 @@ export namespace RepositoryTodo {
                     newItem: {
                         ...newItem,
                         ...{
-                            id: newItem.id + '',
-                            deadline: Math.floor(newItem.deadline.getTime() / 1000) + '',
+                            id: newItem.id.toString(),
+                            deadline: Math.floor(newItem.deadline.getTime() / 1000).toString(),
                         }
                     },
                 },

@@ -19,7 +19,7 @@ export function useAuthenticateForm() {
         setPassword,
         appContext,
     };
-};
+}
 
 export async function handleAuthenticateForm(
     username: string,
@@ -29,29 +29,25 @@ export async function handleAuthenticateForm(
     if (!checkAuthenticateForm(username, password)) {
         return;
     }
-    // await new Promise(resolve => setTimeout(resolve, 1000));
-    // appContext.auth.authenticate.isAuthenticated = true;
-    // if (!appContext.auth.authenticate.isAuthenticated) {
-    //     alert('Authentication failed');
-    // }
 
     appContext.load.setPreloader(true);
+
     const result = await query(appContext, 'api/user/authenticate', {
         username,
         password,
     });
-    appContext.load.setPreloader(false);
-
 
     if (result !== false && result.data.success === true) {
         appContext.auth.authenticate = true;
         appContext.auth.setAuthenticate(appContext.auth.authenticate);
         await AsyncStorage.setItem(STORAGE_USER_JWT, JSON.stringify(result.data));
         appContext.nav.setCurrentPage(await getCurrentPage());
-
-        console.log(await getCurrentPage());
+        appContext.load.setPreloader(false);
+        return;
     }
-};
+
+    appContext.load.setPreloader(false);
+}
 
 function checkAuthenticateForm(username: string, password: string) {
     const errors: string[] = [];
@@ -66,4 +62,4 @@ function checkAuthenticateForm(username: string, password: string) {
         return false;
     }
     return true;
-};
+}

@@ -15,6 +15,7 @@ import dayjs from "dayjs";
 import React from "react";
 import {useAppContext} from "../../../functions/app";
 import ScrollView = Animated.ScrollView;
+import utc from "dayjs/plugin/utc";
 
 interface FormTodoItemProps {
     storageId: string;
@@ -39,13 +40,14 @@ const FormTodoItem = (props: FormTodoItemProps) => {
     } = useTodoItemForm(appContext, props.storageId, props.editId);
 
     const handleSubmit = async () => {
+        dayjs.extend(utc);
         await handleTodoItemForm(
+            appContext,
             title.value,
             description.value,
             status.value,
             comments.value,
-            dayjs(deadline.value).unix(),
-            appContext,
+            dayjs(deadline.value).utc().unix().toString(),
         );
     };
 

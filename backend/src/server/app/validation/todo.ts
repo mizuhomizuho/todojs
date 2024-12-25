@@ -12,7 +12,7 @@ export namespace ValidationTodo {
 
         public add() {
             this.errors = [];
-            this.validateTitle();
+            this.validateNoEmptyString('title', 'Title cannot be empty.');
             this.validateString('description', 'Description format error.');
             this.validateString('comments', 'Comments format error.');
             this.validateStatus();
@@ -34,25 +34,11 @@ export namespace ValidationTodo {
             }
         }
 
-        private validateTitle() {
-            if (
-                typeof App.context.req.body.title !== 'string'
-                || App.context.req.body.title.trim() === ''
-            ) {
-                this.errors.push({field: 'title', message: 'Title cannot be empty.'});
-            }
-        }
-
-        private validateString(field: string, message: string) {
-            if (typeof App.context.req.body[message] !== 'string') {
-                this.errors.push({field, message});
-            }
-        }
-
         private validateStatus() {
+            const repository = new RepositoryTodo.Main();
             if (
                 typeof App.context.req.body.status !== 'string'
-                || !Object.values(RepositoryTodo.Main.TODO_STATUS).includes(App.context.req.body.status)
+                || !Object.values(repository.TODO_STATUS).includes(App.context.req.body.status)
             ) {
                 this.errors.push({field: 'status', message: 'Status format error.'});
             }

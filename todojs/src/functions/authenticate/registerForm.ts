@@ -34,24 +34,22 @@ export async function handleRegisterForm(
     }
 
     appContext.load.setPreloader(true);
+
     const result = await query(appContext, 'api/user/register', {
         username,
         password,
         password2,
     });
-    appContext.load.setPreloader(false);
 
     if (result !== false) {
         appContext.auth.setAuthenticate(true);
         await AsyncStorage.setItem(STORAGE_USER_JWT, JSON.stringify(result.data));
         appContext.nav.setCurrentPage(await getCurrentPage());
+        appContext.load.setPreloader(false);
+        return;
     }
 
-    // await new Promise(resolve => setTimeout(resolve, 1000));
-    // appContext.auth.authenticate.isAuthenticated = true;
-    // if (!appContext.auth.authenticate.isAuthenticated) {
-    //     alert('Authentication failed');
-    // }
+    appContext.load.setPreloader(false);
 }
 
 function checkRegisterForm(username: string, password: string, password2: string) {

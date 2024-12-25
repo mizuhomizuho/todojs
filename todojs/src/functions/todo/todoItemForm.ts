@@ -1,8 +1,10 @@
 import {useEffect, useState} from "react";
-import {DEADLINE_DAYJS_FORMAT, STATUS_ITEMS} from "../../constants";
+import {DEADLINE_DAYJS_FORMAT, STATUS_ITEMS, STORAGE_USER_JWT} from "../../constants";
 import dayjs from "dayjs";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {IAppContext, IItemCommon} from "../../../../backend/types";
+import {query} from "../app";
+import {getCurrentPage} from "../navigation";
 
 export function setValue(value: string, isMount: boolean = false) {
     return {isMount: isMount, value: value};
@@ -66,19 +68,33 @@ export function useTodoItemForm(appContext: IAppContext, storageId: string, edit
 }
 
 export async function handleTodoItemForm(
+    appContext: IAppContext,
     title: string,
     description: string,
     status: string,
     comments: string,
-    deadline: number,
-    appContext: IAppContext,
+    deadline: string,
 ) {
 
     if (!checkAuthenticateForm(title, deadline)) {
         return;
     }
+
     appContext.load.setPreloader(true);
-    await new Promise(resolve => setTimeout(resolve, 1000));
+
+    const result = await query(appContext, 'api/todo/add', {
+        title,
+        description,
+        status,
+        comments,
+        deadline,
+    });
+
+    // if (result !== false && result.data.success === true) {
+    //     appContext.load.setPreloader(false);
+    //     return;
+    // }
+
     appContext.load.setPreloader(false);
 }
 
@@ -122,13 +138,13 @@ function loadData(appContext: IAppContext, formParams: IItemCommon[], editId: st
 
 function checkAuthenticateForm(
     title: string,
-    deadline: number,
+    deadline: string,
 ) {
     const errors: string[] = [];
     if (!title.trim()) {
         errors.push('Title cannot be empty.');
     }
-    if (deadline < dayjs().unix()) {
+    if (+deadline < dayjs().unix()) {
         errors.push('You cannot create tasks for past time.');
     }
     if (errors.length) {

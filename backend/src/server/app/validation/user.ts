@@ -5,22 +5,25 @@ export namespace ValidationUser {
 
     export class Main extends ValidationBase.Main {
 
+        private readonly ERROR_USERNAME = 'Username cannot be empty.';
+        private readonly ERROR_PASSWORD = 'Password cannot be empty.';
+
         constructor() {
             super();
         }
 
         public register() {
             this.errors = [];
-            this.validateUsername();
-            this.validatePassword();
+            this.validateNoEmptyString('username', this.ERROR_USERNAME);
+            this.validateNoEmptyString('password', this.ERROR_PASSWORD);
             this.validatePassword2();
             return this.getResult();
         }
 
         public authenticate() {
             this.errors = [];
-            this.validateUsername();
-            this.validatePassword();
+            this.validateNoEmptyString('username', this.ERROR_USERNAME);
+            this.validateNoEmptyString('password', this.ERROR_PASSWORD);
             return this.getResult();
         }
 
@@ -30,24 +33,6 @@ export namespace ValidationUser {
                 || App.context.req.body.password !== App.context.req.body.password2
             ) {
                 this.errors.push({field: 'password2', message: 'Passwords do not match.'});
-            }
-        }
-
-        private validateUsername() {
-            if (
-                typeof App.context.req.body.username !== 'string'
-                || App.context.req.body.username.trim() === ''
-            ) {
-                this.errors.push({field: 'username', message: 'Username cannot be empty.'});
-            }
-        }
-
-        private validatePassword() {
-            if (
-                typeof App.context.req.body.password !== 'string'
-                || App.context.req.body.password.trim() === ''
-            ) {
-                this.errors.push({field: 'password', message: 'Password cannot be empty.'});
             }
         }
     }
