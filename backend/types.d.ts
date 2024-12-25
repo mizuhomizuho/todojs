@@ -27,6 +27,10 @@ export interface IItemStatus extends IItem {
 }
 
 export interface IItemTodo extends IItem {
+    name: string,
+}
+
+export interface IItemTodoFull extends IItem {
     title: string,
     description: string,
     comments: string,
@@ -40,6 +44,8 @@ export interface IPageItem extends IItem {
 }
 
 export interface INavigationItem extends IItem {
+    icon?: string,
+    iconComponent?: string,
 }
 
 export interface IContextBase extends IItemCommon {

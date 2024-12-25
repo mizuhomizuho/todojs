@@ -5,6 +5,7 @@ import BaseView from "./bases/BaseView";
 import {BaseTouchableOpacity} from "./bases/BaseTouchableOpacity";
 import {useAppContext} from "../functions/app";
 import {isAuthenticate, logout} from "../functions/authenticate/authenticate";
+import {MaterialCommunityIcons, MaterialIcons} from "@expo/vector-icons";
 
 const TheHeader = () => {
 
@@ -16,12 +17,16 @@ const TheHeader = () => {
 
     return <BaseView style={styles.container}>
         <BaseView style={styles.box}>
-            <BaseText style={styles.text}>TodoJs</BaseText>
-            {isAuthenticate(appContext)
-                ? <BaseTouchableOpacity style={styles.button} onPress={handleLogout}>
-                    <BaseText>Logout</BaseText>
+            <MaterialCommunityIcons name="jsfiddle" size={36} color="#fff" />
+            <BaseText style={styles.text}>
+                TodoooJs
+            </BaseText>
+            {
+                isAuthenticate(appContext)
+                && <BaseTouchableOpacity style={styles.button} onPress={handleLogout}>
+                    <MaterialIcons name="logout" size={24} color="#fff"/>
                 </BaseTouchableOpacity>
-                : <BaseView/>}
+            }
         </BaseView>
     </BaseView>;
 };

@@ -6,6 +6,7 @@ import PageTodoEdit from "./components/pages/todo/PageTodoEdit";
 import PageRegister from "./components/pages/authenticate/PageRegister";
 
 import {IComponentMap} from "../../backend/types";
+import {MaterialCommunityIcons, MaterialIcons} from "@expo/vector-icons";
 
 export const COMPONENT_MAP: IComponentMap = {
     PageTodoList,
@@ -14,4 +15,6 @@ export const COMPONENT_MAP: IComponentMap = {
     PageAuthenticate,
     PageHome,
     PageRegister,
+    MaterialCommunityIcons,
+    MaterialIcons,
 };

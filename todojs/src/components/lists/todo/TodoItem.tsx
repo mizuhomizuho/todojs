@@ -20,10 +20,10 @@ const TodoItem = (props: TodoItemProps) => {
         <BaseText style={styles.text}>{props.title}</BaseText>
         <BaseView style={styles.buttons}>
             <BaseView style={styles.buttonLeft}>
-                <BaseButton title={'Delete'}/>
+                <BaseButton iconComponent="MaterialIcons" icon="delete-outline" title="Delete"/>
             </BaseView>
             <BaseView style={styles.buttonRight}>
-                <BaseButton title={'Edit'} onPress={() => {
+                <BaseButton title="Edit" iconComponent="MaterialIcons" icon="edit-note" onPress={() => {
                     appContext.todoEditId.set(props.itemId);
                     appContext.nav.setCurrentPage(getPage(PAGE_EDIT));
                 }}/>

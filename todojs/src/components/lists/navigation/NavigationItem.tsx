@@ -5,7 +5,6 @@ import {getPage} from "../../../functions/navigation";
 import BaseButton from "../../bases/BaseButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {useAppContext} from "../../../functions/app";
-
 import {INavigationItem} from "../../../../../backend/types";
 
 type NavigationItemProps = {
@@ -30,6 +29,8 @@ const NavigationItem = (props: NavigationItemProps) => {
         boxStyle={buttonBoxStyles}
         textStyle={styles.buttonText}
         title={getPage(props.item.id).text}
+        icon={props.item.icon}
+        iconComponent={props.item.iconComponent}
         onPress={setPage}/>;
 };
 

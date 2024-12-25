@@ -58,6 +58,6 @@ export const STATUS_ITEMS: IItemStatus[] = [
 ];
 
 export const NAVIGATION_ITEMS: INavigationItem[] = [
-    {id: PAGE_LIST},
-    {id: PAGE_ADD},
+    {id: PAGE_LIST, icon: 'checklist', iconComponent: 'MaterialIcons'},
+    {id: PAGE_ADD, icon: 'post-add', iconComponent: 'MaterialIcons'},
 ];

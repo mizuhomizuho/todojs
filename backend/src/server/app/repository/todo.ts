@@ -1,5 +1,5 @@
 import {PrismaClient} from '@prisma/client';
-import {IError, IItemTodo, IResult} from "../../../../types";
+import {IError, IItemTodoFull, IResult} from "../../../../types";
 import {App} from "../app";
 
 export namespace RepositoryTodo {
@@ -12,7 +12,7 @@ export namespace RepositoryTodo {
             DONE: 'DONE',
         };
 
-        public async create(): Promise<IResult<IError[] | { newItem: IItemTodo }>> {
+        public async create(): Promise<IResult<IError[] | { newItem: IItemTodoFull }>> {
 
             const title = App.context.req.body.title.trim();
             const description = App.context.req.body.description.trim();

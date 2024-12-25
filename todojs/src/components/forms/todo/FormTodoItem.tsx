@@ -88,6 +88,8 @@ const FormTodoItem = (props: FormTodoItemProps) => {
                 />
             </BaseView>
             <BaseButton
+                icon="content-save-move-outline"
+                iconComponent="MaterialCommunityIcons"
                 title="Submit"
                 onPress={handleSubmit}
             />
