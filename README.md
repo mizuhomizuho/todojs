@@ -5,6 +5,7 @@
 
 ## Technologies used:
 
+- TypeScript
 - React Native
 - Expo
 - Nginx
