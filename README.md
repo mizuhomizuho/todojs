@@ -17,7 +17,6 @@
 
 - Ubuntu
 - Nginx
-- Express
 - MySQL
 - SSH
 
