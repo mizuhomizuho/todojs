@@ -1,7 +1,9 @@
 
-declare const appContext: IItemCommon;
-
 export interface IItemBase {
+}
+
+export interface IBackendContext extends IItemBase {
+    context: IItemCommon,
 }
 
 export interface IItemCommon extends IItemBase {

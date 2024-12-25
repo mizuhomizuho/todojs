@@ -1,7 +1,7 @@
 
 .PHONY: del
 del:
-	node ./backend/src/script/clear.js
+	node backend/src/script/clear.js
 	docker stop todojs_server || echo "..."
 	docker stop todojs_mysql || echo "..."
 	docker rm todojs_server || echo "..."
@@ -11,7 +11,7 @@ del:
 
 .PHONY: build
 build:
-	docker-compose -f ./backend/docker-compose.yaml up -d
+	docker-compose -f backend/docker-compose.yaml up -d
 
 .PHONY: rebuild
 rebuild: del build

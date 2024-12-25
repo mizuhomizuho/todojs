@@ -1,15 +1,11 @@
-import {Request, Response} from "express";
 import {ServiceResponse} from "../service/response";
 import {ServiceValidationUser} from "../service/validation";
 import {ServiceUser} from "../service/validation/user";
-import {IError, IUserCreateResult, appContext} from "../../../../types";
+import {IError, IUserCreateResult} from "../../../../types";
 
 export namespace ControllerUser {
 
     export class Main {
-
-        constructor() {
-        }
 
         public async register() {
 
@@ -30,9 +26,6 @@ export namespace ControllerUser {
             }
 
             serviceResponse.sendResultCreate(resultUserCreate.data as IUserCreateResult);
-
-            // this.res.send('4');
-            // return;
         }
     }
 }

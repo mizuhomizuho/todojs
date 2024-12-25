@@ -1,10 +1,4 @@
 import {Request, Response} from 'express';
-import {Prisma, PrismaClient} from '@prisma/client';
-import bcrypt from 'bcryptjs';
-import jwt, {JwtPayload} from 'jsonwebtoken';
-import {IError, IResult, IUserCreateResult} from "../../../../types";
-import {ServiceResponse} from "./response";
-import {ServiceAuthenticate} from "./authenticate";
 
 export namespace ServiceContext {
 

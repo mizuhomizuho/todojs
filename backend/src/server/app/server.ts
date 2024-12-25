@@ -1,7 +1,7 @@
 import express, {Request, Response} from 'express';
 import {ControllerUser} from "./controller/user";
 import {ServiceContext} from "./service/context";
-import {appContext} from "../../../types";
+import {App} from "./app";
 
 const app = express();
 const cors = require('cors');
@@ -20,7 +20,7 @@ app.post('/api/user/authenticate', (req: Request, res: Response) => {
 });
 
 app.post('/api/user/register', async (req: Request, res: Response) => {
-    appContext.service = new ServiceContext.Main(req, res);
+    App.context = new ServiceContext.Main(req, res);
     const controller = new ControllerUser.Main();
     await controller.register();
 });
