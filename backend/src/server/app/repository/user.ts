@@ -19,13 +19,13 @@ export namespace RepositoryUser {
 
                 const prisma = new PrismaClient();
 
-                const newUser = await prisma.user.create({
+                const newItem = await prisma.user.create({
                     data: {
-                        username: username,
+                        username,
                         password: hash,
                     },
                 });
-                const payload = {username: newUser.username};
+                const payload = {username: newItem.username};
                 const serviceAuthenticate = new ServiceAuthenticate.Main();
                 return {
                     success: true,

@@ -27,7 +27,11 @@ export interface IItemStatus extends IItem {
 }
 
 export interface IItemTodo extends IItem {
-    name: string,
+    title: string,
+    description: string,
+    comments: string,
+    status: string,
+    deadline: string,
 }
 
 export interface IPageItem extends IItem {

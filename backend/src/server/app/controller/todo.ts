@@ -1,7 +1,7 @@
 import {ServiceResponse} from "../service/response";
-import {RepositoryUser} from "../repository/user";
-import {IAuthenticate, IError} from "../../../../types";
+import {IAuthenticate, IError, IItem} from "../../../../types";
 import {ValidationTodo} from "../validation/todo";
+import {RepositoryTodo} from "../repository/todo";
 
 export namespace ControllerTodo {
 
@@ -18,14 +18,14 @@ export namespace ControllerTodo {
                 return;
             }
 
-            const serviceUser = new RepositoryUser.Main();
-            const resultUserCreate = await serviceUser.create();
-            if (!resultUserCreate.success) {
-                serviceResponse.sendResultError(resultUserCreate.data as IError[]);
+            const repository = new RepositoryTodo.Main();
+            const resultCreate = await repository.create();
+            if (!resultCreate.success) {
+                serviceResponse.sendResultError(resultCreate.data as IError[]);
                 return;
             }
 
-            serviceResponse.sendResultSuccess(resultUserCreate.data as IAuthenticate);
+            serviceResponse.sendResultSuccess(resultCreate.data as IItem);
         }
     }
 }

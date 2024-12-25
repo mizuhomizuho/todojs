@@ -1,6 +1,6 @@
 import {Prisma, PrismaClient} from '@prisma/client';
 import bcrypt from 'bcryptjs';
-import {IError, IResult, IAuthenticate} from "../../../../types";
+import {IError, IResult, IAuthenticate, IItemTodo} from "../../../../types";
 import {ServiceAuthenticate} from "../service/authenticate";
 import {App} from "../app";
 
@@ -14,44 +14,37 @@ export namespace RepositoryTodo {
             DONE: 'DONE',
         };
 
-        public async create(): Promise<IResult<IError[] | IAuthenticate>> {
-            try {
-                const username = App.context.req.body.username.trim();
-                const password = App.context.req.body.password.trim();
+        public async create(): Promise<IResult<IError[] | {newItem: IItemTodo}>> {
 
-                const salt = await bcrypt.genSalt(8);
+            const title = App.context.req.body.title.trim();
+            const description = App.context.req.body.description.trim();
+            const comments = App.context.req.body.comments.trim();
+            const status = App.context.req.body.status.trim();
+            const deadline = App.context.req.body.deadline.trim();
 
-                const hash = await bcrypt.hash(password, salt);
+            const prisma = new PrismaClient();
 
-                const prisma = new PrismaClient();
-
-                const newUser = await prisma.user.create({
-                    data: {
-                        username: username,
-                        password: hash,
+            const newItem = await prisma.todo.create({
+                data: {
+                    title,
+                    description,
+                    comments,
+                    status,
+                    deadline: new Date(+deadline * 1000),
+                },
+            });
+            return {
+                success: true,
+                data: {
+                    newItem: {
+                        ...newItem,
+                        ...{
+                            id: newItem.id + '',
+                            deadline: Math.floor(newItem.deadline.getTime() / 1000) + '',
+                        }
                     },
-                });
-                const payload = {username: newUser.username};
-                const serviceAuthenticate = new ServiceAuthenticate.Main();
-                return {
-                    success: true,
-                    data: {
-                        payload,
-                        token: await serviceAuthenticate.generateToken(payload),
-                    },
-                };
-            } catch (error) {
-                if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
-                    return {
-                        success: false,
-                        data: [{field: 'username', message: 'Username is invalid.'}],
-                    };
-                }
-                return {
-                    success: false,
-                    data: [{message: 'Cant create a new user.'}],
-                };
-            }
+                },
+            };
         }
     }
 }
