@@ -65,12 +65,8 @@ make del
    ```
 
 ### Screenshots
-   
----
 
 <img src="https://github.com/mizuhomizuho/todojs/blob/master/screenshots/localhost_8081_.png" alt="">
-
----
 
 <img src="https://github.com/mizuhomizuho/todojs/blob/master/screenshots/localhost_8081_(1).png" alt="">
 
@@ -82,6 +78,5 @@ make del
 
 <img src="https://github.com/mizuhomizuho/todojs/blob/master/screenshots/localhost_8081_(3).png" alt="">
 
----
 
 
