@@ -34,7 +34,7 @@ ssh -p 882 ubuntu@127.0.0.1 # password: 123
 ```shell
 docker build -t todojs_server ./backend/image
 make build
-cd backend
+docker container exec -u root -it todojs_server bash
 npx prisma db push
 ```
 
