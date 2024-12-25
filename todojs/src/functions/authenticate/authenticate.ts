@@ -22,6 +22,7 @@ export async function checkAuthenticate(appContext: IAppContext) {
     // });
 
     appContext.auth.authenticate = await AsyncStorage.getItem(STORAGE_USER_JWT) !== null;
+    // appContext.auth.authenticate = false;
     appContext.auth.setAuthenticate(appContext.auth.authenticate);
 }
 
