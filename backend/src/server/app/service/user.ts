@@ -11,6 +11,7 @@ export namespace ServiceUser {
         public async create(): Promise<IResult<IError[] | IUserCreateResult>> {
             try {
                 const salt = await bcrypt.genSalt(8);
+
                 const hash = await bcrypt.hash(App.context.req.body.password, salt);
 
                 const prisma = new PrismaClient();

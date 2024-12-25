@@ -33,7 +33,7 @@ export async function handleRegisterForm(
         return;
     }
 
-    appContext.nav.setCurrentPage(getPage(PAGE_ADD));
+    // appContext.nav.setCurrentPage(getPage(PAGE_ADD));
 
     appContext.load.setPreloader(true);
     const result = await query(appContext, 'api/user/register', {

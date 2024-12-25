@@ -19,3 +19,8 @@ rebuild: del build
 .PHONY: dev
 dev:
 	chokidar "backend/src/server/app/**/*" -c "docker exec todojs_server pm2 restart server"
+
+.PHONY: start
+start:
+	cd todojs && \
+	npx expo start --web

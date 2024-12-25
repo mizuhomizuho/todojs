@@ -5,8 +5,6 @@
 
 ## Backend
 
-To track file changes on Windows, the project needs to be run on WSL.
-
 ### After building, you will get:
 
 - Ubuntu
@@ -27,11 +25,9 @@ ssh -p 882 ubuntu@127.0.0.1 # password: 123
 ### Build:
 
 ```shell
-sudo docker build -t todojs_server ./backend/image
-```
-
-```shell
+docker build -t todojs_server ./backend/image
 make build
+cd backend
 npx prisma db push
 ```
 
@@ -39,12 +35,14 @@ npx prisma db push
 make dev
 ```
 
-```shell
-make del
-```
+### Rebuild:
 
 ```shell
 make rebuild
+```
+
+```shell
+make del
 ```
 
 ---
@@ -56,12 +54,14 @@ make rebuild
 1. Install dependencies
 
    ```bash
-   npm install
+   cd todojs
+   yarn install
    ```
 
-2. Start the app
+2. Start
 
    ```bash
-    npx expo start
+   make start
    ```
+
 
