@@ -1,8 +1,50 @@
 import jwt, {JwtPayload} from 'jsonwebtoken';
+import {PrismaClient} from "@prisma/client";
+import {App} from "../app";
+import {IError, IResult} from "../../../../types";
+import bcrypt from "bcryptjs";
+import {ServiceResponse} from "./response";
 
 export namespace ServiceAuthenticate {
 
     export class Main {
+
+        public async verifyAuthenticate(): Promise<IResult<IError[] | undefined>> {
+
+            const prisma = new PrismaClient();
+
+            const username = App.context.req.body.username.trim();
+            const password: string = App.context.req.body.password.trim();
+
+            const user = await prisma.user.findUnique({
+                where: {
+                    username: username,
+                },
+                select: {
+                    password: true,
+                },
+            });
+
+            const error = {message: 'Failed to authenticate.'}
+            const serviceResponse = new ServiceResponse.Main();
+
+            if (user === null) {
+                return serviceResponse.getResult([error]);
+            }
+
+            const compareResult: boolean = await new Promise((resolve, reject) => {
+                bcrypt.compare(password, user.password, function (err, res) {
+                    if (err) reject(err);
+                    resolve(res);
+                });
+            });
+
+            if (!compareResult) {
+                return serviceResponse.getResult([error]);
+            }
+
+            return serviceResponse.getResult();
+        }
 
         public async generateToken(payload: {}): Promise<string> {
             return new Promise((resolve, reject) => {

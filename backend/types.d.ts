@@ -92,6 +92,3 @@ export interface IResult<T> extends IItemBase {
     success: boolean,
     data?: T,
 }
-
-export interface IResultData<T> extends IItemCommon {
-}

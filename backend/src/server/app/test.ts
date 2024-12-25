@@ -9,6 +9,9 @@
 // ts-node /todojs/src/server/app/test.ts
 
 import jwt, {JwtPayload} from "jsonwebtoken";
+import {App} from "./app";
+import {PrismaClient} from "@prisma/client";
+import bcrypt from "bcryptjs";
 
 // async function test() {
 //     const res = await bcryptjs.genSalt(10);
@@ -54,15 +57,34 @@ async function verifyToken(token: string): Promise<JwtPayload | false> {
 }
 
 async function test() {
-    const res = await generateToken({xxx: 1});
-    console.log(res, 111);
-    const res2 = await verifyToken(res);
-    console.log(res2, 222);
-    if (res2 !== false) {
-        const date = new Date(res2.iat! * 1000);
-        console.log(date, 333);
-    }
-    return res;
+
+    const prisma = new PrismaClient();
+
+    const user = await prisma.user.findUnique({
+        where: {
+            username: '123',
+        },
+        select: {
+            password: true,
+        },
+    });
+
+    // console.log(user);
+    return user;
 }
 
-console.log(test());
+async function test2() {
+    const res = await test();
+
+    const compareResult: boolean = await new Promise((resolve, reject) => {
+        bcrypt.compare('1232', res!.password, function (err, res) {
+            if (err) reject(err);
+            resolve(res);
+        });
+    });
+
+
+    console.log(compareResult);
+}
+
+console.log(test2());

@@ -16,7 +16,9 @@ app.get('', (req: Request, res: Response) => {
 });
 
 app.post('/api/user/authenticate', (req: Request, res: Response) => {
-    res.send('authenticate');
+    App.context = new ServiceContext.Main(req, res);
+    const controller = new ControllerUser.Main();
+    await controller.register();
 });
 
 app.post('/api/user/register', async (req: Request, res: Response) => {

@@ -45,8 +45,6 @@ make rebuild
 make del
 ```
 
----
-
 ## Frontend
 
 ### Get started

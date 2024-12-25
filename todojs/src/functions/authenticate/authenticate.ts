@@ -6,7 +6,6 @@ import {STORAGE_USER_JWT} from "../../constants";
 
 export async function checkAuthenticate(appContext: IAppContext) {
 
-
     // return await new Promise<void>((resolve) => {
     //     setTimeout(() => {
     //         debug(appContext, {

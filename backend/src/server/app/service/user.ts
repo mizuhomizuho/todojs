@@ -10,15 +10,18 @@ export namespace ServiceUser {
 
         public async create(): Promise<IResult<IError[] | IUserCreateResult>> {
             try {
+                const username = App.context.req.body.username.trim();
+                const password = App.context.req.body.password.trim();
+
                 const salt = await bcrypt.genSalt(8);
 
-                const hash = await bcrypt.hash(App.context.req.body.password, salt);
+                const hash = await bcrypt.hash(password, salt);
 
                 const prisma = new PrismaClient();
 
                 const newUser = await prisma.user.create({
                     data: {
-                        username: App.context.req.body.username,
+                        username: username,
                         password: hash,
                     },
                 });
@@ -38,7 +41,6 @@ export namespace ServiceUser {
                         data: [{field: 'username', message: 'Username is invalid.'}],
                     };
                 }
-                console.log(error);
                 return {
                     success: false,
                     data: [{message: 'Cant create a new user.'}],

@@ -1,42 +1,70 @@
 import {IError, IResult} from "../../../../../types";
 import {App} from "../../app";
+import {ServiceResponse} from "../response";
 
 export namespace ServiceValidationUser {
 
     export class Main {
 
-        public register(): IResult<IError[]> {
+        private _errors: IError[];
 
-            console.log(App.context.req.body, 1112);
+        constructor() {
+            this._errors = [];
+        }
 
-            const errors: IError[] = [];
-            if (
-                typeof App.context.req.body.username !== 'string'
-                || App.context.req.body.username.trim() === ''
-            ) {
-                errors.push({field: 'password', message: 'Username cannot be empty.'});
-            }
-            if (
-                typeof App.context.req.body.password !== 'string'
-                || App.context.req.body.password.trim() === ''
-            ) {
-                errors.push({field: 'password', message: 'Password cannot be empty.'});
-            }
+        public register() {
+            this.errors = [];
+            this.validateUsername();
+            this.validatePassword();
+            this.validatePassword2();
+            return this.getResult();
+        }
+
+        public authenticate() {
+            this.errors = [];
+            this.validateUsername();
+            this.validatePassword();
+            return this.getResult();
+        }
+
+        private validatePassword2() {
             if (
                 typeof App.context.req.body.password2 !== 'string'
                 || App.context.req.body.password !== App.context.req.body.password2
             ) {
-                errors.push({field: 'password2', message: 'Passwords do not match.'});
+                this.errors.push({field: 'password2', message: 'Passwords do not match.'});
             }
-            if (errors.length) {
-                return {
-                    success: false,
-                    data: errors,
-                };
+        }
+
+        private validateUsername() {
+            if (
+                typeof App.context.req.body.username !== 'string'
+                || App.context.req.body.username.trim() === ''
+            ) {
+                this.errors.push({field: 'username', message: 'Username cannot be empty.'});
             }
-            return {
-                success: true,
-            };
+        }
+
+        private validatePassword() {
+            if (
+                typeof App.context.req.body.password !== 'string'
+                || App.context.req.body.password.trim() === ''
+            ) {
+                this.errors.push({field: 'password', message: 'Password cannot be empty.'});
+            }
+        }
+
+        private getResult(): IResult<IError[] | undefined> {
+            const serviceResponse = new ServiceResponse.Main();
+            return serviceResponse.getResult(this.errors);
+        }
+
+        private get errors(): IError[] {
+            return this._errors;
+        }
+
+        private set errors(value: IError[]) {
+            this._errors = value;
         }
     }
 }
