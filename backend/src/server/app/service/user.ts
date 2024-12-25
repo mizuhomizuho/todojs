@@ -22,7 +22,7 @@ export namespace ServiceUser {
                     },
                 });
                 const payload = {username: newUser.username};
-                const serviceAuthenticate = new ServiceAuthenticate.Main(App.context.req);
+                const serviceAuthenticate = new ServiceAuthenticate.Main();
                 return {
                     success: true,
                     data: {

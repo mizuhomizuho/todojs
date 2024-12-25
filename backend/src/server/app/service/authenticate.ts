@@ -1,15 +1,8 @@
-import {Request} from 'express';
 import jwt, {JwtPayload} from 'jsonwebtoken';
 
 export namespace ServiceAuthenticate {
 
     export class Main {
-
-        private _req: Request;
-
-        constructor(req: Request) {
-            this._req = req;
-        }
 
         public async generateToken(payload: {}): Promise<string> {
             return new Promise((resolve, reject) => {
@@ -27,14 +20,6 @@ export namespace ServiceAuthenticate {
                     else resolve(typeof decoded === 'object' ? decoded : false);
                 });
             });
-        }
-
-        private get req(): Request {
-            return this._req;
-        }
-
-        private set req(value: Request) {
-            this._req = value;
         }
     }
 }
