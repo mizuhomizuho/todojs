@@ -1,6 +1,6 @@
 import {ServiceResponse} from "../service/response";
-import {ServiceValidationUser} from "../service/validation";
-import {ServiceUser} from "../service/validation/user";
+import {ServiceValidationUser} from "../service/validation/user";
+import {ServiceUser} from "../service/user";
 import {IError, IUserCreateResult} from "../../../../types";
 
 export namespace ControllerUser {
