@@ -3,6 +3,14 @@
 [//]: # (npx create-expo-app@latest --template blank-typescript)
 [//]: # (docker container exec -u root -it todojs_server bash)
 
+## Technologies used:
+
+- React Native
+- Expo
+- Nginx
+- Express
+- MySQL
+
 ## Backend
 
 ### After building, you will get:
