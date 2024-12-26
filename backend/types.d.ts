@@ -1,24 +1,42 @@
 
-export interface IItemBase {
-}
-
-export interface IBackendContext extends IItemBase {
+export interface IBackendContext {
     context: IItemCommon,
 }
 
-export interface IItemCommon extends IItemBase {
+export interface IItemCommon {
     [key: string]: any,
 }
 
-export interface IStyle extends IItemCommon {
+export interface IStringObject {
+    [key: string]: string,
+}
+
+export interface IStringObject {
+    [key: string]: string,
+}
+
+export interface IFieldValue {
+    isMount: boolean,
+    value: string,
+}
+
+export interface IFormParams {
+    [key: string]: string | Function | IFieldValue,
+}
+
+export interface IStringResult {
+    [key: string]: string | IStringObject,
+}
+
+export interface IStyle {
     [key: string]: string | number,
 }
 
-export interface IComponentMap extends IItemCommon {
+export interface IComponentMap {
     [key: string]: ReactElement,
 }
 
-export interface IItem extends IItemBase {
+export interface IItem  {
     id: string,
 }
 
@@ -28,14 +46,6 @@ export interface IItemStatus extends IItem {
 
 export interface IItemTodo extends IItem {
     name: string,
-}
-
-export interface IItemTodoFull extends IItem {
-    title: string,
-    description: string,
-    comments: string,
-    status: string,
-    deadline: string,
 }
 
 export interface IPageItem extends IItem {
@@ -48,57 +58,55 @@ export interface INavigationItem extends IItem {
     iconComponent?: string,
 }
 
-export interface IContextBase extends IItemCommon {
-}
-
-export interface INavigationContext extends IContextBase {
+export interface INavigationContext {
     currentPage: INavigationItem,
-    setCurrentPage: CallableFunction,
+    setCurrentPage: Function,
 }
 
 export type IAuthenticateItem = boolean | null;
 
-export interface IAuthenticateContext extends IContextBase {
+export interface IAuthenticateContext {
     authenticate: IAuthenticateItem,
-    setAuthenticate: CallableFunction,
+    setAuthenticate: Function,
 }
 
-export interface IDebugContext extends IContextBase {
+export interface IDebugContext {
     debugNative: IItemCommon,
-    setDebugNative: CallableFunction,
+    setDebugNative: Function,
 }
 
 export type IPreloaderItem = boolean | null;
 
-export interface IPreloaderContext extends IContextBase {
+export interface IPreloaderContext {
     preloader: IPreloaderItem,
-    setPreloader: CallableFunction,
+    setPreloader: Function,
 }
 
-export interface ITodoEditIdContext extends IContextBase {
+export interface ITodoEditIdContext {
     value: string | null,
-    set: CallableFunction,
+    set: Function,
 }
 
-export interface IAppContext extends IContextBase {
+export interface IAppContext {
     auth: IAuthenticateContext,
     nav: INavigationContext,
     load: IPreloaderContext,
     debug: IDebugContext,
     todoEditId: ITodoEditIdContext,
+    componentMap: IComponentMap,
 }
 
-export interface IError extends IItemBase {
+export interface IError  {
     field?: string,
     message: string,
 }
 
-export interface IAuthenticate extends IItemBase {
+export interface IAuthenticate  {
     payload: { username: string },
     token: string,
 }
 
-export interface IResult<T> extends IItemBase {
+export interface IResult<T>  {
     success: boolean,
     data?: T,
 }

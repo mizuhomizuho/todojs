@@ -1,4 +1,4 @@
-import {IError, IItemCommon, IResult} from "../../../../types";
+import {IError, IStringObject, IResult, IStringResult} from "../../../../types";
 import {App} from "../app";
 
 export namespace ServiceResponse {
@@ -13,7 +13,7 @@ export namespace ServiceResponse {
             });
         }
 
-        public sendResultSuccess(data: IItemCommon) {
+        public sendResultSuccess(data: IStringResult) {
             App.context.res.status(200).send({
                 'status': 'success',
                 'message': 'Successfully',

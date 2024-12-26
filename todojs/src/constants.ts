@@ -8,6 +8,7 @@ const TODO_STATUS = {
 
 export const STORAGE_NAVIGATION_ID = 'navigationCurrentPageId';
 export const STORAGE_USER_JWT = 'authenticateUserJWT-v1';
+export const STORAGE_TODO_ITEM_FORM_PREFIX = 'todoItemForm-v11';
 
 export const DEADLINE_DAYJS_FORMAT = 'YYYY-MM-DD HH:mm';
 

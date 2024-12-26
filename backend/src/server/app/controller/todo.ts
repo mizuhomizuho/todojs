@@ -1,5 +1,5 @@
 import {ServiceResponse} from "../service/response";
-import {IError, IItem, IItemCommon} from "../../../../types";
+import {IError, IStringObject} from "../../../../types";
 import {ValidationTodo} from "../validation/todo";
 import {RepositoryTodo} from "../repository/todo";
 
@@ -20,12 +20,10 @@ export namespace ControllerTodo {
 
             const repository = new RepositoryTodo.Main();
             const resultCreate = await repository.create();
-            if (!resultCreate.success) {
-                serviceResponse.sendResultError(resultCreate.data as IError[]);
-                return;
-            }
 
-            serviceResponse.sendResultSuccess(resultCreate.data as IItemCommon);
+            if (typeof resultCreate.data?.newItem !== 'undefined') {
+                serviceResponse.sendResultSuccess(resultCreate.data);
+            }
         }
     }
 }

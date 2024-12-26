@@ -4,7 +4,7 @@ import {PAGE_AUTHENTICATE, PAGE_HOME} from "../constants";
 import {checkAuthenticate, isAuthenticate} from "./authenticate/authenticate";
 import {api} from "./api";
 import {debug} from "./debug";
-import {IAppContext, IAuthenticateItem, IItemCommon, IPreloaderItem} from "../../../backend/types";
+import {IAppContext, IAuthenticateItem, IComponentMap, IPreloaderItem, IStringObject} from "../../../backend/types";
 
 export const AppContext = createContext<IAppContext | null>(null);
 
@@ -16,7 +16,7 @@ export function useAppContext() {
     return context;
 }
 
-export function useApp() {
+export function useApp(componentMap: IComponentMap) {
 
     const [currentPage, setCurrentPage] = useState(getPage(PAGE_HOME));
     const [authenticate, setAuthenticate] = useState<IAuthenticateItem>(null);
@@ -30,6 +30,7 @@ export function useApp() {
         load: {preloader, setPreloader},
         debug: {debugNative, setDebugNative},
         todoEditId: {value: todoEditId, set: setTodoEditId},
+        componentMap,
     };
 
     useEffect(() => {
@@ -65,7 +66,7 @@ export function useApp() {
 export async function query(
     appContext: IAppContext,
     route: string,
-    params: IItemCommon
+    params: IStringObject
 ) {
     return await api(route, params);
 }

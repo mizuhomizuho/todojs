@@ -1,6 +1,8 @@
 import {ValidationBase} from "./base";
 import {App} from "../app";
 import {RepositoryTodo} from "../repository/todo";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
 
 export namespace ValidationTodo {
 
@@ -28,8 +30,8 @@ export namespace ValidationTodo {
                 this.errors.push({field: 'deadline', message: 'Deadline format error.'});
                 return;
             }
-            const unixTimestamp = Math.floor(Date.now() / 1000);
-            if (+App.context.req.body.deadline < unixTimestamp) {
+            dayjs.extend(utc);
+            if (+App.context.req.body.deadline < dayjs().utc().unix()) {
                 this.errors.push({field: 'deadline', message: 'You cannot create tasks for past time.'});
             }
         }

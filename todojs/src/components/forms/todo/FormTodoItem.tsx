@@ -15,7 +15,6 @@ import dayjs from "dayjs";
 import React from "react";
 import {useAppContext} from "../../../functions/app";
 import ScrollView = Animated.ScrollView;
-import utc from "dayjs/plugin/utc";
 
 interface FormTodoItemProps {
     storageId: string;
@@ -40,19 +39,25 @@ const FormTodoItem = (props: FormTodoItemProps) => {
     } = useTodoItemForm(appContext, props.storageId, props.editId);
 
     const handleSubmit = async () => {
-        dayjs.extend(utc);
+
         await handleTodoItemForm(
             appContext,
             title.value,
             description.value,
             status.value,
             comments.value,
-            dayjs(deadline.value).utc().unix().toString(),
+            deadline.value,
         );
     };
 
+    let idStyles = styles.id;
+    if (!props.editId) {
+        idStyles = {...idStyles, ...{display: 'none'}};
+    }
+
     return <ScrollView>
         <BaseView style={styles.container}>
+            <BaseText style={idStyles}>ID {props.editId}</BaseText>
             <BaseTextInput
                 placeholder="Title *"
                 value={title.value}
@@ -102,6 +107,12 @@ const styles = StyleSheet.create({
         padding: 15,
         paddingTop: 30,
         paddingBottom: 30,
+    },
+    id: {
+        fontSize: 17,
+        textAlign: 'right',
+        paddingBottom: 15,
+        opacity: 0.5,
     },
     box: {
         padding: 15,

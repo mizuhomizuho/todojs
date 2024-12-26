@@ -1,4 +1,4 @@
-import {IAppContext, IItemCommon} from "../../../backend/types";
+import {IAppContext, IStringObject} from "../../../backend/types";
 
 let debugStream = 'main';
 debugStream = 'todo_edit';
@@ -13,7 +13,7 @@ debugStream = 'todo_edit';
 //     stream: 'todo_edit',
 // });
 
-export function debug(appContext: IAppContext, variables: IItemCommon, params: IItemCommon = {}) {
+export function debug(appContext: IAppContext, variables: any, params: IStringObject = {}) {
     let currentStream = 'main';
     if (typeof params.stream !== 'undefined') {
         currentStream = params.stream;

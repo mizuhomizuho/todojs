@@ -3,11 +3,11 @@ import {StyleSheet} from "react-native";
 import BaseText from "./BaseText";
 import {BaseTouchableOpacity} from "./BaseTouchableOpacity";
 import BaseView from "./BaseView";
-import {IItemCommon, IStyle} from "../../../../backend/types";
+import {IItemStatus, IStringObject, IStyle} from "../../../../backend/types";
 
 type BaseSelectProps = {
     onPress: CallableFunction;
-    items: IItemCommon[];
+    items: IStringObject[] | IItemStatus[];
     value: string;
 };
 

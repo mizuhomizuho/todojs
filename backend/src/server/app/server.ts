@@ -38,6 +38,10 @@ app.put('/api/todo/edit', (req: Request, res: Response) => {
     res.send('edit');
 });
 
+app.get('/api/todo/get', (req: Request, res: Response) => {
+    res.send('get');
+});
+
 app.get('/api/todo/list', (req: Request, res: Response) => {
     res.send('list');
 });

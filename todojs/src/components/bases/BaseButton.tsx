@@ -3,8 +3,7 @@ import {StyleSheet} from 'react-native';
 import BaseText from "./BaseText";
 import {BaseTouchableOpacity, BaseTouchableOpacityProps} from "./BaseTouchableOpacity";
 import {IStyle} from "../../../../backend/types";
-import {MaterialIcons} from "@expo/vector-icons";
-import {COMPONENT_MAP} from "../../componentMap";
+import {useAppContext} from "../../functions/app";
 
 interface BaseButtonProps extends BaseTouchableOpacityProps {
     title?: string;
@@ -16,9 +15,11 @@ interface BaseButtonProps extends BaseTouchableOpacityProps {
 
 const BaseButton = (props: BaseButtonProps) => {
 
+    const appContext = useAppContext();
+
     let IconComponent;
     if (props.iconComponent) {
-        IconComponent = COMPONENT_MAP[props.iconComponent];
+        IconComponent = appContext.componentMap[props.iconComponent];
     }
 
     return <BaseTouchableOpacity {...props} style={[styles.box, props.boxStyle]}>

@@ -29,7 +29,7 @@ else
     npm i -D typescript @types/node @types/express @types/bcryptjs @types/jsonwebtoken
     tsc --init
     npm i prisma --save-dev
-    npm i jsonwebtoken cors bcryptjs
+    npm i jsonwebtoken cors bcryptjs dayjs
   fi
 
   if [ -d "/todojs/prisma" ]; then

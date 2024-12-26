@@ -9,7 +9,7 @@ import React from "react";
 
 const App = () => {
 
-    const appContext = useApp();
+    const appContext = useApp(COMPONENT_MAP);
     const CurrentPageComponent = COMPONENT_MAP[appContext.nav.currentPage.component];
 
     return (
