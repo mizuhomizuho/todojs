@@ -104,7 +104,7 @@ export interface IError {
 }
 
 export interface IAuthenticate {
-    payload: { username: string },
+    payload: { id: string },
     token: string,
 }
 

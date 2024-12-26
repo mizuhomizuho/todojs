@@ -63,6 +63,11 @@ export function useTodoItemForm(appContext: IAppContext, editId: string | null) 
         }
     ];
 
+    // dayjs.extend(utc);
+    // const unixTimestamp = new Date().getTime() - 3600 * 1000;
+    // const utcDateTime = dayjs.utc(unixTimestamp).utc();
+    // console.log(new Date(), utcDateTime.format(),  dayjs(new Date().getTime()));
+
     bindStorage(appContext, formParams, storagePrefix, editId);
 
     return getReturnUseTodoItemForm(formParams);
@@ -92,13 +97,19 @@ export async function handleTodoItemForm(
 
     dayjs.extend(utc);
 
-    const result = await query(appContext, 'api/todo/add', {
+    let params = {
         title,
         description,
         status,
         comments,
         deadline: dayjs(deadline).utc().unix().toString(),
-    });
+    };
+
+    if (editId) {
+        params = {...params, ...{id: editId}};
+    }
+
+    const result = await query(appContext, `api/todo/${editId ? 'edit' : 'add'}`, params);
 
     let good = false;
     if (result !== false && typeof result?.data?.newItem === 'object') {
@@ -120,7 +131,35 @@ function bindStorage(
     editId: string | null
 ) {
 
-    let loadedData: ITodoItem | null = null;
+    let loadedData: ITodoItem | false | null = null;
+    let isLoadStarted = false;
+
+    async function loadData(editId: string): Promise<false | ITodoItem> {
+        if (isLoadStarted) {
+            return new Promise((resolve) => {
+                const interval = setInterval(() => {
+                    if (loadedData !== null) {
+                        console.log(666);
+                        clearInterval(interval);
+                        resolve(loadedData);
+                    }
+                }, 100);
+            });
+        }
+        isLoadStarted = true;
+        appContext.load.setPreloader(true);
+        const result = await query(appContext, 'api/todo/get', {
+            id: editId,
+        });
+        if (result !== false && typeof result?.data?.item === 'object') {
+            loadedData = {...result.data.item} as unknown as ITodoItem;
+            dayjs.extend(utc);
+            const localUnixTime = +loadedData.deadline + dayjs().utcOffset() * 60;
+            loadedData.deadline = dayjs(localUnixTime * 1000).format(DEADLINE_DAYJS_FORMAT);
+        }
+        appContext.load.setPreloader(false);
+        return !loadedData ? false : loadedData;
+    }
 
     formParams.forEach((item, index) => {
         useEffect(() => {
@@ -130,22 +169,16 @@ function bindStorage(
                     let storageValue = await AsyncStorage.getItem(storagePrefix + item.variableName);
                     if (storageValue === null && editId) {
                         if (loadedData === null) {
-                            appContext.load.setPreloader(true);
-                            const result = await query(appContext, 'api/todo/get', {
-                                id: editId,
-                            });
-                            if (result !== false && typeof result?.data?.item === 'object') {
-                                loadedData = {...result.data.item} as unknown as ITodoItem;
-                            }
-                            appContext.load.setPreloader(false);
+                            console.log(loadedData, 444);
+                            loadedData = await loadData(editId);
+                            console.log(loadedData, 555);
                         }
-                        if (loadedData !== null && typeof loadedData[item.variableName as keyof ITodoItem] !== 'undefined') {
+                        if (loadedData && typeof loadedData[item.variableName as keyof ITodoItem] !== 'undefined') {
                             storageValue = loadedData[item.variableName as keyof ITodoItem];
+                            console.log(storageValue, 111);
                         }
                     }
-
                     const setFunction = item.setFunction as Function;
-
                     setFunction(setValue(storageValue === null ? item.defaultValue as string : storageValue));
                     return;
                 }

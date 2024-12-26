@@ -34,21 +34,23 @@ app.post('/api/todo/add', async (req: Request, res: Response) => {
     await controller.add();
 });
 
-app.put('/api/todo/edit', (req: Request, res: Response) => {
-    res.send('edit');
+app.post('/api/todo/edit', (req: Request, res: Response) => {
+    App.context = new ServiceContext.Main(req, res);
+    const controller = new ControllerTodo.Main();
+    await controller.edit();
 });
 
-app.get('/api/todo/get', async (req: Request, res: Response) => {
+app.post('/api/todo/get', async (req: Request, res: Response) => {
     App.context = new ServiceContext.Main(req, res);
     const controller = new ControllerTodo.Main();
     await controller.get();
 });
 
-app.get('/api/todo/list', (req: Request, res: Response) => {
+app.post('/api/todo/list', (req: Request, res: Response) => {
     res.send('list');
 });
 
-app.delete('/api/todo/delete', (req: Request, res: Response) => {
+app.post('/api/todo/delete', (req: Request, res: Response) => {
     res.send('delete');
 });
 

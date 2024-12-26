@@ -12,8 +12,11 @@ export namespace ValidationTodo {
             super();
         }
 
-        public validateItem() {
+        public async validateItem() {
             this.errors = [];
+            if (!await this.validateAuth()) {
+                return this.getResult();
+            }
             this.validateNoEmptyString('title', 'Title cannot be empty.');
             this.validateString('description', 'Description format error.');
             this.validateString('comments', 'Comments format error.');
@@ -22,8 +25,11 @@ export namespace ValidationTodo {
             return this.getResult();
         }
 
-        public validateId() {
+        public async validateId() {
             this.errors = [];
+            if (!await this.validateAuth()) {
+                return this.getResult();
+            }
             this.validateNumericString('id', 'Id format error.');
             return this.getResult();
         }

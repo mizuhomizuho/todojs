@@ -2,6 +2,7 @@ import {ServiceResponse} from "../service/response";
 import {IError} from "../../../../types";
 import {ValidationTodo} from "../validation/todo";
 import {RepositoryTodo} from "../repository/todo";
+import {ServiceAuthenticate} from "../service/authenticate";
 
 export namespace ControllerTodo {
 
@@ -12,7 +13,7 @@ export namespace ControllerTodo {
             const serviceResponse = new ServiceResponse.Main();
             const validation = new ValidationTodo.Main();
 
-            const resultValidation = validation.validateItem();
+            const resultValidation = await validation.validateItem();
             if (!resultValidation.success) {
                 serviceResponse.sendError(resultValidation.data as IError[]);
                 return;
@@ -29,12 +30,16 @@ export namespace ControllerTodo {
             serviceResponse.sendError([{message: 'Error'}]);
         }
 
+        public async edit() {
+
+        }
+
         public async get() {
 
             const serviceResponse = new ServiceResponse.Main();
             const validation = new ValidationTodo.Main();
 
-            const resultValidation = validation.validateId();
+            const resultValidation = await validation.validateId();
             if (!resultValidation.success) {
                 serviceResponse.sendError(resultValidation.data as IError[]);
                 return;

@@ -1,6 +1,7 @@
 import {IError, IResult} from "../../../../types";
 import {App} from "../app";
 import {ServiceResponse} from "../service/response";
+import {ServiceAuthenticate} from "../service/authenticate";
 
 export namespace ValidationBase {
 
@@ -23,6 +24,15 @@ export namespace ValidationBase {
 
         protected set errors(value: IError[]) {
             this._errors = value;
+        }
+
+        protected async validateAuth() {
+            const serviceAuthenticate = new ServiceAuthenticate.Main();
+            if (!await serviceAuthenticate.isAuth()) {
+                this.errors.push({message: 'Authenticate failed.'});
+                return false;
+            }
+            return true;
         }
 
         protected validateString(field: string, message: string) {

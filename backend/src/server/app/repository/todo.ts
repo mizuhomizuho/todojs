@@ -51,7 +51,7 @@ export namespace RepositoryTodo {
 
         public async get(): Promise<IResult<{ item: ITodoItem } | undefined>> {
 
-            const id = App.context.req.body.id;
+            const id = +App.context.req.body.id;
 
             const prisma = new PrismaClient();
 

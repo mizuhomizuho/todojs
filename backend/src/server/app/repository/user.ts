@@ -25,7 +25,7 @@ export namespace RepositoryUser {
                         password: hash,
                     },
                 });
-                const payload = {username: newItem.username};
+                const payload = {id: newItem.id.toString()};
                 const serviceAuthenticate = new ServiceAuthenticate.Main();
                 return {
                     success: true,

@@ -16,9 +16,7 @@ export async function api(route: string, params: IStringObject): Promise<{data: 
 
     try {
         const userJWT = await AsyncStorage.getItem(STORAGE_USER_JWT);
-
-        // console.log('route:', route);
-
+        console.log('axios route:', route);
         const response = await axiosInstance.post(
             'http://localhost:881/' + route, {...params, userJWT}
         );

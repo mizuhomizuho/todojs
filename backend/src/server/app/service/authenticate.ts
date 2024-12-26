@@ -1,7 +1,7 @@
 import jwt, {JwtPayload} from 'jsonwebtoken';
 import {PrismaClient} from "@prisma/client";
 import {App} from "../app";
-import {IError, IResult, IAuthenticate} from "../../../../types";
+import {IAuthenticate, IError, IResult} from "../../../../types";
 import bcrypt from "bcryptjs";
 import {ServiceResponse} from "./response";
 
@@ -21,6 +21,7 @@ export namespace ServiceAuthenticate {
                     username: username,
                 },
                 select: {
+                    id: true,
                     password: true,
                 },
             });
@@ -43,13 +44,12 @@ export namespace ServiceAuthenticate {
                 return serviceResponse.getResult([error]);
             }
 
-            const payload = {username};
+            const payload = {id: user.id};
             const serviceAuthenticate = new ServiceAuthenticate.Main();
             return serviceResponse.getResult([], {
                 payload,
                 token: await serviceAuthenticate.generateToken(payload),
             });
-            // as IResult<IAuthenticate>
         }
 
         public async generateToken(payload: {}): Promise<string> {
@@ -61,7 +61,32 @@ export namespace ServiceAuthenticate {
             });
         }
 
-        private async verifyToken(token: string): Promise<JwtPayload | false> {
+        public async isAuth(): Promise<false | string> {
+            if (typeof App.context.req.body.userJWT !== 'string') {
+                return false;
+            }
+            let userJWTDecode: IAuthenticate | null = null;
+            try {
+                userJWTDecode = JSON.parse(App.context.req.body.userJWT);
+            } catch (e) {
+            }
+            if (
+                !userJWTDecode
+                || !(
+                    typeof userJWTDecode?.payload?.id === 'string'
+                    && typeof userJWTDecode?.token === 'string'
+                )
+            ) {
+                return false;
+            }
+            const decodedToken = await this.decodeToken(userJWTDecode.token);
+            if (decodedToken === false || decodedToken.id !== userJWTDecode.payload.id) {
+                return false;
+            }
+            return decodedToken.id;
+        }
+
+        private async decodeToken(token: string): Promise<JwtPayload | false> {
             return new Promise((resolve, reject) => {
                 jwt.verify(token, process.env.JWT_SECRET!, (err, decoded) => {
                     if (err) reject(err);
