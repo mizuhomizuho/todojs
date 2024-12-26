@@ -24,6 +24,45 @@ export namespace ControllerTodo {
             serviceResponse.sendSuccess(resultCreate.data as unknown as IStringObjectTree);
         }
 
+        public async delete() {
+
+            const serviceResponse = new ServiceResponse.Main();
+            const validation = new ValidationTodo.Main();
+
+            const resultValidation = await validation.validateControllerDelete();
+            if (!resultValidation.success) {
+                serviceResponse.sendError(resultValidation.data as IError[]);
+                return;
+            }
+
+            const repository = new RepositoryTodo.Main();
+            const result = await repository.delete();
+
+            if (!result.success) {
+                serviceResponse.sendError(result.data as IError[]);
+                return;
+            }
+
+            serviceResponse.sendSuccess(result.data as unknown as IStringObjectTree);
+        }
+
+        public async list() {
+
+            const serviceResponse = new ServiceResponse.Main();
+            const validation = new ValidationTodo.Main();
+
+            const resultValidation = await validation.validateControllerList();
+            if (!resultValidation.success) {
+                serviceResponse.sendError(resultValidation.data as IError[]);
+                return;
+            }
+
+            const repository = new RepositoryTodo.Main();
+            const result = await repository.list();
+
+            serviceResponse.sendSuccess(result.data as unknown as IStringObjectTree);
+        }
+
         public async edit() {
 
             const serviceResponse = new ServiceResponse.Main();

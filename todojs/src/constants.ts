@@ -10,6 +10,7 @@ export const STORAGE_NAVIGATION_ID = 'navigationCurrentPageId';
 export const STORAGE_USER_JWT = 'authenticateUserJWT-v3';
 export const STORAGE_TODO_ITEM_FORM_EDIT_PREFIX = 'todoItemFormEditStorage-v15';
 export const STORAGE_TODO_ITEM_FORM_ADD = 'todoItemFormAddStorage';
+export const STORAGE_TODO_LIST = 'todoListStorage';
 
 export const DEADLINE_DAYJS_FORMAT = 'YYYY-MM-DD HH:mm';
 

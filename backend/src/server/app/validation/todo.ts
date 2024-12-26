@@ -12,6 +12,15 @@ export namespace ValidationTodo {
             super();
         }
 
+        public async validateControllerDelete() {
+            this.errors = [];
+            if (!await this.validateAuth()) {
+                return this.getResult();
+            }
+            this.validateNumericString('id', 'Id format error.');
+            return this.getResult();
+        }
+
         public async validateControllerEdit() {
             this.errors = [];
             if (!await this.validateAuth()) {
@@ -19,6 +28,14 @@ export namespace ValidationTodo {
             }
             this.validateNumericString('id', 'Id format error.');
             this.validateFields();
+            return this.getResult();
+        }
+
+        public async validateControllerList() {
+            this.errors = [];
+            if (!await this.validateAuth()) {
+                return this.getResult();
+            }
             return this.getResult();
         }
 

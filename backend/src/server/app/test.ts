@@ -1,40 +1,15 @@
-
-
-import {Prisma, PrismaClient} from "@prisma/client";
-import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc";
-import {ITodoItem} from "../../../types";
-import timezone from 'dayjs/plugin/timezone';
+import {PrismaClient} from "@prisma/client";
+import {App} from "./app";
 
 async function test() {
 
-    try {
-        const prisma = new PrismaClient();
-        const updatedPost = await prisma.todo.update({
-            where: { id: 1 },
-            data: {
-                title: '223',
-            },
-        });
+    const prisma = new PrismaClient();
 
-        console.log(updatedPost);
+    const items = await prisma.todo.delete({
+        where: {id: 1}
+    });
 
-        return {
-            success: true,
-            data: updatedPost,
-        };
-    } catch (error) {
-        if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2025') {
-            return {
-                success: false,
-                data: [{message: 'Record to update not found.'}],
-            };
-        }
-        return {
-            success: false,
-            data: [{message: 'Cant update.'}],
-        };
-    }
+    return items;
 }
 
 async function test2() {
@@ -42,39 +17,8 @@ async function test2() {
     console.log(await test());
 }
 
-function convertDataFromServer(item: ITodoItem) {
-    dayjs.extend(utc);
-    const localUnixTime = +item.deadline + dayjs().utcOffset() * 60;
-    // item.deadline = dayjs(localUnixTime * 1000).format(DEADLINE_DAYJS_FORMAT);
-    return item;
-}
 
-dayjs.extend(utc);
-dayjs.extend(timezone);
-
-const fakeUtc = dayjs().unix() - 3600;
-
-const currentTimezone = dayjs.tz.guess();
-console.log(`Current timezone: ${currentTimezone}`);
-
-console.log(
-    dayjs().format(),
-    dayjs(fakeUtc * 1000).format(),
-    dayjs.tz(fakeUtc * 1000, dayjs.tz.guess()).format(),
-    dayjs.tz(fakeUtc * 1000, 'UTC').format(),
-);
-
-
-
-
-
-
-
-
-
-
-
-
+console.log(test2());
 
 
 // import {TodojsControllerUser} from "../controller/user";

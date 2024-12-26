@@ -1,46 +1,31 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import TodoItem from "./TodoItem";
 import BaseFlatList from "../../bases/BaseFlatList";
 import {useAppContext} from "../../../functions/app";
-import {debug} from "../../../functions/debug";
 import {ITodoItem} from "../../../../../backend/types";
+import {deleteItem, editItem, useTodoList} from "../../../functions/todo/todoList";
 
 const TodoList = () => {
 
     const appContext = useAppContext();
+    const {tidoItems, setTidoItems} = useTodoList(appContext);
 
-    const [tidoItems, setTidoItems] = useState<ITodoItem[]>([]);
-
-    async function init() {
-        appContext.load.setPreloader(true);
-        await new Promise<void>((resolve) => {
-            setTimeout(() => {
-                const data: ITodoItem[] = [];
-                for (let i = 0; i < 8; i++) {
-                    data.push({id: '' + i, name: 'Item ' + i})
-                }
-                setTidoItems(data);
-                resolve();
-            }, 15);
-        });
-        appContext.load.setPreloader(false);
+    function edit(itemId: string) {
+        editItem(appContext, itemId);
     }
 
-    useEffect(() => {
-        debug(appContext, {
-            'TodoList_mount': 1,
-        });
-        init();
-        return () => {
-            debug(appContext, {
-                'TodoList_unmount': 1,
-            });
-        };
-    }, []);
+    async function del(itemId: string) {
+        await deleteItem(appContext, itemId, tidoItems, setTidoItems);
+    }
 
-    const renderItem = ({item}: { item: ITodoItem }) => (
-        <TodoItem title={item.name} itemId={item.id}/>
-    );
+    const renderItem = (
+        {item}: { item: ITodoItem }
+    ) => <TodoItem
+        title={item.title}
+        itemId={item.id}
+        onEventEdit={() => edit(item.id)}
+        onEventDelete={() => del(item.id)}
+    />;
 
     return <BaseFlatList
         data={tidoItems}

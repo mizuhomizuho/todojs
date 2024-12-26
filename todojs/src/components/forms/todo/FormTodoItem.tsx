@@ -6,16 +6,12 @@ import BaseDateTimePicker from "../../bases/BaseDateTimePicker";
 import BaseText from "../../bases/BaseText";
 import {BaseSelect} from "../../bases/BaseSelect";
 import {DEADLINE_DAYJS_FORMAT, STATUS_ITEMS} from "../../../constants";
-import {
-    handleTodoItemForm,
-    setValue,
-    useTodoItemForm
-} from "../../../functions/todo/todoItemForm";
+import {handleTodoItemForm, setValue, useTodoItemForm} from "../../../functions/todo/todoItemForm";
 import dayjs from "dayjs";
 import React from "react";
 import {useAppContext} from "../../../functions/app";
-import ScrollView = Animated.ScrollView;
 import {getUserId} from "../../../functions/authenticate/authenticate";
+import ScrollView = Animated.ScrollView;
 
 interface FormTodoItemProps {
     editId: string | null;
@@ -56,7 +52,7 @@ const FormTodoItem = (props: FormTodoItemProps) => {
 
     let idStyles = styles.id;
     if (!props.editId) {
-        idStyles = {...idStyles, ...{display: 'none'}};
+        idStyles = {...idStyles, display: 'none'};
     }
 
     return <ScrollView>

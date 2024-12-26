@@ -1,18 +1,21 @@
 import {useEffect, useState} from "react";
-import {
-    DEADLINE_DAYJS_FORMAT,
-    PAGE_EDIT,
-    STATUS_ITEMS,
-    STORAGE_TODO_ITEM_FORM_ADD,
-    STORAGE_TODO_ITEM_FORM_EDIT_PREFIX
-} from "../../constants";
+import {DEADLINE_DAYJS_FORMAT, PAGE_EDIT, STATUS_ITEMS} from "../../constants";
 import dayjs from "dayjs";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {IAppContext, ICommonObject, IFieldValue, IFormParams, ITodoItem, ITodoItemNew} from "../../../../backend/types";
+import {
+    IAppContext,
+    ICommonObject,
+    IFieldValue,
+    IFormParams, IStringObject,
+    IStringObjectTree,
+    ITodoItem,
+    ITodoItemNew
+} from "../../../../backend/types";
 import {query} from "../app";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import {getPage} from "../navigation";
+import {getFormParams, getStoragePrefix} from "./todo";
 
 let loadedData: ITodoItem | false | null = null;
 let isLoadStarted = false;
@@ -24,52 +27,17 @@ export function setValue(value: string, isMount: boolean = false) {
 
 export function useTodoItemForm(appContext: IAppContext, editId: string | null) {
 
-    const defaultValues: IFieldValue = {isMount: true, value: ''};
-
-    const [title, setTitle] = useState(defaultValues);
-    const [description, setDescription] = useState(defaultValues);
-    const [status, setStatus] = useState(defaultValues);
-    const [comments, setComments] = useState(defaultValues);
-    const [deadline, setDeadline] = useState(defaultValues);
-
-    formParams = [
-        {
-            variableName: 'title',
-            variable: title,
-            setFunctionName: 'setTitle',
-            setFunction: setTitle,
-            defaultValue: '',
-            defaultValue2: 'title1',
-        }, {
-            variableName: 'description',
-            variable: description,
-            setFunctionName: 'setDescription',
-            setFunction: setDescription,
-            defaultValue: '',
-            defaultValue2: 'description1',
-        }, {
-            variableName: 'status',
-            variable: status,
-            setFunctionName: 'setStatus',
-            setFunction: setStatus,
-            defaultValue: STATUS_ITEMS[0].id,
-            defaultValue2: STATUS_ITEMS[2].id,
-        }, {
-            variableName: 'comments',
-            variable: comments,
-            setFunctionName: 'setComments',
-            setFunction: setComments,
-            defaultValue: '',
-            defaultValue2: 'comments1',
-        }, {
-            variableName: 'deadline',
-            variable: deadline,
-            setFunctionName: 'setDeadline',
-            setFunction: setDeadline,
-            defaultValue: dayjs().add(1, 'hour').format(DEADLINE_DAYJS_FORMAT),
-            defaultValue2: dayjs().add(8, 'hour').format(DEADLINE_DAYJS_FORMAT),
-        }
-    ];
+    const formParamItems: IFormParams[] = [];
+    Object.entries(getFormParams()).forEach(([key, value], i) => {
+        const variable = useState(getDefaultFieldValues());
+        formParamItems.push({
+            ...value,
+            variableName: key,
+            variable: variable[0],
+            setFunction: variable[1],
+        });
+    });
+    formParams = formParamItems;
 
     bindStorage(appContext, editId);
 
@@ -82,28 +50,15 @@ export async function handleTodoItemForm(
     item: ITodoItemNew,
 ) {
 
-    const {
-
-        title,
-        description,
-        status,
-        comments,
-        deadline,
-
-    } = item;
-
-    if (!checkTodoItemForm(title, dayjs(deadline).unix())) {
+    if (!checkTodoItemForm(item.title, dayjs(item.deadline).unix())) {
         return;
     }
 
     dayjs.extend(utc);
 
     let params = {
-        title,
-        description,
-        status,
-        comments,
-        deadline: dayjs(deadline).utc().unix().toString(),
+        ...item,
+        deadline: dayjs(item.deadline).utc().unix().toString(),
     };
 
     if (editId) {
@@ -122,7 +77,7 @@ export async function handleTodoItemForm(
         );
         appContext.todoEditId.value = dataConverted.id;
         appContext.todoEditId.set(appContext.todoEditId.value);
-        formParams.map(async (item, index) => {
+        formParams.map(async (item) => {
             await AsyncStorage.removeItem(getStoragePrefix(null) + item.variableName);
             await AsyncStorage.setItem(
                 getStoragePrefix(dataConverted.id) + item.variableName,
@@ -132,6 +87,10 @@ export async function handleTodoItemForm(
         appContext.nav.setCurrentPage(getPage(PAGE_EDIT));
     }
     appContext.load.setPreloader(false);
+}
+
+function getDefaultFieldValues(): IFieldValue {
+    return {isMount: true, value: ''};
 }
 
 function convertDataFromServer(item: ITodoItem) {
@@ -162,12 +121,6 @@ async function loadData(appContext: IAppContext, editId: string): Promise<false 
     }
     appContext.load.setPreloader(false);
     return !loadedData ? false : loadedData;
-}
-
-function getStoragePrefix(editId: string | null) {
-    return editId
-        ? `${STORAGE_TODO_ITEM_FORM_EDIT_PREFIX}-${editId}-`
-        : `${STORAGE_TODO_ITEM_FORM_ADD}-`;
 }
 
 function bindStorage(appContext: IAppContext, editId: string | null) {
