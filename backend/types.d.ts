@@ -1,5 +1,12 @@
+import {Request, Response} from "express";
+import {PrismaClient} from "@prisma/client";
+
 export interface IBackendContext {
-    context: ICommonObject,
+    context: {
+        req: Request,
+        res: Response,
+        prisma: PrismaClient,
+    },
 }
 
 export interface ICommonObject {
@@ -35,15 +42,16 @@ export interface IItem {
     id: string,
 }
 
-export interface ITodoItem extends IItem, INewTodoItem {
+export interface ITodoItem extends IItem, ITodoItemNew {
 }
 
-export interface INewTodoItem {
+export interface ITodoItemNew {
     title: string,
     description: string,
     comments: string,
     status: string,
     deadline: string,
+    userId: string,
 }
 
 export interface IItemStatus extends IItem {

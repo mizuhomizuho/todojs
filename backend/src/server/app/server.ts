@@ -1,8 +1,7 @@
-import express, {Request, Response} from 'express';
+import express, {Request, Response} from "express";
 import {ControllerUser} from "./controller/user";
-import {ServiceContext} from "./service/context";
-import {App} from "./app";
 import {ControllerTodo} from "./controller/todo";
+import {ServiceRouter} from "./service/router";
 
 const app = express();
 const cors = require('cors');
@@ -16,44 +15,49 @@ app.get('', (req: Request, res: Response) => {
     res.send('Hello!');
 });
 
-app.post('/api/user/authenticate', async (req: Request, res: Response) => {
-    App.context = new ServiceContext.Main(req, res);
-    const controller = new ControllerUser.Main();
-    await controller.authenticate();
-});
-
-app.post('/api/user/register', async (req: Request, res: Response) => {
-    App.context = new ServiceContext.Main(req, res);
-    const controller = new ControllerUser.Main();
-    await controller.register();
-});
-
-app.post('/api/todo/add', async (req: Request, res: Response) => {
-    App.context = new ServiceContext.Main(req, res);
-    const controller = new ControllerTodo.Main();
-    await controller.add();
-});
-
-app.post('/api/todo/edit', (req: Request, res: Response) => {
-    App.context = new ServiceContext.Main(req, res);
-    const controller = new ControllerTodo.Main();
-    await controller.edit();
-});
-
-app.post('/api/todo/get', async (req: Request, res: Response) => {
-    App.context = new ServiceContext.Main(req, res);
-    const controller = new ControllerTodo.Main();
-    await controller.get();
-});
-
-app.post('/api/todo/list', (req: Request, res: Response) => {
-    res.send('list');
-});
-
-app.post('/api/todo/delete', (req: Request, res: Response) => {
-    res.send('delete');
-});
-
 app.listen(port, () => {
     console.log(`Server is running at http://localhost:${port}`);
 });
+
+[
+    {
+        route: '/api/user/authenticate',
+        controller: ControllerUser.Main,
+        method: 'authenticate',
+    },
+    {
+        route: '/api/user/register',
+        controller: ControllerUser.Main,
+        method: 'register',
+    },
+    {
+        route: '/api/todo/add',
+        controller: ControllerTodo.Main,
+        method: 'add',
+    },
+    {
+        route: '/api/todo/edit',
+        controller: ControllerTodo.Main,
+        method: 'edit',
+    },
+    {
+        route: '/api/todo/get',
+        controller: ControllerTodo.Main,
+        method: 'get',
+    },
+    {
+        route: '/api/todo/list',
+        controller: ControllerTodo.Main,
+        method: 'list',
+    },
+    {
+        route: '/api/todo/delete',
+        controller: ControllerTodo.Main,
+        method: 'delete',
+    },
+]
+    .forEach((item) => {
+        app.post(item.route, async (req: Request, res: Response) => {
+            ServiceRouter.Main.init(item.controller, item.method, req, res);
+        });
+    });

@@ -1,5 +1,4 @@
 import jwt, {JwtPayload} from 'jsonwebtoken';
-import {PrismaClient} from "@prisma/client";
 import {App} from "../app";
 import {IAuthenticate, IError, IResult} from "../../../../types";
 import bcrypt from "bcryptjs";
@@ -11,7 +10,7 @@ export namespace ServiceAuthenticate {
 
         public async verifyAuthenticate(): Promise<IResult<IError[] | IAuthenticate>> {
 
-            const prisma = new PrismaClient();
+            const prisma = App.context.prisma;
 
             const username = App.context.req.body.username.trim();
             const password: string = App.context.req.body.password.trim();
@@ -61,7 +60,7 @@ export namespace ServiceAuthenticate {
             });
         }
 
-        public async isAuth(): Promise<false | string> {
+        public async isAuth(): Promise<boolean> {
             if (typeof App.context.req.body.userJWT !== 'string') {
                 return false;
             }
@@ -83,7 +82,7 @@ export namespace ServiceAuthenticate {
             if (decodedToken === false || decodedToken.id !== userJWTDecode.payload.id) {
                 return false;
             }
-            return decodedToken.id;
+            return true;
         }
 
         private async decodeToken(token: string): Promise<JwtPayload | false> {

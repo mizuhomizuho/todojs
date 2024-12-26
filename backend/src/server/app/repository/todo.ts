@@ -1,5 +1,5 @@
 import {PrismaClient, Todo} from '@prisma/client';
-import {IError, IStringObject, IResult, ITodoItem} from "../../../../types";
+import {IError, IStringObject, IResult, ITodoItem, IStringObjectTree} from "../../../../types";
 import {App} from "../app";
 
 export namespace RepositoryTodo {
@@ -20,7 +20,9 @@ export namespace RepositoryTodo {
             const status = App.context.req.body.status.trim();
             const deadline = App.context.req.body.deadline.trim();
 
-            const prisma = new PrismaClient();
+            const userJWTDecode = JSON.parse(App.context.req.body.userJWT);
+
+            const prisma = App.context.prisma;
 
             const newItem = await prisma.todo.create({
                 data: {
@@ -29,6 +31,7 @@ export namespace RepositoryTodo {
                     comments,
                     status,
                     deadline: new Date(+deadline * 1000),
+                    userId: +userJWTDecode.payload.id,
                 },
             });
             return {
@@ -45,19 +48,32 @@ export namespace RepositoryTodo {
                 ...{
                     id: item.id.toString(),
                     deadline: Math.floor(item.deadline.getTime() / 1000).toString(),
+                    userId: item.userId.toString(),
                 }
             };
+        }
+
+        public async update(): Promise<boolean> {
+
+            const id = +App.context.req.body.id;
+
+            const prisma = App.context.prisma;
+
+            return false;
         }
 
         public async get(): Promise<IResult<{ item: ITodoItem } | undefined>> {
 
             const id = +App.context.req.body.id;
 
-            const prisma = new PrismaClient();
+            const prisma = App.context.prisma;
+
+            const userJWTDecode = JSON.parse(App.context.req.body.userJWT);
 
             const item = await prisma.todo.findUnique({
                 where: {
                     id,
+                    userId: +userJWTDecode.payload.id,
                 },
             });
 

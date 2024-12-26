@@ -1,4 +1,5 @@
 import {Request, Response} from 'express';
+import {PrismaClient} from "@prisma/client";
 
 export namespace ServiceContext {
 
@@ -6,10 +7,21 @@ export namespace ServiceContext {
 
         private _req: Request;
         private _res: Response;
+        private _prisma: PrismaClient
 
-        constructor(req: Request, res: Response) {
+        constructor(req: Request, res: Response, prisma: PrismaClient) {
             this._req = req;
             this._res = res;
+            this._prisma = prisma;
+
+        }
+
+        public get prisma(): PrismaClient {
+            return this._prisma;
+        }
+
+        public set prisma(value: PrismaClient) {
+            this._prisma = value;
         }
 
         public get req(): Request {

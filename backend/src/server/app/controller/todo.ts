@@ -40,13 +40,13 @@ export namespace ControllerTodo {
                 return;
             }
 
-            const repository = new RepositoryTodo.Main();
-            const result = await repository.edit();
-
-            if (typeof result.data?.item !== 'undefined') {
-                serviceResponse.sendSuccess();
-                return;
-            }
+            // const repository = new RepositoryTodo.Main();
+            // const result = await repository.edit();
+            //
+            // if (typeof result.data?.item !== 'undefined') {
+            //     serviceResponse.sendSuccess();
+            //     return;
+            // }
 
             serviceResponse.sendNotFound();
         }

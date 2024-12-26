@@ -14,10 +14,9 @@ export namespace RepositoryUser {
                 const password = App.context.req.body.password.trim();
 
                 const salt = await bcrypt.genSalt(8);
-
                 const hash = await bcrypt.hash(password, salt);
 
-                const prisma = new PrismaClient();
+                const prisma = App.context.prisma;
 
                 const newItem = await prisma.user.create({
                     data: {

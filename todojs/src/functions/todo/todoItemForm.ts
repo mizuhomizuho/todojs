@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import {DEADLINE_DAYJS_FORMAT, PAGE_EDIT, STATUS_ITEMS, STORAGE_TODO_ITEM_FORM_PREFIX} from "../../constants";
 import dayjs from "dayjs";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {IAppContext, ICommonObject, IFieldValue, IFormParams, INewTodoItem, ITodoItem} from "../../../../backend/types";
+import {IAppContext, ICommonObject, IFieldValue, IFormParams, ITodoItemNew, ITodoItem} from "../../../../backend/types";
 import {query} from "../app";
 import utc from "dayjs/plugin/utc";
 import {getPage} from "../navigation";
@@ -63,11 +63,6 @@ export function useTodoItemForm(appContext: IAppContext, editId: string | null) 
         }
     ];
 
-    // dayjs.extend(utc);
-    // const unixTimestamp = new Date().getTime() - 3600 * 1000;
-    // const utcDateTime = dayjs.utc(unixTimestamp).utc();
-    // console.log(new Date(), utcDateTime.format(),  dayjs(new Date().getTime()));
-
     bindStorage(appContext, formParams, storagePrefix, editId);
 
     return getReturnUseTodoItemForm(formParams);
@@ -76,7 +71,7 @@ export function useTodoItemForm(appContext: IAppContext, editId: string | null) 
 export async function handleTodoItemForm(
     appContext: IAppContext,
     editId: string | null,
-    item: INewTodoItem,
+    item: ITodoItemNew,
 ) {
 
     const {
@@ -139,7 +134,6 @@ function bindStorage(
             return new Promise((resolve) => {
                 const interval = setInterval(() => {
                     if (loadedData !== null) {
-                        console.log(666);
                         clearInterval(interval);
                         resolve(loadedData);
                     }
@@ -169,13 +163,10 @@ function bindStorage(
                     let storageValue = await AsyncStorage.getItem(storagePrefix + item.variableName);
                     if (storageValue === null && editId) {
                         if (loadedData === null) {
-                            console.log(loadedData, 444);
                             loadedData = await loadData(editId);
-                            console.log(loadedData, 555);
                         }
                         if (loadedData && typeof loadedData[item.variableName as keyof ITodoItem] !== 'undefined') {
                             storageValue = loadedData[item.variableName as keyof ITodoItem];
-                            console.log(storageValue, 111);
                         }
                     }
                     const setFunction = item.setFunction as Function;
@@ -200,9 +191,6 @@ function checkAuthenticateForm(
     if (!title.trim()) {
         errors.push('Title cannot be empty.');
     }
-
-    console.log(+deadline, dayjs().unix());
-
     if (deadline < dayjs().unix()) {
         errors.push('You cannot create tasks for past time.');
     }
