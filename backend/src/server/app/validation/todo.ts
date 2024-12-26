@@ -12,20 +12,34 @@ export namespace ValidationTodo {
             super();
         }
 
-        public async validateItem() {
+        public async validateControllerEdit() {
             this.errors = [];
             if (!await this.validateAuth()) {
                 return this.getResult();
             }
+            this.validateNumericString('id', 'Id format error.');
+            this.validateFields();
+            return this.getResult();
+        }
+
+        public async validateControllerAdd() {
+            this.errors = [];
+            if (!await this.validateAuth()) {
+                return this.getResult();
+            }
+            this.validateFields();
+            return this.getResult();
+        }
+
+        private async validateFields() {
             this.validateNoEmptyString('title', 'Title cannot be empty.');
             this.validateString('description', 'Description format error.');
             this.validateString('comments', 'Comments format error.');
             this.validateStatus();
             this.validateDeadline();
-            return this.getResult();
         }
 
-        public async validateId() {
+        public async validateControllerGet() {
             this.errors = [];
             if (!await this.validateAuth()) {
                 return this.getResult();

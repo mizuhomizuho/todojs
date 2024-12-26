@@ -12,7 +12,7 @@ export namespace ValidationUser {
             super();
         }
 
-        public validateRegister() {
+        public validateControllerRegister() {
             this.errors = [];
             this.validateNoEmptyString('username', this.ERROR_USERNAME);
             this.validateNoEmptyString('password', this.ERROR_PASSWORD);
@@ -20,7 +20,7 @@ export namespace ValidationUser {
             return this.getResult();
         }
 
-        public validateAuthenticate() {
+        public validateControllerAuthenticate() {
             this.errors = [];
             this.validateNoEmptyString('username', this.ERROR_USERNAME);
             this.validateNoEmptyString('password', this.ERROR_PASSWORD);

@@ -13,7 +13,7 @@ export namespace ControllerUser {
             const serviceResponse = new ServiceResponse.Main();
             const validation = new ValidationUser.Main();
 
-            const resultValidation = validation.validateRegister();
+            const resultValidation = validation.validateControllerRegister();
             if (!resultValidation.success) {
                 serviceResponse.sendError(resultValidation.data as IError[]);
                 return;
@@ -34,7 +34,7 @@ export namespace ControllerUser {
             const serviceResponse = new ServiceResponse.Main();
             const validation = new ValidationUser.Main();
 
-            const resultValidation = validation.validateAuthenticate();
+            const resultValidation = validation.validateControllerAuthenticate();
             if (!resultValidation.success) {
                 serviceResponse.sendError(resultValidation.data as IError[]);
                 return;

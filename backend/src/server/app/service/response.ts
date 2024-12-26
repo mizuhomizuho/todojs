@@ -13,7 +13,7 @@ export namespace ServiceResponse {
             });
         }
 
-        public sendSuccess(data: IStringObjectTree) {
+        public sendSuccess(data: IStringObjectTree | undefined = undefined) {
             App.context.res.status(200).send({
                 'status': 'success',
                 'message': 'Successfully',
