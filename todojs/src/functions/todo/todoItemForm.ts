@@ -1,11 +1,21 @@
 import {useEffect, useState} from "react";
-import {DEADLINE_DAYJS_FORMAT, PAGE_EDIT, STATUS_ITEMS, STORAGE_TODO_ITEM_FORM_PREFIX} from "../../constants";
+import {
+    DEADLINE_DAYJS_FORMAT,
+    PAGE_EDIT,
+    STATUS_ITEMS,
+    STORAGE_TODO_ITEM_FORM_ADD,
+    STORAGE_TODO_ITEM_FORM_EDIT_PREFIX
+} from "../../constants";
 import dayjs from "dayjs";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {IAppContext, ICommonObject, IFieldValue, IFormParams, ITodoItemNew, ITodoItem} from "../../../../backend/types";
+import {IAppContext, ICommonObject, IFieldValue, IFormParams, ITodoItem, ITodoItemNew} from "../../../../backend/types";
 import {query} from "../app";
 import utc from "dayjs/plugin/utc";
 import {getPage} from "../navigation";
+
+let loadedData: ITodoItem | false | null = null;
+let isLoadStarted = false;
+let formParams: IFormParams[] = [];
 
 export function setValue(value: string, isMount: boolean = false) {
     return {isMount: isMount, value: value};
@@ -13,10 +23,7 @@ export function setValue(value: string, isMount: boolean = false) {
 
 export function useTodoItemForm(appContext: IAppContext, editId: string | null) {
 
-    const storageId = editId ? 'editStorage-' + editId : 'addStorage';
-
     const defaultValues: IFieldValue = {isMount: true, value: ''};
-    const storagePrefix = getStoragePrefix(storageId);
 
     const [title, setTitle] = useState(defaultValues);
     const [description, setDescription] = useState(defaultValues);
@@ -24,7 +31,7 @@ export function useTodoItemForm(appContext: IAppContext, editId: string | null) 
     const [comments, setComments] = useState(defaultValues);
     const [deadline, setDeadline] = useState(defaultValues);
 
-    const formParams: IFormParams[] = [
+    formParams = [
         {
             variableName: 'title',
             variable: title,
@@ -63,9 +70,9 @@ export function useTodoItemForm(appContext: IAppContext, editId: string | null) 
         }
     ];
 
-    bindStorage(appContext, formParams, storagePrefix, editId);
+    bindStorage(appContext, editId);
 
-    return getReturnUseTodoItemForm(formParams);
+    return getReturnUseTodoItemForm();
 }
 
 export async function handleTodoItemForm(
@@ -88,8 +95,6 @@ export async function handleTodoItemForm(
         return;
     }
 
-    appContext.load.setPreloader(true);
-
     dayjs.extend(utc);
 
     let params = {
@@ -104,56 +109,72 @@ export async function handleTodoItemForm(
         params = {...params, ...{id: editId}};
     }
 
-    const result = await query(appContext, `api/todo/${editId ? 'edit' : 'add'}`, params);
-
-    let good = false;
+    appContext.load.setPreloader(true);
+    const result = await query(
+        appContext,
+        `api/todo/${editId ? 'edit' : 'add'}`,
+        params
+    );
     if (result !== false && typeof result?.data?.newItem === 'object') {
-        appContext.todoEditId.set(result.data.newItem.id);
+        const dataConverted = convertToDataFromServer(
+            {...result.data.newItem} as unknown as ITodoItem
+        );
+        appContext.todoEditId.value = dataConverted.id;
+        appContext.todoEditId.set(appContext.todoEditId.value);
+        formParams.map(async (item, index) => {
+            await AsyncStorage.removeItem(getStoragePrefix(null) + item.variableName);
+            await AsyncStorage.setItem(
+                getStoragePrefix(dataConverted.id) + item.variableName,
+                dataConverted[item.variableName as keyof ITodoItem],
+            );
+        });
         appContext.nav.setCurrentPage(getPage(PAGE_EDIT));
-        good = true;
     }
-    if (!good) {
-        alert('Error');
-    }
-
     appContext.load.setPreloader(false);
+}
+
+function convertToDataFromServer(item: ITodoItem) {
+    dayjs.extend(utc);
+    const localUnixTime = +item.deadline + dayjs().utcOffset() * 60;
+    item.deadline = dayjs(localUnixTime * 1000).format(DEADLINE_DAYJS_FORMAT);
+    return item;
+}
+
+async function loadData(appContext: IAppContext, editId: string): Promise<false | ITodoItem> {
+    if (isLoadStarted) {
+        return new Promise((resolve) => {
+            const interval = setInterval(() => {
+                if (loadedData !== null) {
+                    clearInterval(interval);
+                    resolve(loadedData);
+                }
+            }, 100);
+        });
+    }
+    isLoadStarted = true;
+    appContext.load.setPreloader(true);
+    const result = await query(appContext, 'api/todo/get', {
+        id: editId,
+    });
+    if (result !== false && typeof result?.data?.item === 'object') {
+        loadedData = convertToDataFromServer({...result.data.item} as unknown as ITodoItem);
+    }
+    appContext.load.setPreloader(false);
+    return !loadedData ? false : loadedData;
+}
+
+function getStoragePrefix(editId: string | null) {
+    return editId
+        ? `${STORAGE_TODO_ITEM_FORM_EDIT_PREFIX}-${editId}-`
+        : `${STORAGE_TODO_ITEM_FORM_ADD}-`;
 }
 
 function bindStorage(
     appContext: IAppContext,
-    formParams: IFormParams[],
-    storagePrefix: string,
     editId: string | null
 ) {
 
-    let loadedData: ITodoItem | false | null = null;
-    let isLoadStarted = false;
-
-    async function loadData(editId: string): Promise<false | ITodoItem> {
-        if (isLoadStarted) {
-            return new Promise((resolve) => {
-                const interval = setInterval(() => {
-                    if (loadedData !== null) {
-                        clearInterval(interval);
-                        resolve(loadedData);
-                    }
-                }, 100);
-            });
-        }
-        isLoadStarted = true;
-        appContext.load.setPreloader(true);
-        const result = await query(appContext, 'api/todo/get', {
-            id: editId,
-        });
-        if (result !== false && typeof result?.data?.item === 'object') {
-            loadedData = {...result.data.item} as unknown as ITodoItem;
-            dayjs.extend(utc);
-            const localUnixTime = +loadedData.deadline + dayjs().utcOffset() * 60;
-            loadedData.deadline = dayjs(localUnixTime * 1000).format(DEADLINE_DAYJS_FORMAT);
-        }
-        appContext.load.setPreloader(false);
-        return !loadedData ? false : loadedData;
-    }
+    const storagePrefix = getStoragePrefix(editId);
 
     formParams.forEach((item, index) => {
         useEffect(() => {
@@ -163,7 +184,7 @@ function bindStorage(
                     let storageValue = await AsyncStorage.getItem(storagePrefix + item.variableName);
                     if (storageValue === null && editId) {
                         if (loadedData === null) {
-                            loadedData = await loadData(editId);
+                            loadedData = await loadData(appContext, editId);
                         }
                         if (loadedData && typeof loadedData[item.variableName as keyof ITodoItem] !== 'undefined') {
                             storageValue = loadedData[item.variableName as keyof ITodoItem];
@@ -177,10 +198,6 @@ function bindStorage(
             })();
         }, [item.variable]);
     });
-}
-
-function getStoragePrefix(storageId: string) {
-    return `${STORAGE_TODO_ITEM_FORM_PREFIX}-${storageId}-`;
 }
 
 function checkAuthenticateForm(
@@ -201,7 +218,7 @@ function checkAuthenticateForm(
     return true;
 }
 
-function getReturnUseTodoItemForm(formParams: IFormParams[]) {
+function getReturnUseTodoItemForm() {
     const result: ICommonObject = {};
     formParams.forEach((item) => {
         result[item.variableName as string] = item.variable;

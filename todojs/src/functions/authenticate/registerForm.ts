@@ -1,10 +1,11 @@
 import {useState} from "react";
 import {query} from "../app";
 
-import {IAppContext} from "../../../../backend/types";
+import {IAppContext, IAuthenticate} from "../../../../backend/types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {getCurrentPage, getPage} from "../navigation";
 import {PAGE_ADD, STORAGE_USER_JWT} from "../../constants";
+import {getAuthenticateValue} from "./authenticate";
 
 export function useRegisterForm() {
 
@@ -42,7 +43,8 @@ export async function handleRegisterForm(
     });
 
     if (result !== false && typeof result.data.authenticate !== 'undefined') {
-        appContext.auth.setAuthenticate(true);
+        appContext.auth.setAuthenticate(
+            getAuthenticateValue(result.data.authenticate as unknown as IAuthenticate));
         await AsyncStorage.setItem(STORAGE_USER_JWT, JSON.stringify(result.data.authenticate));
         appContext.nav.setCurrentPage(await getCurrentPage());
         appContext.load.setPreloader(false);

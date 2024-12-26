@@ -9,10 +9,10 @@ export namespace ServiceContext {
         private _res: Response;
         private _prisma: PrismaClient
 
-        constructor(req: Request, res: Response, prisma: PrismaClient) {
+        constructor(req: Request, res: Response) {
             this._req = req;
             this._res = res;
-            this._prisma = prisma;
+            this._prisma = new PrismaClient();
         }
 
         public get prisma(): PrismaClient {

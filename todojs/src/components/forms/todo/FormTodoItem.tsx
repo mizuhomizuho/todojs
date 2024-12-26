@@ -15,6 +15,7 @@ import dayjs from "dayjs";
 import React from "react";
 import {useAppContext} from "../../../functions/app";
 import ScrollView = Animated.ScrollView;
+import {getUserId} from "../../../functions/authenticate/authenticate";
 
 interface FormTodoItemProps {
     editId: string | null;
@@ -48,6 +49,7 @@ const FormTodoItem = (props: FormTodoItemProps) => {
                 status: status.value,
                 comments: comments.value,
                 deadline: deadline.value,
+                userId: getUserId(appContext),
             },
         );
     };

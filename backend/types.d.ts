@@ -62,7 +62,10 @@ export interface INavigationContext {
     setCurrentPage: Function,
 }
 
-export type IAuthenticateItem = boolean | null;
+export type IAuthenticateItem = {
+    id: string,
+    status: boolean,
+} | null;
 
 export interface IAuthenticateContext {
     authenticate: IAuthenticateItem,

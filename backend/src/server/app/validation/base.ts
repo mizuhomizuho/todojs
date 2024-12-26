@@ -29,7 +29,7 @@ export namespace ValidationBase {
         protected async validateAuth() {
             const serviceAuthenticate = new ServiceAuthenticate.Main();
             if (!await serviceAuthenticate.isAuth()) {
-                this.errors.push({message: 'Authenticate failed.'});
+                this.errors.push({message: 'Failed to authenticate.'});
                 return false;
             }
             return true;

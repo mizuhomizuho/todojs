@@ -1,10 +1,11 @@
 import {useState} from "react";
 import {query, useAppContext} from "../app";
 
-import {IAppContext} from "../../../../backend/types";
+import {IAppContext, IAuthenticate} from "../../../../backend/types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {STORAGE_USER_JWT} from "../../constants";
 import {getCurrentPage} from "../navigation";
+import {getAuthenticateValue} from "./authenticate";
 
 export function useAuthenticateForm() {
 
@@ -38,7 +39,8 @@ export async function handleAuthenticateForm(
     });
 
     if (result !== false && typeof result.data.authenticate !== 'undefined') {
-        appContext.auth.authenticate = true;
+        appContext.auth.authenticate = getAuthenticateValue(
+            result.data.authenticate as unknown as IAuthenticate);
         appContext.auth.setAuthenticate(appContext.auth.authenticate);
         await AsyncStorage.setItem(STORAGE_USER_JWT, JSON.stringify(result.data.authenticate));
         appContext.nav.setCurrentPage(await getCurrentPage());
