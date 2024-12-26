@@ -1,6 +1,9 @@
-import {PrismaClient, Todo} from '@prisma/client';
-import {IError, IStringObject, IResult, ITodoItem, IStringObjectTree} from "../../../../types";
+import {Prisma, Todo} from '@prisma/client';
+import {IAuthenticate, IError, IResult, ITodoItem} from "../../../../types";
 import {App} from "../app";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
 
 export namespace RepositoryTodo {
 
@@ -12,27 +15,36 @@ export namespace RepositoryTodo {
             DONE: 'DONE',
         };
 
+        private getData(id: number) {
+
+            const title: string = App.context.req.body.title.trim();
+            const description: string = App.context.req.body.description.trim();
+            const comments: string = App.context.req.body.comments.trim();
+            const status: string = App.context.req.body.status.trim();
+            const deadline: string = App.context.req.body.deadline.trim();
+
+            const userJWTDecode: IAuthenticate = JSON.parse(App.context.req.body.userJWT);
+
+            dayjs.extend(utc);
+            dayjs.extend(timezone);
+
+            const data: Todo = {
+                id,
+                title,
+                description,
+                comments,
+                status,
+                deadline: new Date(dayjs.tz(+deadline * 1000, 'UTC').format()),
+                userId: +userJWTDecode.payload.id,
+            };
+
+            return data;
+        };
+
         public async create(): Promise<IResult<{ newItem: ITodoItem }>> {
-
-            const title = App.context.req.body.title.trim();
-            const description = App.context.req.body.description.trim();
-            const comments = App.context.req.body.comments.trim();
-            const status = App.context.req.body.status.trim();
-            const deadline = App.context.req.body.deadline.trim();
-
-            const userJWTDecode = JSON.parse(App.context.req.body.userJWT);
-
-            const prisma = App.context.prisma;
-
-            const newItem = await prisma.todo.create({
-                data: {
-                    title,
-                    description,
-                    comments,
-                    status,
-                    deadline: new Date(+deadline * 1000),
-                    userId: +userJWTDecode.payload.id,
-                },
+            const {id, ...data} = this.getData(0);
+            const newItem = await App.context.prisma.todo.create({
+                data: data,
             });
             return {
                 success: true,
@@ -53,36 +65,48 @@ export namespace RepositoryTodo {
             };
         }
 
-        public async update(): Promise<boolean> {
-
-            const id = +App.context.req.body.id;
-
-            const prisma = App.context.prisma;
-
-            return false;
+        public async update(): Promise<IResult<{ item: ITodoItem } | IError[]>> {
+            const data = this.getData(+App.context.req.body.id);
+            try {
+                const item: Todo = await App.context.prisma.todo.update({
+                    where: {id: data.id, userId: data.userId},
+                    data: data,
+                });
+                return {
+                    success: true,
+                    data: {
+                        item: this.convertItemToStringObject(item),
+                    },
+                };
+            } catch (error) {
+                if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2025') {
+                    return {
+                        success: false,
+                        data: [{message: 'Record to update not found.'}],
+                    };
+                }
+            }
+            return {
+                success: false,
+                data: [{message: 'Cant update.'}],
+            };
         }
 
         public async get(): Promise<IResult<{ item: ITodoItem } | undefined>> {
-
             const id = +App.context.req.body.id;
-
             const prisma = App.context.prisma;
-
             const userJWTDecode = JSON.parse(App.context.req.body.userJWT);
-
             const item = await prisma.todo.findUnique({
                 where: {
                     id,
                     userId: +userJWTDecode.payload.id,
                 },
             });
-
             if (!item) {
                 return {
                     success: false,
                 };
             }
-
             return {
                 success: true,
                 data: {

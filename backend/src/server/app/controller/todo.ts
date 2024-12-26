@@ -1,5 +1,5 @@
 import {ServiceResponse} from "../service/response";
-import {IError} from "../../../../types";
+import {IError, IStringObjectTree, ITodoItem} from "../../../../types";
 import {ValidationTodo} from "../validation/todo";
 import {RepositoryTodo} from "../repository/todo";
 
@@ -21,12 +21,7 @@ export namespace ControllerTodo {
             const repository = new RepositoryTodo.Main();
             const resultCreate = await repository.create();
 
-            if (typeof resultCreate.data?.newItem !== 'undefined') {
-                serviceResponse.sendSuccess({newItem: {...resultCreate.data.newItem}});
-                return;
-            }
-
-            serviceResponse.sendError([{message: 'Error'}]);
+            serviceResponse.sendSuccess(resultCreate.data as unknown as IStringObjectTree);
         }
 
         public async edit() {
@@ -40,15 +35,15 @@ export namespace ControllerTodo {
                 return;
             }
 
-            // const repository = new RepositoryTodo.Main();
-            // const result = await repository.edit();
-            //
-            // if (typeof result.data?.item !== 'undefined') {
-            //     serviceResponse.sendSuccess();
-            //     return;
-            // }
+            const repository = new RepositoryTodo.Main();
+            const result = await repository.update();
 
-            serviceResponse.sendNotFound();
+            if (!result.success) {
+                serviceResponse.sendError(result.data as IError[]);
+                return;
+            }
+
+            serviceResponse.sendSuccess(result.data as unknown as IStringObjectTree);
         }
 
         public async get() {
@@ -65,8 +60,8 @@ export namespace ControllerTodo {
             const repository = new RepositoryTodo.Main();
             const result = await repository.get();
 
-            if (typeof result.data?.item !== 'undefined') {
-                serviceResponse.sendSuccess({item: {...result.data.item}});
+            if (result.success) {
+                serviceResponse.sendSuccess(result.data as unknown as IStringObjectTree);
                 return;
             }
 

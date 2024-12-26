@@ -2,6 +2,7 @@
 
 [//]: # (npx create-expo-app@latest --template blank-typescript)
 [//]: # (docker container exec -u root -it todojs_server bash)
+[//]: # (docker run -e TZ=Europe/Moscow todojs_server)
 
 ## Technologies used:
 

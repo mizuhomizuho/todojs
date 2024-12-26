@@ -61,17 +61,14 @@ export namespace ServiceAuthenticate {
         }
 
         public async isAuth(): Promise<boolean> {
-            console.log(11);
             if (typeof App.context.req.body.userJWT !== 'string') {
                 return false;
             }
-            console.log(22);
             let userJWTDecode: IAuthenticate | null = null;
             try {
                 userJWTDecode = JSON.parse(App.context.req.body.userJWT);
             } catch (e) {
             }
-            console.log(333, userJWTDecode);
             if (
                 !userJWTDecode
                 || !(
@@ -81,12 +78,10 @@ export namespace ServiceAuthenticate {
             ) {
                 return false;
             }
-            console.log(444);
             const decodedToken = await this.decodeToken(userJWTDecode.token);
             if (decodedToken === false || decodedToken.id !== userJWTDecode.payload.id) {
                 return false;
             }
-            console.log(555);
             return true;
         }
 

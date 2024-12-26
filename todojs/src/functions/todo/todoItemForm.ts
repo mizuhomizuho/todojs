@@ -11,6 +11,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import {IAppContext, ICommonObject, IFieldValue, IFormParams, ITodoItem, ITodoItemNew} from "../../../../backend/types";
 import {query} from "../app";
 import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
 import {getPage} from "../navigation";
 
 let loadedData: ITodoItem | false | null = null;
@@ -91,7 +92,7 @@ export async function handleTodoItemForm(
 
     } = item;
 
-    if (!checkAuthenticateForm(title, dayjs(deadline).unix())) {
+    if (!checkTodoItemForm(title, dayjs(deadline).unix())) {
         return;
     }
 
@@ -116,7 +117,7 @@ export async function handleTodoItemForm(
         params
     );
     if (result !== false && typeof result?.data?.newItem === 'object') {
-        const dataConverted = convertToDataFromServer(
+        const dataConverted = convertDataFromServer(
             {...result.data.newItem} as unknown as ITodoItem
         );
         appContext.todoEditId.value = dataConverted.id;
@@ -133,10 +134,10 @@ export async function handleTodoItemForm(
     appContext.load.setPreloader(false);
 }
 
-function convertToDataFromServer(item: ITodoItem) {
+function convertDataFromServer(item: ITodoItem) {
     dayjs.extend(utc);
-    const localUnixTime = +item.deadline + dayjs().utcOffset() * 60;
-    item.deadline = dayjs(localUnixTime * 1000).format(DEADLINE_DAYJS_FORMAT);
+    dayjs.extend(timezone);
+    item.deadline = dayjs.tz(+item.deadline * 1000, dayjs.tz.guess()).format(DEADLINE_DAYJS_FORMAT);
     return item;
 }
 
@@ -157,7 +158,7 @@ async function loadData(appContext: IAppContext, editId: string): Promise<false 
         id: editId,
     });
     if (result !== false && typeof result?.data?.item === 'object') {
-        loadedData = convertToDataFromServer({...result.data.item} as unknown as ITodoItem);
+        loadedData = convertDataFromServer({...result.data.item} as unknown as ITodoItem);
     }
     appContext.load.setPreloader(false);
     return !loadedData ? false : loadedData;
@@ -169,10 +170,7 @@ function getStoragePrefix(editId: string | null) {
         : `${STORAGE_TODO_ITEM_FORM_ADD}-`;
 }
 
-function bindStorage(
-    appContext: IAppContext,
-    editId: string | null
-) {
+function bindStorage(appContext: IAppContext, editId: string | null) {
 
     const storagePrefix = getStoragePrefix(editId);
 
@@ -200,10 +198,7 @@ function bindStorage(
     });
 }
 
-function checkAuthenticateForm(
-    title: string,
-    deadline: number,
-) {
+function checkTodoItemForm(title: string, deadline: number) {
     const errors: string[] = [];
     if (!title.trim()) {
         errors.push('Title cannot be empty.');
