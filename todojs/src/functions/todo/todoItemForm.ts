@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import {DEADLINE_DAYJS_FORMAT, PAGE_EDIT, STATUS_ITEMS, STORAGE_TODO_ITEM_FORM_PREFIX} from "../../constants";
 import dayjs from "dayjs";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {IAppContext, IFieldValue, IFormParams, IItemCommon, IStringObject} from "../../../../backend/types";
+import {IAppContext, ICommonObject, IFieldValue, IFormParams, INewTodoItem, ITodoItem} from "../../../../backend/types";
 import {query} from "../app";
 import utc from "dayjs/plugin/utc";
 import {getPage} from "../navigation";
@@ -11,7 +11,9 @@ export function setValue(value: string, isMount: boolean = false) {
     return {isMount: isMount, value: value};
 }
 
-export function useTodoItemForm(appContext: IAppContext, storageId: string, editId: string | null) {
+export function useTodoItemForm(appContext: IAppContext, editId: string | null) {
+
+    const storageId = editId ? 'editStorage-' + editId : 'addStorage';
 
     const defaultValues: IFieldValue = {isMount: true, value: ''};
     const storagePrefix = getStoragePrefix(storageId);
@@ -68,12 +70,19 @@ export function useTodoItemForm(appContext: IAppContext, storageId: string, edit
 
 export async function handleTodoItemForm(
     appContext: IAppContext,
-    title: string,
-    description: string,
-    status: string,
-    comments: string,
-    deadline: string,
+    editId: string | null,
+    item: INewTodoItem,
 ) {
+
+    const {
+
+        title,
+        description,
+        status,
+        comments,
+        deadline,
+
+    } = item;
 
     if (!checkAuthenticateForm(title, dayjs(deadline).unix())) {
         return;
@@ -92,7 +101,7 @@ export async function handleTodoItemForm(
     });
 
     let good = false;
-    if (result !== false && typeof result?.data?.newItem?.id === 'string') {
+    if (result !== false && typeof result?.data?.newItem === 'object') {
         appContext.todoEditId.set(result.data.newItem.id);
         appContext.nav.setCurrentPage(getPage(PAGE_EDIT));
         good = true;
@@ -111,7 +120,7 @@ function bindStorage(
     editId: string | null
 ) {
 
-    let loadedData: IStringObject = {};
+    let loadedData: ITodoItem | null = null;
 
     formParams.forEach((item, index) => {
         useEffect(() => {
@@ -120,18 +129,18 @@ function bindStorage(
                 if (fieldValue.isMount) {
                     let storageValue = await AsyncStorage.getItem(storagePrefix + item.variableName);
                     if (storageValue === null && editId) {
-                        if (!Object.keys(loadedData).length) {
+                        if (loadedData === null) {
                             appContext.load.setPreloader(true);
                             const result = await query(appContext, 'api/todo/get', {
                                 id: editId,
                             });
-                            if (result !== false && typeof result?.data?.item?.id === 'string') {
-                                loadedData = result.data.item;
+                            if (result !== false && typeof result?.data?.item === 'object') {
+                                loadedData = {...result.data.item} as unknown as ITodoItem;
                             }
                             appContext.load.setPreloader(false);
                         }
-                        if (typeof loadedData[item.variableName as string] !== 'undefined') {
-                            storageValue = loadedData[item.variableName as string];
+                        if (loadedData !== null && typeof loadedData[item.variableName as keyof ITodoItem] !== 'undefined') {
+                            storageValue = loadedData[item.variableName as keyof ITodoItem];
                         }
                     }
 
@@ -172,7 +181,7 @@ function checkAuthenticateForm(
 }
 
 function getReturnUseTodoItemForm(formParams: IFormParams[]) {
-    const result: IItemCommon = {};
+    const result: ICommonObject = {};
     formParams.forEach((item) => {
         result[item.variableName as string] = item.variable;
         result[item.setFunctionName as string] = item.setFunction;

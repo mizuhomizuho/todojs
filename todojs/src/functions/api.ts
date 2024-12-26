@@ -1,10 +1,10 @@
 import axios from "axios";
 
-import {IStringObject} from "../../../backend/types";
+import {IStringObject, IStringObjectTree} from "../../../backend/types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {STORAGE_USER_JWT} from "../constants";
 
-export async function api(route: string, params: IStringObject) {
+export async function api(route: string, params: IStringObject): Promise<{data: IStringObjectTree} | false> {
 
     const axiosInstance = axios.create({
         baseURL: 'http://localhost:881',

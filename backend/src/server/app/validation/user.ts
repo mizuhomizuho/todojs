@@ -12,7 +12,7 @@ export namespace ValidationUser {
             super();
         }
 
-        public register() {
+        public validateRegister() {
             this.errors = [];
             this.validateNoEmptyString('username', this.ERROR_USERNAME);
             this.validateNoEmptyString('password', this.ERROR_PASSWORD);
@@ -20,7 +20,7 @@ export namespace ValidationUser {
             return this.getResult();
         }
 
-        public authenticate() {
+        public validateAuthenticate() {
             this.errors = [];
             this.validateNoEmptyString('username', this.ERROR_USERNAME);
             this.validateNoEmptyString('password', this.ERROR_PASSWORD);
@@ -33,7 +33,9 @@ export namespace ValidationUser {
                 || App.context.req.body.password !== App.context.req.body.password2
             ) {
                 this.errors.push({field: 'password2', message: 'Passwords do not match.'});
+                return false;
             }
+            return true;
         }
     }
 }

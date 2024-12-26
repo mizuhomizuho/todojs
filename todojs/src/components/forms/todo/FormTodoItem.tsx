@@ -17,7 +17,6 @@ import {useAppContext} from "../../../functions/app";
 import ScrollView = Animated.ScrollView;
 
 interface FormTodoItemProps {
-    storageId: string;
     editId: string | null;
 }
 
@@ -36,17 +35,20 @@ const FormTodoItem = (props: FormTodoItemProps) => {
         setComments,
         deadline,
         setDeadline,
-    } = useTodoItemForm(appContext, props.storageId, props.editId);
+    } = useTodoItemForm(appContext, props.editId);
 
     const handleSubmit = async () => {
 
         await handleTodoItemForm(
             appContext,
-            title.value,
-            description.value,
-            status.value,
-            comments.value,
-            deadline.value,
+            props.editId,
+            {
+                title: title.value,
+                description: description.value,
+                status: status.value,
+                comments: comments.value,
+                deadline: deadline.value,
+            },
         );
     };
 

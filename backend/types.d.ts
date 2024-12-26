@@ -1,14 +1,9 @@
-
 export interface IBackendContext {
-    context: IItemCommon,
+    context: ICommonObject,
 }
 
-export interface IItemCommon {
+export interface ICommonObject {
     [key: string]: any,
-}
-
-export interface IStringObject {
-    [key: string]: string,
 }
 
 export interface IStringObject {
@@ -24,8 +19,8 @@ export interface IFormParams {
     [key: string]: string | Function | IFieldValue,
 }
 
-export interface IStringResult {
-    [key: string]: string | IStringObject,
+export interface IStringObjectTree {
+    [key: string]: string | IStringObjectTree,
 }
 
 export interface IStyle {
@@ -36,16 +31,23 @@ export interface IComponentMap {
     [key: string]: ReactElement,
 }
 
-export interface IItem  {
+export interface IItem {
     id: string,
+}
+
+export interface ITodoItem extends IItem, INewTodoItem {
+}
+
+export interface INewTodoItem {
+    title: string,
+    description: string,
+    comments: string,
+    status: string,
+    deadline: string,
 }
 
 export interface IItemStatus extends IItem {
     label: string,
-}
-
-export interface IItemTodo extends IItem {
-    name: string,
 }
 
 export interface IPageItem extends IItem {
@@ -71,7 +73,7 @@ export interface IAuthenticateContext {
 }
 
 export interface IDebugContext {
-    debugNative: IItemCommon,
+    debugNative: ICommonObject,
     setDebugNative: Function,
 }
 
@@ -96,17 +98,17 @@ export interface IAppContext {
     componentMap: IComponentMap,
 }
 
-export interface IError  {
+export interface IError {
     field?: string,
     message: string,
 }
 
-export interface IAuthenticate  {
+export interface IAuthenticate {
     payload: { username: string },
     token: string,
 }
 
-export interface IResult<T>  {
+export interface IResult<T> {
     success: boolean,
     data?: T,
 }

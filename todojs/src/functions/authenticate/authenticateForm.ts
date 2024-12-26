@@ -37,10 +37,10 @@ export async function handleAuthenticateForm(
         password,
     });
 
-    if (result !== false && result.data.success === true) {
+    if (result !== false && typeof result.data.authenticate !== 'undefined') {
         appContext.auth.authenticate = true;
         appContext.auth.setAuthenticate(appContext.auth.authenticate);
-        await AsyncStorage.setItem(STORAGE_USER_JWT, JSON.stringify(result.data));
+        await AsyncStorage.setItem(STORAGE_USER_JWT, JSON.stringify(result.data.authenticate));
         appContext.nav.setCurrentPage(await getCurrentPage());
         appContext.load.setPreloader(false);
         return;

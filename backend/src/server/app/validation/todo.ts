@@ -12,7 +12,7 @@ export namespace ValidationTodo {
             super();
         }
 
-        public add() {
+        public validateItem() {
             this.errors = [];
             this.validateNoEmptyString('title', 'Title cannot be empty.');
             this.validateString('description', 'Description format error.');
@@ -22,18 +22,22 @@ export namespace ValidationTodo {
             return this.getResult();
         }
 
+        public validateId() {
+            this.errors = [];
+            this.validateNumericString('id', 'Id format error.');
+            return this.getResult();
+        }
+
         private validateDeadline() {
-            if (
-                typeof App.context.req.body.deadline !== 'string'
-                || !/^\d+$/.test(App.context.req.body.deadline)
-            ) {
-                this.errors.push({field: 'deadline', message: 'Deadline format error.'});
-                return;
+            if (!this.validateNumericString('deadline', 'Deadline format error.')) {
+                return false;
             }
             dayjs.extend(utc);
             if (+App.context.req.body.deadline < dayjs().utc().unix()) {
                 this.errors.push({field: 'deadline', message: 'You cannot create tasks for past time.'});
+                return false;
             }
+            return true;
         }
 
         private validateStatus() {
@@ -43,7 +47,9 @@ export namespace ValidationTodo {
                 || !Object.values(repository.TODO_STATUS).includes(App.context.req.body.status)
             ) {
                 this.errors.push({field: 'status', message: 'Status format error.'});
+                return false;
             }
+            return true;
         }
     }
 }

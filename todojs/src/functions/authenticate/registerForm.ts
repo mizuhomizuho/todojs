@@ -41,9 +41,9 @@ export async function handleRegisterForm(
         password2,
     });
 
-    if (result !== false) {
+    if (result !== false && typeof result.data.authenticate !== 'undefined') {
         appContext.auth.setAuthenticate(true);
-        await AsyncStorage.setItem(STORAGE_USER_JWT, JSON.stringify(result.data));
+        await AsyncStorage.setItem(STORAGE_USER_JWT, JSON.stringify(result.data.authenticate));
         appContext.nav.setCurrentPage(await getCurrentPage());
         appContext.load.setPreloader(false);
         return;

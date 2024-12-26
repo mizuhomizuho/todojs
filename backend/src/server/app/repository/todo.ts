@@ -1,5 +1,5 @@
-import {PrismaClient} from '@prisma/client';
-import {IError, IStringObject, IResult} from "../../../../types";
+import {PrismaClient, Todo} from '@prisma/client';
+import {IError, IStringObject, IResult, ITodoItem} from "../../../../types";
 import {App} from "../app";
 
 export namespace RepositoryTodo {
@@ -12,7 +12,7 @@ export namespace RepositoryTodo {
             DONE: 'DONE',
         };
 
-        public async create(): Promise<IResult<{ newItem: IStringObject }>> {
+        public async create(): Promise<IResult<{ newItem: ITodoItem }>> {
 
             const title = App.context.req.body.title.trim();
             const description = App.context.req.body.description.trim();
@@ -34,13 +34,43 @@ export namespace RepositoryTodo {
             return {
                 success: true,
                 data: {
-                    newItem: {
-                        ...newItem,
-                        ...{
-                            id: newItem.id.toString(),
-                            deadline: Math.floor(newItem.deadline.getTime() / 1000).toString(),
-                        }
-                    },
+                    newItem: this.convertItemToStringObject(newItem),
+                },
+            };
+        }
+
+        private convertItemToStringObject(item: Todo): ITodoItem {
+            return {
+                ...item,
+                ...{
+                    id: item.id.toString(),
+                    deadline: Math.floor(item.deadline.getTime() / 1000).toString(),
+                }
+            };
+        }
+
+        public async get(): Promise<IResult<{ item: ITodoItem } | undefined>> {
+
+            const id = App.context.req.body.id;
+
+            const prisma = new PrismaClient();
+
+            const item = await prisma.todo.findUnique({
+                where: {
+                    id,
+                },
+            });
+
+            if (!item) {
+                return {
+                    success: false,
+                };
+            }
+
+            return {
+                success: true,
+                data: {
+                    item: this.convertItemToStringObject(item),
                 },
             };
         }

@@ -7,9 +7,7 @@ const PageTodoAdd = () => {
 
     const appContext = useAppContext();
 
-    return <FormTodoItem
-        storageId={'editStorage-' + appContext.todoEditId.value}
-        editId={appContext.todoEditId.value}/>;
+    return <FormTodoItem editId={appContext.todoEditId.value}/>;
 };
 
 export default PageTodoAdd;

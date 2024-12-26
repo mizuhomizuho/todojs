@@ -28,7 +28,9 @@ export namespace ValidationBase {
         protected validateString(field: string, message: string) {
             if (typeof App.context.req.body[field] !== 'string') {
                 this.errors.push({field, message});
+                return false;
             }
+            return true;
         }
 
         protected validateNoEmptyString(field: string, message: string) {
@@ -37,7 +39,20 @@ export namespace ValidationBase {
                 || App.context.req.body[field].trim() === ''
             ) {
                 this.errors.push({field: field, message: message});
+                return false;
             }
+            return true;
+        }
+
+        protected validateNumericString(field: string, message: string) {
+            if (
+                typeof App.context.req.body[field] !== 'string'
+                || !/^\d+$/.test(App.context.req.body[field])
+            ) {
+                this.errors.push({field: field, message: message});
+                return false;
+            }
+            return true;
         }
     }
 }

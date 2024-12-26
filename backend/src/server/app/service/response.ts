@@ -1,11 +1,11 @@
-import {IError, IStringObject, IResult, IStringResult} from "../../../../types";
+import {IError, IItem, IResult, IStringObjectTree} from "../../../../types";
 import {App} from "../app";
 
 export namespace ServiceResponse {
 
     export class Main {
 
-        public sendResultError(errors: IError[]) {
+        public sendError(errors: IError[]) {
             App.context.res.status(400).send({
                 'status': 'error',
                 'message': 'Invalid data.',
@@ -13,11 +13,18 @@ export namespace ServiceResponse {
             });
         }
 
-        public sendResultSuccess(data: IStringResult) {
+        public sendSuccess(data: IStringObjectTree) {
             App.context.res.status(200).send({
                 'status': 'success',
                 'message': 'Successfully',
                 'data': data
+            });
+        }
+
+        public sendNotFound() {
+            App.context.res.status(404).send({
+                'status': 'error',
+                'message': 'Not found.',
             });
         }
 

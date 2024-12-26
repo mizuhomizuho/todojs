@@ -3,19 +3,19 @@ import TodoItem from "./TodoItem";
 import BaseFlatList from "../../bases/BaseFlatList";
 import {useAppContext} from "../../../functions/app";
 import {debug} from "../../../functions/debug";
-import {IItemTodo} from "../../../../../backend/types";
+import {ITodoItem} from "../../../../../backend/types";
 
 const TodoList = () => {
 
     const appContext = useAppContext();
 
-    const [tidoItems, setTidoItems] = useState<IItemTodo[]>([]);
+    const [tidoItems, setTidoItems] = useState<ITodoItem[]>([]);
 
     async function init() {
         appContext.load.setPreloader(true);
         await new Promise<void>((resolve) => {
             setTimeout(() => {
-                const data: IItemTodo[] = [];
+                const data: ITodoItem[] = [];
                 for (let i = 0; i < 8; i++) {
                     data.push({id: '' + i, name: 'Item ' + i})
                 }
@@ -38,7 +38,7 @@ const TodoList = () => {
         };
     }, []);
 
-    const renderItem = ({item}: { item: IItemTodo }) => (
+    const renderItem = ({item}: { item: ITodoItem }) => (
         <TodoItem title={item.name} itemId={item.id}/>
     );
 
