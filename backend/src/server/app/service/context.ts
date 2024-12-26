@@ -13,14 +13,13 @@ export namespace ServiceContext {
             this._req = req;
             this._res = res;
             this._prisma = prisma;
-
         }
 
         public get prisma(): PrismaClient {
             return this._prisma;
         }
 
-        public set prisma(value: PrismaClient) {
+        private set prisma(value: PrismaClient) {
             this._prisma = value;
         }
 

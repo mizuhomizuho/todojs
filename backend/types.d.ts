@@ -1,14 +1,3 @@
-import {Request, Response} from "express";
-import {PrismaClient} from "@prisma/client";
-
-export interface IBackendContext {
-    context: {
-        req: Request,
-        res: Response,
-        prisma: PrismaClient,
-    },
-}
-
 export interface ICommonObject {
     [key: string]: any,
 }

@@ -1,4 +1,4 @@
-import {IError, IItem, IResult, IStringObjectTree} from "../../../../types";
+import {IError, IResult, IStringObjectTree} from "../../../../types";
 import {App} from "../app";
 
 export namespace ServiceResponse {
