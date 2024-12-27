@@ -51,7 +51,7 @@ async function init(appContext: IAppContext) {
     appContext.load.setPreloader(true);
     await checkAuthenticate(appContext);
     appContext.load.setPreloader(false);
-    if (!(await isAuthenticate(appContext))) {
+    if (!isAuthenticate(appContext)) {
         appContext.nav.setCurrentPage(getPage(PAGE_AUTHENTICATE));
         return;
     }
