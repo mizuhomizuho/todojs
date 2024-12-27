@@ -1,20 +1,25 @@
 import {ValidationBase} from "./base";
-import {App} from "../app";
 import {RepositoryTodo} from "../repository/todo";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
+import {ICommonObject} from "../../../../types";
 
 export namespace ValidationTodo {
 
     export class Main extends ValidationBase.Main {
 
-        constructor() {
-            super();
+        private _validateData: ICommonObject;
+        private _userJWT: string;
+
+        constructor(validateData: ICommonObject, userJWT: string) {
+            super(validateData);
+            this._validateData = validateData;
+            this._userJWT = userJWT;
         }
 
         public async validateControllerDelete() {
             this.errors = [];
-            if (!await this.validateAuth()) {
+            if (!await this.validateAuth(this.userJWT)) {
                 return this.getResult();
             }
             this.validateNumericString('id', 'Id format error.');
@@ -23,7 +28,7 @@ export namespace ValidationTodo {
 
         public async validateControllerEdit() {
             this.errors = [];
-            if (!await this.validateAuth()) {
+            if (!await this.validateAuth(this.userJWT)) {
                 return this.getResult();
             }
             this.validateNumericString('id', 'Id format error.');
@@ -33,7 +38,7 @@ export namespace ValidationTodo {
 
         public async validateControllerList() {
             this.errors = [];
-            if (!await this.validateAuth()) {
+            if (!await this.validateAuth(this.userJWT)) {
                 return this.getResult();
             }
             return this.getResult();
@@ -41,7 +46,7 @@ export namespace ValidationTodo {
 
         public async validateControllerAdd() {
             this.errors = [];
-            if (!await this.validateAuth()) {
+            if (!await this.validateAuth(this.userJWT)) {
                 return this.getResult();
             }
             await this.validateFields();
@@ -58,7 +63,7 @@ export namespace ValidationTodo {
 
         public async validateControllerGet() {
             this.errors = [];
-            if (!await this.validateAuth()) {
+            if (!await this.validateAuth(this.userJWT)) {
                 return this.getResult();
             }
             this.validateNumericString('id', 'Id format error.');
@@ -71,8 +76,8 @@ export namespace ValidationTodo {
             }
             dayjs.extend(utc);
             if (
-                typeof App.context.req.body.id === 'undefined'
-                && +App.context.req.body.deadline < dayjs().utc().unix()
+                typeof this.validateData.id === 'undefined'
+                && +this.validateData.deadline < dayjs().utc().unix()
             ) {
                 this.errors.push({field: 'deadline', message: 'You cannot create tasks for past time.'});
                 return false;
@@ -83,13 +88,29 @@ export namespace ValidationTodo {
         private validateStatus() {
             const repository = new RepositoryTodo.Main();
             if (
-                typeof App.context.req.body.status !== 'string'
-                || !Object.values(repository.TODO_STATUS).includes(App.context.req.body.status)
+                typeof this.validateData.status !== 'string'
+                || !Object.values(repository.TODO_STATUS).includes(this.validateData.status)
             ) {
                 this.errors.push({field: 'status', message: 'Status format error.'});
                 return false;
             }
             return true;
+        }
+
+        private get validateData(): ICommonObject {
+            return this._validateData;
+        }
+
+        private set validateData(value: ICommonObject) {
+            this._validateData = value;
+        }
+
+        private get userJWT(): string {
+            return this._userJWT;
+        }
+
+        private set userJWT(value: string) {
+            this._userJWT = value;
         }
     }
 }

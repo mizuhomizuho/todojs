@@ -8,17 +8,12 @@ export namespace RepositoryUser {
 
     export class Main {
 
-        public async create(): Promise<IResult<IError[] | IAuthenticate>> {
+        public async create(username: string, password: string): Promise<IResult<IError[] | IAuthenticate>> {
             try {
-                const username = App.context.req.body.username.trim();
-                const password = App.context.req.body.password.trim();
-
                 const salt = await bcrypt.genSalt(8);
                 const hash = await bcrypt.hash(password, salt);
 
-                const prisma = App.context.prisma;
-
-                const newItem = await prisma.user.create({
+                const newItem = await App.context.prisma.user.create({
                     data: {
                         username,
                         password: hash,

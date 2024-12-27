@@ -14,6 +14,7 @@ export async function api(route: string, params: IStringObject): Promise<{data: 
     });
 
     try {
+        delete params.title;
         const userJWT = await AsyncStorage.getItem(STORAGE_USER_JWT);
         const response = await axiosInstance.post(
             'http://localhost:881/' + route, {...params, userJWT}

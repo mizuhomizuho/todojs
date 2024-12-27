@@ -1,8 +1,9 @@
 import {ServiceResponse} from "../service/response";
 import {ValidationUser} from "../validation/user";
 import {RepositoryUser} from "../repository/user";
-import {IError, IResult, IAuthenticate, IStringObjectTree} from "../../../../types";
+import {IError, IStringObjectTree} from "../../../../types";
 import {ServiceAuthenticate} from "../service/authenticate";
+import {ServiceRequestUser} from "../service/request/user";
 
 export namespace ControllerUser {
 
@@ -11,7 +12,14 @@ export namespace ControllerUser {
         public async register() {
 
             const serviceResponse = new ServiceResponse.Main();
-            const validation = new ValidationUser.Main();
+
+            const request = new ServiceRequestUser.Main();
+
+            const validation = new ValidationUser.Main({
+                'username': request.get('username'),
+                'password': request.get('password'),
+                'password2': request.get('password2'),
+            });
 
             const resultValidation = validation.validateControllerRegister();
             if (!resultValidation.success) {
@@ -20,7 +28,10 @@ export namespace ControllerUser {
             }
 
             const repository = new RepositoryUser.Main();
-            const resultCreate = await repository.create();
+            const resultCreate = await repository.create(
+                request.get('username'),
+                request.get('password'),
+            );
             if (!resultCreate.success) {
                 serviceResponse.sendError(resultCreate.data as IError[]);
                 return;
@@ -32,7 +43,13 @@ export namespace ControllerUser {
         public async authenticate() {
 
             const serviceResponse = new ServiceResponse.Main();
-            const validation = new ValidationUser.Main();
+
+            const request = new ServiceRequestUser.Main();
+
+            const validation = new ValidationUser.Main({
+                'username': request.get('username'),
+                'password': request.get('password'),
+            });
 
             const resultValidation = validation.validateControllerAuthenticate();
             if (!resultValidation.success) {
@@ -41,7 +58,10 @@ export namespace ControllerUser {
             }
 
             const serviceAuthenticate = new ServiceAuthenticate.Main();
-            const resultVerify = await serviceAuthenticate.verifyAuthenticate();
+            const resultVerify = await serviceAuthenticate.verifyAuthenticate(
+                request.get('username'),
+                request.get('password'),
+            );
             if (!resultVerify.success) {
                 serviceResponse.sendError(resultVerify.data as IError[]);
                 return;

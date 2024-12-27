@@ -8,14 +8,9 @@ export namespace ServiceAuthenticate {
 
     export class Main {
 
-        public async verifyAuthenticate(): Promise<IResult<IError[] | IAuthenticate>> {
+        public async verifyAuthenticate(username: string, password: string): Promise<IResult<IError[] | IAuthenticate>> {
 
-            const prisma = App.context.prisma;
-
-            const username = App.context.req.body.username.trim();
-            const password: string = App.context.req.body.password.trim();
-
-            const user = await prisma.user.findUnique({
+            const user = await App.context.prisma.user.findUnique({
                 where: {
                     username: username,
                 },
@@ -60,13 +55,10 @@ export namespace ServiceAuthenticate {
             });
         }
 
-        public async isAuth(): Promise<boolean> {
-            if (typeof App.context.req.body.userJWT !== 'string') {
-                return false;
-            }
+        public async isAuth(userJWT: string): Promise<boolean> {
             let userJWTDecode: IAuthenticate | null = null;
             try {
-                userJWTDecode = JSON.parse(App.context.req.body.userJWT);
+                userJWTDecode = JSON.parse(userJWT);
             } catch (e) {
             }
             if (

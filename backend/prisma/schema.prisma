@@ -25,8 +25,8 @@ model Todo {
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
-  username String @unique @db.VarChar(32)
-  password String @db.VarChar(64)
-  todo     Todo[]
+  id           Int    @id @default(autoincrement())
+  username     String @unique @db.VarChar(32)
+  password     String @db.VarChar(64)
+  validateData Todo[]
 }

@@ -2,6 +2,7 @@ import {ServiceResponse} from "../service/response";
 import {IError, IStringObjectTree} from "../../../../types";
 import {ValidationTodo} from "../validation/todo";
 import {RepositoryTodo} from "../repository/todo";
+import {ServiceRequestTodo} from "../service/request/todo";
 
 export namespace ControllerTodo {
 
@@ -9,102 +10,128 @@ export namespace ControllerTodo {
 
         public async add() {
 
-            const serviceResponse = new ServiceResponse.Main();
-            const validation = new ValidationTodo.Main();
+            const response = new ServiceResponse.Main();
+
+            const request = new ServiceRequestTodo.Main();
+
+            const validation = new ValidationTodo.Main(request.getRequest(), request.getUserJWT());
 
             const resultValidation = await validation.validateControllerAdd();
             if (!resultValidation.success) {
-                serviceResponse.sendError(resultValidation.data as IError[]);
+                response.sendError(resultValidation.data as IError[]);
                 return;
             }
 
             const repository = new RepositoryTodo.Main();
-            const resultCreate = await repository.create();
+            const resultCreate = await repository.create(request.getPrismaTodo(0));
 
-            serviceResponse.sendSuccess(resultCreate.data as unknown as IStringObjectTree);
+            response.sendSuccess(resultCreate.data as unknown as IStringObjectTree);
         }
 
         public async delete() {
 
-            const serviceResponse = new ServiceResponse.Main();
-            const validation = new ValidationTodo.Main();
+            const response = new ServiceResponse.Main();
+
+            const request = new ServiceRequestTodo.Main();
+
+            const validation = new ValidationTodo.Main({'id': request.getId().toString()}, request.getUserJWT());
 
             const resultValidation = await validation.validateControllerDelete();
             if (!resultValidation.success) {
-                serviceResponse.sendError(resultValidation.data as IError[]);
+                response.sendError(resultValidation.data as IError[]);
                 return;
             }
 
             const repository = new RepositoryTodo.Main();
-            const result = await repository.delete();
+            const result = await repository.delete(
+                request.getId(),
+                request.getUserId(),
+            );
 
             if (!result.success) {
-                serviceResponse.sendError(result.data as IError[]);
+                response.sendError(result.data as IError[]);
                 return;
             }
 
-            serviceResponse.sendSuccess(result.data as unknown as IStringObjectTree);
+            response.sendSuccess(result.data as unknown as IStringObjectTree);
         }
 
         public async list() {
 
-            const serviceResponse = new ServiceResponse.Main();
-            const validation = new ValidationTodo.Main();
+            const response = new ServiceResponse.Main();
+
+            const request = new ServiceRequestTodo.Main();
+
+            const validation = new ValidationTodo.Main({}, request.getUserJWT());
 
             const resultValidation = await validation.validateControllerList();
             if (!resultValidation.success) {
-                serviceResponse.sendError(resultValidation.data as IError[]);
+                response.sendError(resultValidation.data as IError[]);
                 return;
             }
 
             const repository = new RepositoryTodo.Main();
-            const result = await repository.list();
+            const result = await repository.list(request.getUserId());
 
-            serviceResponse.sendSuccess(result.data as unknown as IStringObjectTree);
+            response.sendSuccess(result.data as unknown as IStringObjectTree);
         }
 
         public async edit() {
 
-            const serviceResponse = new ServiceResponse.Main();
-            const validation = new ValidationTodo.Main();
+            const response = new ServiceResponse.Main();
+
+            const request = new ServiceRequestTodo.Main();
+
+            const validation = new ValidationTodo.Main(
+                {...request.getRequest(), ...{'id': request.getId().toString()}},
+                request.getUserJWT(),
+            );
 
             const resultValidation = await validation.validateControllerEdit();
             if (!resultValidation.success) {
-                serviceResponse.sendError(resultValidation.data as IError[]);
+                response.sendError(resultValidation.data as IError[]);
                 return;
             }
 
             const repository = new RepositoryTodo.Main();
-            const result = await repository.update();
+            const result = await repository.update(
+                request.getPrismaTodo(request.getId())
+            );
 
             if (!result.success) {
-                serviceResponse.sendError(result.data as IError[]);
+                response.sendError(result.data as IError[]);
                 return;
             }
 
-            serviceResponse.sendSuccess(result.data as unknown as IStringObjectTree);
+            response.sendSuccess(result.data as unknown as IStringObjectTree);
         }
 
         public async get() {
 
-            const serviceResponse = new ServiceResponse.Main();
-            const validation = new ValidationTodo.Main();
+            const response = new ServiceResponse.Main();
+
+            const request = new ServiceRequestTodo.Main();
+
+            const validation = new ValidationTodo.Main({'id': request.getId().toString()}, request.getUserJWT());
 
             const resultValidation = await validation.validateControllerGet();
             if (!resultValidation.success) {
-                serviceResponse.sendError(resultValidation.data as IError[]);
+                response.sendError(resultValidation.data as IError[]);
                 return;
             }
 
             const repository = new RepositoryTodo.Main();
-            const result = await repository.get();
+            const result = await repository.get(
+                request.getId(),
+                request.getUserId(),
+            );
 
             if (result.success) {
-                serviceResponse.sendSuccess(result.data as unknown as IStringObjectTree);
+                response.sendSuccess(result.data as unknown as IStringObjectTree);
                 return;
             }
 
-            serviceResponse.sendNotFound();
+            response.sendNotFound();
         }
     }
 }
