@@ -11,9 +11,7 @@ export namespace ControllerTodo {
         public async add() {
 
             const response = new ServiceResponse.Main();
-
             const request = new ServiceRequestTodo.Main();
-
             const validation = new ValidationTodo.Main(request.getRequest(), request.getUserJWT());
 
             const resultValidation = await validation.validateControllerAdd();
@@ -31,9 +29,7 @@ export namespace ControllerTodo {
         public async delete() {
 
             const response = new ServiceResponse.Main();
-
             const request = new ServiceRequestTodo.Main();
-
             const validation = new ValidationTodo.Main({'id': request.getId().toString()}, request.getUserJWT());
 
             const resultValidation = await validation.validateControllerDelete();
@@ -59,9 +55,7 @@ export namespace ControllerTodo {
         public async list() {
 
             const response = new ServiceResponse.Main();
-
             const request = new ServiceRequestTodo.Main();
-
             const validation = new ValidationTodo.Main({}, request.getUserJWT());
 
             const resultValidation = await validation.validateControllerList();
@@ -79,9 +73,7 @@ export namespace ControllerTodo {
         public async edit() {
 
             const response = new ServiceResponse.Main();
-
             const request = new ServiceRequestTodo.Main();
-
             const validation = new ValidationTodo.Main(
                 {...request.getRequest(), ...{'id': request.getId().toString()}},
                 request.getUserJWT(),
@@ -109,9 +101,7 @@ export namespace ControllerTodo {
         public async get() {
 
             const response = new ServiceResponse.Main();
-
             const request = new ServiceRequestTodo.Main();
-
             const validation = new ValidationTodo.Main({'id': request.getId().toString()}, request.getUserJWT());
 
             const resultValidation = await validation.validateControllerGet();

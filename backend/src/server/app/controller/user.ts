@@ -11,10 +11,8 @@ export namespace ControllerUser {
 
         public async register() {
 
-            const serviceResponse = new ServiceResponse.Main();
-
+            const response = new ServiceResponse.Main();
             const request = new ServiceRequestUser.Main();
-
             const validation = new ValidationUser.Main({
                 'username': request.get('username'),
                 'password': request.get('password'),
@@ -23,7 +21,7 @@ export namespace ControllerUser {
 
             const resultValidation = validation.validateControllerRegister();
             if (!resultValidation.success) {
-                serviceResponse.sendError(resultValidation.data as IError[]);
+                response.sendError(resultValidation.data as IError[]);
                 return;
             }
 
@@ -33,19 +31,17 @@ export namespace ControllerUser {
                 request.get('password'),
             );
             if (!resultCreate.success) {
-                serviceResponse.sendError(resultCreate.data as IError[]);
+                response.sendError(resultCreate.data as IError[]);
                 return;
             }
 
-            serviceResponse.sendSuccess({authenticate: {...resultCreate.data}} as IStringObjectTree);
+            response.sendSuccess({authenticate: {...resultCreate.data}} as IStringObjectTree);
         }
 
         public async authenticate() {
 
-            const serviceResponse = new ServiceResponse.Main();
-
+            const response = new ServiceResponse.Main();
             const request = new ServiceRequestUser.Main();
-
             const validation = new ValidationUser.Main({
                 'username': request.get('username'),
                 'password': request.get('password'),
@@ -53,7 +49,7 @@ export namespace ControllerUser {
 
             const resultValidation = validation.validateControllerAuthenticate();
             if (!resultValidation.success) {
-                serviceResponse.sendError(resultValidation.data as IError[]);
+                response.sendError(resultValidation.data as IError[]);
                 return;
             }
 
@@ -63,11 +59,11 @@ export namespace ControllerUser {
                 request.get('password'),
             );
             if (!resultVerify.success) {
-                serviceResponse.sendError(resultVerify.data as IError[]);
+                response.sendError(resultVerify.data as IError[]);
                 return;
             }
 
-            serviceResponse.sendSuccess({authenticate: {...resultVerify.data}} as IStringObjectTree);
+            response.sendSuccess({authenticate: {...resultVerify.data}} as IStringObjectTree);
         }
     }
 }
