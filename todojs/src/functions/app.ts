@@ -36,12 +36,6 @@ export function useApp(componentMap: IComponentMap) {
         }
     }, [preloader]);
 
-    useEffect(() => {
-        if (authenticate === null) {
-            return;
-        }
-    }, [authenticate]);
-
     return appContext;
 }
 
