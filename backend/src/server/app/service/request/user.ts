@@ -1,4 +1,3 @@
-import {App} from "../../app";
 import {ServiceRequestBase} from "./base";
 
 export namespace ServiceRequestUser {

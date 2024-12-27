@@ -16,18 +16,21 @@ export namespace ServiceRequestBase {
             if (decodeJWT) {
                 return +decodeJWT.payload.id;
             }
-            const response = new ServiceResponse.Main();
-            response.sendError([]);
-            throw new Error("Execution aborted.");
+            this.sendError();
+            throw new Error('Invalid data.');
         }
 
         protected getValue(field: string) {
             if (typeof App.context.req.body[field] !== 'undefined') {
                 return App.context.req.body[field];
             }
+            this.sendError();
+            throw new Error('Invalid data.');
+        }
+
+        protected sendError() {
             const response = new ServiceResponse.Main();
             response.sendError([]);
-            throw new Error("Execution aborted.");
         }
     }
 }

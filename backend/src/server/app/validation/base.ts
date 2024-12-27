@@ -55,13 +55,18 @@ export namespace ValidationBase {
             return true;
         }
 
-        protected validateNumericString(field: string, message: string) {
-            console.log(this.data,33333333);
-
+        public validateNumericStringBase(value: any) {
             if (
-                typeof this.data[field] !== 'string'
-                || !/^\d+$/.test(this.data[field])
+                typeof value !== 'string'
+                || !/^\d+$/.test(value)
             ) {
+                return false;
+            }
+            return true;
+        }
+
+        protected validateNumericString(field: string, message: string) {
+            if (!this.validateNumericStringBase(this.data[field])) {
                 this.errors.push({field: field, message: message});
                 return false;
             }
