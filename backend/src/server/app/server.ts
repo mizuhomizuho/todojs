@@ -58,6 +58,6 @@ app.listen(port, () => {
 ]
     .forEach((item) => {
         app.post(item.route, async (req: Request, res: Response) => {
-            ServiceRouter.Main.init(item.controller, item.method, req, res);
+            await ServiceRouter.Main.init(item.controller, item.method, req, res);
         });
     });
