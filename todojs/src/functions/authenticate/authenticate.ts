@@ -1,15 +1,11 @@
-import {debug} from "../debug";
 import {IAppContext, IAuthenticate} from "../../../../backend/types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {PAGE_AUTHENTICATE, STORAGE_USER_JWT} from "../../constants";
 import {getPage} from "../navigation";
 
 export async function checkAuthenticate(appContext: IAppContext) {
-
     const userJWT = JSON.parse(await AsyncStorage.getItem(STORAGE_USER_JWT) ?? '{}');
-
     appContext.auth.authenticate = getAuthenticateValue(userJWT);
-
     appContext.auth.setAuthenticate(appContext.auth.authenticate);
 }
 
@@ -27,14 +23,6 @@ export function getAuthenticateValue(authenticate: IAuthenticate) {
 }
 
 export function isAuthenticate(appContext: IAppContext) {
-
-    debug(appContext, {
-            'isAuthenticate': 1,
-            'appContext.auth.authenticate': appContext.auth.authenticate
-        },
-        // {style: {backgroundColor: 'green'}}
-    );
-
     return appContext.auth.authenticate !== null && appContext.auth.authenticate.status;
 }
 

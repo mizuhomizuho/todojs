@@ -1,20 +1,12 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import BaseActivityIndicator from "./BaseActivityIndicator";
 import {StyleSheet, View} from "react-native";
 import {useAppContext} from "../../functions/app";
-import {debug} from "../../functions/debug";
-
 import {IStyle} from "../../../../backend/types";
 
 const BaseLoading = () => {
 
     const appContext = useAppContext();
-
-    useEffect(() => {
-        debug(appContext, {
-            'BaseLoading_mount': 1,
-        });
-    }, []);
 
     const bosStyles: IStyle[] = [];
     bosStyles.push(styles.container);

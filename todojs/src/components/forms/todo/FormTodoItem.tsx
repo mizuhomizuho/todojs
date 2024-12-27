@@ -52,7 +52,7 @@ const FormTodoItem = (props: FormTodoItemProps) => {
 
     let idStyles = styles.id;
     if (!props.editId) {
-        idStyles = {...idStyles, display: 'none'};
+        idStyles = {...idStyles, ...{display: 'none'}};
     }
 
     return <ScrollView>

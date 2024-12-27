@@ -72,11 +72,6 @@ export interface IAuthenticateContext {
     setAuthenticate: Function,
 }
 
-export interface IDebugContext {
-    debugNative: ICommonObject,
-    setDebugNative: Function,
-}
-
 export type IPreloaderItem = boolean | null;
 
 export interface IPreloaderContext {
@@ -93,7 +88,6 @@ export interface IAppContext {
     auth: IAuthenticateContext,
     nav: INavigationContext,
     load: IPreloaderContext,
-    debug: IDebugContext,
     todoEditId: ITodoEditIdContext,
     componentMap: IComponentMap,
 }

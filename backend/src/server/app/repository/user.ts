@@ -1,6 +1,6 @@
-import {Prisma, PrismaClient} from '@prisma/client';
+import {Prisma} from '@prisma/client';
 import bcrypt from 'bcryptjs';
-import {IError, IResult, IAuthenticate} from "../../../../types";
+import {IAuthenticate, IError, IResult} from "../../../../types";
 import {ServiceAuthenticate} from "../service/authenticate";
 import {App} from "../app";
 
@@ -37,7 +37,10 @@ export namespace RepositoryUser {
                 if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
                     return {
                         success: false,
-                        data: [{field: 'username', message: 'Username is invalid.'}],
+                        data: [{
+                            field: 'username',
+                            message: 'The username is already taken. Please try choosing another one.'
+                        }],
                     };
                 }
                 return {

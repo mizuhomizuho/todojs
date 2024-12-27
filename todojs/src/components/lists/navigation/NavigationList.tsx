@@ -1,11 +1,10 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet} from 'react-native';
 import BaseView from "../../bases/BaseView";
 import {NAVIGATION_ITEMS} from "../../../constants";
 import NavigationItem from "./NavigationItem";
 import {useAppContext} from "../../../functions/app";
 import {isAuthenticate} from "../../../functions/authenticate/authenticate";
-import {debug} from "../../../functions/debug";
 
 const NavigationList = () => {
 
