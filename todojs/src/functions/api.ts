@@ -1,5 +1,4 @@
 import axios from "axios";
-
 import {IStringObject, IStringObjectTree} from "../../../backend/types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {STORAGE_USER_JWT} from "../constants";
