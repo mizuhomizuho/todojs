@@ -17,7 +17,7 @@ fs.writeFile('backend/install/install.conf', '', () => {});
 
         fs.readdir(directory, (err, files) => {
             for (const file of files) {
-                if (!exclude .includes(file)){
+                if (!exclude.includes(file)){
                     fs.unlink(path.join(directory, file), () => {});
                 }
             }
