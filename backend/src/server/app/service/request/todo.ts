@@ -5,6 +5,7 @@ import timezone from "dayjs/plugin/timezone";
 import {Todo} from "@prisma/client";
 import {ServiceRequestBase} from "./base";
 import {ValidationBase} from "../../validation/base";
+import {ExceptionRequest} from "../../exception/request";
 
 export namespace ServiceRequestTodo {
 
@@ -50,7 +51,7 @@ export namespace ServiceRequestTodo {
             const validation = new ValidationBase.Main({});
             if (!validation.validateNumericStringBase(this.getValue('id'))) {
                 this.sendError();
-                throw new Error('Invalid data.');
+                throw new ExceptionRequest.InvalidData('Invalid data.');
             }
             return +this.getValue('id');
         }

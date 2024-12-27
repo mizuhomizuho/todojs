@@ -1,6 +1,7 @@
 import {App} from "../../app";
 import {ServiceResponse} from "../response";
 import {ServiceAuthenticate} from "../authenticate";
+import {ExceptionRequest} from "../../exception/request";
 
 export namespace ServiceRequestBase {
 
@@ -17,7 +18,7 @@ export namespace ServiceRequestBase {
                 return +decodeJWT.payload.id;
             }
             this.sendError();
-            throw new Error('Invalid data.');
+            throw new ExceptionRequest.InvalidData('Invalid data.');
         }
 
         protected getValue(field: string) {
@@ -25,7 +26,7 @@ export namespace ServiceRequestBase {
                 return App.context.req.body[field];
             }
             this.sendError();
-            throw new Error('Invalid data.');
+            throw new ExceptionRequest.InvalidData('Invalid data.');
         }
 
         protected sendError() {

@@ -8,7 +8,7 @@ import {getFormParams, getStoragePrefix} from "./todo";
 
 export function useTodoList(appContext: IAppContext) {
 
-    const [tidoItems, setTidoItems] = useState<ITodoItem[]>([]);
+    const [tidoItems, setTidoItems] = useState<ITodoItem[] | null>(null);
 
     useEffect(() => {
         (async () => {

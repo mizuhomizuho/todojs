@@ -13,7 +13,10 @@ const TodoList = () => {
     const appContext = useAppContext();
     const {tidoItems, setTidoItems} = useTodoList(appContext);
 
-    if (!tidoItems.length) {
+    if (tidoItems === null) {
+        return <BaseView/>;
+    }
+    else if (!tidoItems.length) {
         return <BaseView style={styles.empty}>
             <BaseText>Empty...</BaseText>
         </BaseView>;
@@ -24,7 +27,7 @@ const TodoList = () => {
     }
 
     async function del(itemId: string) {
-        await deleteItem(appContext, itemId, tidoItems, setTidoItems);
+        await deleteItem(appContext, itemId, tidoItems as ITodoItem[], setTidoItems);
     }
 
     const renderItem = (
