@@ -70,7 +70,10 @@ export namespace ValidationTodo {
                 return false;
             }
             dayjs.extend(utc);
-            if (+App.context.req.body.deadline < dayjs().utc().unix()) {
+            if (
+                typeof App.context.req.body.id === 'undefined'
+                && +App.context.req.body.deadline < dayjs().utc().unix()
+            ) {
                 this.errors.push({field: 'deadline', message: 'You cannot create tasks for past time.'});
                 return false;
             }

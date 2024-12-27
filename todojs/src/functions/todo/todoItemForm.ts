@@ -42,7 +42,7 @@ export async function handleTodoItemForm(
     item: ITodoItemNew,
 ) {
 
-    if (!checkTodoItemForm(item.title, item.status, dayjs(item.deadline).unix())) {
+    if (!checkTodoItemForm(editId, item.title, dayjs(item.deadline).unix())) {
         return;
     }
 
@@ -137,12 +137,12 @@ function bindStorage(appContext: IAppContext, editId: string | null) {
     });
 }
 
-function checkTodoItemForm(title: string, status: string, deadline: number) {
+function checkTodoItemForm(editId: string | null, title: string, deadline: number) {
     const errors: string[] = [];
     if (!title.trim()) {
         errors.push('Title cannot be empty.');
     }
-    if (deadline < dayjs().unix()) {
+    if (!editId && deadline < dayjs().unix()) {
         errors.push('You cannot create tasks for past time.');
     }
     if (errors.length) {

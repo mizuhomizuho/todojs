@@ -31,10 +31,8 @@ export function useApp(componentMap: IComponentMap) {
     };
 
     useEffect(() => {
-        if (preloader === null) {
-            (async () => await init(appContext))();
-        }
-    }, [preloader]);
+        (async () => await init(appContext))();
+    }, []);
 
     return appContext;
 }
