@@ -1,16 +1,8 @@
 import {useEffect, useState} from "react";
-import {DEADLINE_DAYJS_FORMAT, PAGE_EDIT, STATUS_ITEMS} from "../../constants";
+import {DEADLINE_DAYJS_FORMAT, PAGE_EDIT} from "../../constants";
 import dayjs from "dayjs";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {
-    IAppContext,
-    ICommonObject,
-    IFieldValue,
-    IFormParams, IStringObject,
-    IStringObjectTree,
-    ITodoItem,
-    ITodoItemNew
-} from "../../../../backend/types";
+import {IAppContext, ICommonObject, IFieldValue, IFormParams, ITodoItem, ITodoItemNew} from "../../../../backend/types";
 import {query} from "../app";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
