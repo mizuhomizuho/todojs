@@ -33,7 +33,7 @@ else
   fi
 
   if [ -d "/todojs/prisma" ]; then
-      echo "Prisma initialized..."
+    echo "Prisma initialized..."
   else
     npx prisma init
   fi
