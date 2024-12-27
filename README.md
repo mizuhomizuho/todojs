@@ -1,8 +1,6 @@
 # TodoJs
 
 [//]: # (npx create-expo-app@latest --template blank-typescript)
-[//]: # (docker container exec -u root -it todojs_server bash)
-[//]: # (docker run -e TZ=Europe/Moscow todojs_server)
 [//]: # (npx prisma db push --force-reset)
 
 ## Technologies used:
@@ -11,9 +9,9 @@
 - React Native
 - Expo
 - Nginx
+- MySQL
 - Express
 - Prisma ORM
-- MySQL
 
 ## Backend
 
