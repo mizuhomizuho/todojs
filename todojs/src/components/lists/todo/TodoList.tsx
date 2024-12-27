@@ -15,8 +15,7 @@ const TodoList = () => {
 
     if (tidoItems === null) {
         return <BaseView/>;
-    }
-    else if (!tidoItems.length) {
+    } else if (!tidoItems.length) {
         return <BaseView style={styles.empty}>
             <BaseText>Empty...</BaseText>
         </BaseView>;
