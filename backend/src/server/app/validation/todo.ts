@@ -27,7 +27,7 @@ export namespace ValidationTodo {
                 return this.getResult();
             }
             this.validateNumericString('id', 'Id format error.');
-            this.validateFields();
+            await this.validateFields();
             return this.getResult();
         }
 
@@ -44,7 +44,7 @@ export namespace ValidationTodo {
             if (!await this.validateAuth()) {
                 return this.getResult();
             }
-            this.validateFields();
+            await this.validateFields();
             return this.getResult();
         }
 
