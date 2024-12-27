@@ -1,5 +1,5 @@
 import {Prisma, Todo} from '@prisma/client';
-import {IAuthenticate, IError, IResult, ITodoItem} from "../../../../types";
+import {IAuthenticate, IError, IResult, IStringObjectTree, ITodoItem} from "../../../../types";
 import {App} from "../app";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
@@ -68,7 +68,15 @@ export namespace RepositoryTodo {
         }
 
         public async delete(): Promise<IResult<{ item: ITodoItem } | IError[]>> {
+            const notExist = {success: false, data: [{message: 'Record to delete does not exist.'}]};
             try {
+                const resultGet = await this.get();
+                if (!resultGet.success || typeof resultGet?.data?.item === 'undefined') {
+                    return notExist;
+                }
+                if (resultGet.data.item.status === this.TODO_STATUS.DONE) {
+                    return {success: false, data: [{message: 'You cannot delete an item with the status "completed".'}]};
+                }
                 const userJWTDecode: IAuthenticate = JSON.parse(App.context.req.body.userJWT);
                 const item: Todo = await App.context.prisma.todo.delete({
                     where: {id: +App.context.req.body.id, userId: +userJWTDecode.payload.id}
@@ -76,7 +84,7 @@ export namespace RepositoryTodo {
                 return {success: true, data: {item: this.convertItemToStringObject(item)}};
             } catch (error) {
                 if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2025') {
-                    return {success: false, data: [{message: 'Record to delete does not exist.'}]};
+                    return notExist;
                 }
             }
             return {success: false, data: [{message: 'Cant delete.'}]};
