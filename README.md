@@ -12,6 +12,7 @@
 - Expo
 - Nginx
 - Express
+- Prisma ORM
 - MySQL
 
 ## Backend
