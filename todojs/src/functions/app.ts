@@ -32,7 +32,7 @@ export function useApp(componentMap: IComponentMap) {
 
     useEffect(() => {
         if (preloader === null) {
-            init(appContext);
+            (async () => await init(appContext))();
         }
     }, [preloader]);
 
