@@ -34,6 +34,7 @@ export namespace RepositoryUser {
                     },
                 };
             } catch (error) {
+                console.log(error, 1111);
                 if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2002') {
                     return {
                         success: false,

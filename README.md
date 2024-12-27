@@ -3,6 +3,7 @@
 [//]: # (npx create-expo-app@latest --template blank-typescript)
 [//]: # (docker container exec -u root -it todojs_server bash)
 [//]: # (docker run -e TZ=Europe/Moscow todojs_server)
+[//]: # (npx prisma db push --force-reset)
 
 ## Technologies used:
 
@@ -80,6 +81,12 @@ make del
 <img src="https://github.com/mizuhomizuho/todojs/blob/master/screenshots/localhost_8081_(2).png" alt="">
 
 <img src="https://github.com/mizuhomizuho/todojs/blob/master/screenshots/localhost_8081_(3).png" alt="">
+
+### Movie
+
+<video width="448" height="646" controls>
+   <source src="https://github.com/mizuhomizuho/todojs/blob/master/screenshots/888.mp4" type="video/mp4">
+</video>
 
 
 
