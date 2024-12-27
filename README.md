@@ -85,7 +85,7 @@ make del
 ### Movie
 
 <video width="448" height="646" controls>
-   <source src="https://github.com/mizuhomizuho/todojs/blob/master/screenshots/888.mp4" type="video/mp4">
+   <source src="https://github.com/mizuhomizuho/todojs/raw/refs/heads/master/screenshots/888.mp4" type="video/mp4">
 </video>
 
 
