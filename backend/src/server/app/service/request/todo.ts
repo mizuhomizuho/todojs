@@ -12,11 +12,11 @@ export namespace ServiceRequestTodo {
 
         public getRequest() {
 
-            const title: string = App.context.req.body.title.trim();
-            const description: string = App.context.req.body.description.trim();
-            const comments: string = App.context.req.body.comments.trim();
-            const status: string = App.context.req.body.status.trim();
-            const deadline: string = App.context.req.body.deadline.trim();
+            const title: string = this.getValue('title').trim();
+            const description: string = this.getValue('description').trim();
+            const comments: string = this.getValue('comments').trim();
+            const status: string = this.getValue('status').trim();
+            const deadline: string = this.getValue('deadline').trim();
 
             const data: IStringObject = {
                 title,
@@ -47,7 +47,7 @@ export namespace ServiceRequestTodo {
         }
 
         public getId(): number {
-            return +App.context.req.body.id;
+            return +this.getValue('id').toString();
         }
 
         public getUserId(): number {

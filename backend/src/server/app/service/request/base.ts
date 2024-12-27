@@ -1,29 +1,33 @@
 import {App} from "../../app";
-import {ICommonObject} from "../../../../../types";
+import {ServiceResponse} from "../response";
+import {ServiceAuthenticate} from "../authenticate";
 
 export namespace ServiceRequestBase {
 
     export class Main {
 
-        private _data: ICommonObject;
-
-        constructor(data: ICommonObject) {
-            this._data = data;
-        }
-
         public getUserJWT(): string {
-            if (typeof App.context.req.body.userJWT !== 'string') {
-                return '';
+            return this.getValue('userJWT').toString();
+        }
+
+        public getUserId() {
+            const serviceAuthenticate = new ServiceAuthenticate.Main();
+            const decodeJWT = serviceAuthenticate.decodeJWT(this.getUserJWT());
+            if (decodeJWT) {
+                return +decodeJWT.payload.id;
             }
-            return App.context.req.body.userJWT;
+            const response = new ServiceResponse.Main();
+            response.sendError([]);
+            throw new Error("Execution aborted.");
         }
 
-        get data(): ICommonObject {
-            return this._data;
-        }
-
-        set data(value: ICommonObject) {
-            this._data = value;
+        protected getValue(field: string) {
+            if (typeof App.context.req.body[field] !== 'undefined') {
+                return App.context.req.body[field];
+            }
+            const response = new ServiceResponse.Main();
+            response.sendError([]);
+            throw new Error("Execution aborted.");
         }
     }
 }

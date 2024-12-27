@@ -55,8 +55,8 @@ export namespace ServiceAuthenticate {
             });
         }
 
-        public async isAuth(userJWT: string): Promise<boolean> {
-            let userJWTDecode: IAuthenticate | null = null;
+        public decodeJWT(userJWT: string): false | IAuthenticate {
+            let userJWTDecode: IAuthenticate | false = false;
             try {
                 userJWTDecode = JSON.parse(userJWT);
             } catch (e) {
@@ -68,6 +68,14 @@ export namespace ServiceAuthenticate {
                     && typeof userJWTDecode?.token === 'string'
                 )
             ) {
+                return false;
+            }
+            return userJWTDecode;
+        }
+
+        public async isAuth(userJWT: string): Promise<boolean> {
+            let userJWTDecode: IAuthenticate | false = this.decodeJWT(userJWT);
+            if (!userJWTDecode) {
                 return false;
             }
             const decodedToken = await this.decodeToken(userJWTDecode.token);

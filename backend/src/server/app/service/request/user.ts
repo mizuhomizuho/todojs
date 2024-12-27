@@ -1,11 +1,12 @@
 import {App} from "../../app";
+import {ServiceRequestBase} from "./base";
 
 export namespace ServiceRequestUser {
 
-    export class Main {
+    export class Main extends ServiceRequestBase.Main {
 
         public get(field: string): string {
-            return App.context.req.body[field].trim();
+            return this.getValue(field).toString().trim();
         }
     }
 }
