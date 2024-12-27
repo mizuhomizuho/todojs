@@ -8,12 +8,7 @@ export async function getCurrentPage(): Promise<IPageItem> {
     if (pageId === null) {
         return getPage(PAGE_HOME);
     }
-    const page = getPage(pageId);
-    // console.log(page, 111);
-    // if (page.id === PAGE_AUTHENTICATE && ) {
-    //
-    // }
-    return page;
+    return getPage(pageId);
 }
 
 export function getPage(pageId: string) {
