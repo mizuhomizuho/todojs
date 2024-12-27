@@ -48,17 +48,17 @@ export namespace RepositoryTodo {
             });
             return {
                 success: true,
-                data: {list: items.map((item: Todo) => this.convertItemToStringObject(item))},
+                data: {list: items.map((item: Todo) => this.convertPrismaTodoToITodoItem(item))},
             };
         }
 
         public async create(): Promise<IResult<{ newItem: ITodoItem }>> {
             const {id, ...data} = this.getData(0);
             const newItem = await App.context.prisma.todo.create({data: data});
-            return {success: true, data: {newItem: this.convertItemToStringObject(newItem)}};
+            return {success: true, data: {newItem: this.convertPrismaTodoToITodoItem(newItem)}};
         }
 
-        private convertItemToStringObject(item: Todo): ITodoItem {
+        private convertPrismaTodoToITodoItem(item: Todo): ITodoItem {
             return {
                 ...item,
                 id: item.id.toString(),
@@ -81,7 +81,7 @@ export namespace RepositoryTodo {
                 const item: Todo = await App.context.prisma.todo.delete({
                     where: {id: +App.context.req.body.id, userId: +userJWTDecode.payload.id}
                 });
-                return {success: true, data: {item: this.convertItemToStringObject(item)}};
+                return {success: true, data: {item: this.convertPrismaTodoToITodoItem(item)}};
             } catch (error) {
                 if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2025') {
                     return notExist;
@@ -96,7 +96,7 @@ export namespace RepositoryTodo {
                 const item: Todo = await App.context.prisma.todo.update({
                     where: {id: data.id, userId: data.userId}, data: data,
                 });
-                return {success: true, data: {item: this.convertItemToStringObject(item)}};
+                return {success: true, data: {item: this.convertPrismaTodoToITodoItem(item)}};
             } catch (error) {
                 if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === 'P2025') {
                     return {success: false, data: [{message: 'Record to update not found.'}]};
@@ -117,7 +117,7 @@ export namespace RepositoryTodo {
             }
             return {
                 success: true,
-                data: {item: this.convertItemToStringObject(item)},
+                data: {item: this.convertPrismaTodoToITodoItem(item)},
             };
         }
     }
