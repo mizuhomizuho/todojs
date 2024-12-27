@@ -13,8 +13,15 @@ export interface TodoItemProps extends BaseViewProps {
 
 const TodoItem = (props: TodoItemProps) => {
 
+    function truncateString(str: string, maxLength: number = 80): string {
+        if (str.length > maxLength) {
+            return str.slice(0, maxLength - 3) + '...';
+        }
+        return str;
+    }
+
     return <BaseView style={styles.item} {...props}>
-        <BaseText style={styles.text}>{props.title}</BaseText>
+        <BaseText style={styles.text}>{truncateString(props.title)}</BaseText>
         <BaseView style={styles.buttons}>
             <BaseView style={styles.buttonLeft}>
                 <BaseButton iconComponent="MaterialIcons" icon="delete-outline" title="Delete"

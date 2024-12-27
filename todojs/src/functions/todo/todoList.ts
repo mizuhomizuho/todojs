@@ -11,7 +11,9 @@ export function useTodoList(appContext: IAppContext) {
     const [tidoItems, setTidoItems] = useState<ITodoItem[]>([]);
 
     useEffect(() => {
-        loadData(appContext, setTidoItems);
+        (async () => {
+            await loadData(appContext, setTidoItems);
+        })();
     }, []);
 
     return {tidoItems, setTidoItems};
