@@ -1,7 +1,7 @@
-import {useEffect, useMemo, useState} from "react";
+import {useEffect, useState} from "react";
 import {IAppContext, ITodoItem} from "../../../../backend/types";
 import {query} from "../app";
-import {PAGE_EDIT, STORAGE_TODO_LIST, TODO_STATUS} from "../../constants";
+import {PAGE_EDIT, TODO_STATUS} from "../../constants";
 import {getPage} from "../navigation";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {getFormParams, getStoragePrefix} from "./todo";
@@ -36,7 +36,7 @@ export async function deleteItem(
         return;
     }
     appContext.load.setPreloader(true);
-    const result = await query(appContext, 'api/todo/delete', {id: itemId});
+    const result = await query('api/todo/delete', {id: itemId});
     if (result !== false && typeof result?.data?.item === 'object') {
         setTidoItems([...tidoItems].filter(item => item.id !== itemId));
         Object.keys(getFormParams()).map(async (variableName) => {
@@ -48,7 +48,7 @@ export async function deleteItem(
 
 async function loadData(appContext: IAppContext, setTidoItems: Function) {
     appContext.load.setPreloader(true);
-    const result = await query(appContext, 'api/todo/list', {});
+    const result = await query('api/todo/list', {});
     if (result !== false && typeof result?.data?.list === 'object') {
         setTidoItems(result.data.list);
     }

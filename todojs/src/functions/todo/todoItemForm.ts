@@ -58,11 +58,7 @@ export async function handleTodoItemForm(
     }
 
     appContext.load.setPreloader(true);
-    const result = await query(
-        appContext,
-        `api/todo/${editId ? 'edit' : 'add'}`,
-        params
-    );
+    const result = await query(`api/todo/${editId ? 'edit' : 'add'}`, params);
     if (result !== false && typeof result?.data?.newItem === 'object') {
         const dataConverted = convertDataFromServer(
             {...result.data.newItem} as unknown as ITodoItem
@@ -105,9 +101,7 @@ async function loadData(appContext: IAppContext, editId: string): Promise<false 
     }
     isLoadStarted = true;
     appContext.load.setPreloader(true);
-    const result = await query(appContext, 'api/todo/get', {
-        id: editId,
-    });
+    const result = await query('api/todo/get', {id: editId});
     if (result !== false && typeof result?.data?.item === 'object') {
         loadedData = convertDataFromServer({...result.data.item} as unknown as ITodoItem);
     }

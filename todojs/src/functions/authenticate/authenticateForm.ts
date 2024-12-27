@@ -33,10 +33,7 @@ export async function handleAuthenticateForm(
 
     appContext.load.setPreloader(true);
 
-    const result = await query(appContext, 'api/user/authenticate', {
-        username,
-        password,
-    });
+    const result = await query('api/user/authenticate', {username, password});
 
     if (result !== false && typeof result.data.authenticate !== 'undefined') {
         appContext.auth.authenticate = getAuthenticateValue(

@@ -3,8 +3,8 @@ import {query} from "../app";
 
 import {IAppContext, IAuthenticate} from "../../../../backend/types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {getCurrentPage, getPage} from "../navigation";
-import {PAGE_ADD, STORAGE_USER_JWT} from "../../constants";
+import {getCurrentPage} from "../navigation";
+import {STORAGE_USER_JWT} from "../../constants";
 import {getAuthenticateValue} from "./authenticate";
 
 export function useRegisterForm() {
@@ -36,7 +36,7 @@ export async function handleRegisterForm(
 
     appContext.load.setPreloader(true);
 
-    const result = await query(appContext, 'api/user/register', {
+    const result = await query('api/user/register', {
         username,
         password,
         password2,

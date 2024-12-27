@@ -39,11 +39,7 @@ export function useApp(componentMap: IComponentMap) {
     return appContext;
 }
 
-export async function query(
-    appContext: IAppContext,
-    route: string,
-    params: IStringObject
-) {
+export async function query(route: string, params: IStringObject) {
     return await api(route, params);
 }
 
