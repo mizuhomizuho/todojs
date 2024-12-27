@@ -72,21 +72,15 @@ make del
    make start
    ```
 
-### Screenshots
+### Movie and screenshots
 
-<img src="https://github.com/mizuhomizuho/todojs/blob/master/screenshots/localhost_8081_.png" alt="">
+[![Watch the video](https://github.com/mizuhomizuho/todojs/blob/master/screenshots/localhost_8081_.png)](https://todojs-movie.surge.sh/888.mp4)
 
 <img src="https://github.com/mizuhomizuho/todojs/blob/master/screenshots/localhost_8081_(1).png" alt="">
 
 <img src="https://github.com/mizuhomizuho/todojs/blob/master/screenshots/localhost_8081_(2).png" alt="">
 
 <img src="https://github.com/mizuhomizuho/todojs/blob/master/screenshots/localhost_8081_(3).png" alt="">
-
-### Movie
-
-<video width="448" height="646" controls>
-   <source src="https://todojs-movie.surge.sh/888.mp4" type="video/mp4">
-</video>
 
 
 
