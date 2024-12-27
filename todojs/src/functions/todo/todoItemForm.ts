@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {DEADLINE_DAYJS_FORMAT, PAGE_EDIT, TODO_STATUS} from "../../constants";
+import {DEADLINE_DAYJS_FORMAT, PAGE_EDIT} from "../../constants";
 import dayjs from "dayjs";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {IAppContext, ICommonObject, IFieldValue, IFormParams, ITodoItem, ITodoItemNew} from "../../../../backend/types";
