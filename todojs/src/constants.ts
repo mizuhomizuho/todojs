@@ -1,6 +1,6 @@
 import {IItemStatus, INavigationItem, IPageItem} from "../../backend/types";
 
-const TODO_STATUS = {
+export const TODO_STATUS = {
     WAITING: 'WAITING',
     IN_PROGRESS: 'IN_PROGRESS',
     DONE: 'DONE',

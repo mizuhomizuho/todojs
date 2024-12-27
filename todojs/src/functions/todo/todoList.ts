@@ -1,7 +1,7 @@
 import {useEffect, useMemo, useState} from "react";
 import {IAppContext, ITodoItem} from "../../../../backend/types";
 import {query} from "../app";
-import {PAGE_EDIT, STORAGE_TODO_LIST} from "../../constants";
+import {PAGE_EDIT, STORAGE_TODO_LIST, TODO_STATUS} from "../../constants";
 import {getPage} from "../navigation";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {getFormParams, getStoragePrefix} from "./todo";
@@ -28,6 +28,11 @@ export async function deleteItem(
     tidoItems: ITodoItem[],
     setTidoItems: Function,
 ) {
+    const item = [...tidoItems].find(item => item.id === itemId);
+    if (typeof item !== 'undefined' && item.status === TODO_STATUS.DONE) {
+        alert('You cannot delete an item with the status "completed".');
+        return;
+    }
     appContext.load.setPreloader(true);
     const result = await query(appContext, 'api/todo/delete', {id: itemId});
     if (result !== false && typeof result?.data?.item === 'object') {
