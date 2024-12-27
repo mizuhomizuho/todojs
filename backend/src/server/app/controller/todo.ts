@@ -1,5 +1,5 @@
 import {ServiceResponse} from "../service/response";
-import {IError, IStringObjectTree, ITodoItem} from "../../../../types";
+import {IError, IStringObjectTree} from "../../../../types";
 import {ValidationTodo} from "../validation/todo";
 import {RepositoryTodo} from "../repository/todo";
 
