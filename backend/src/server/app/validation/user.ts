@@ -1,4 +1,3 @@
-import {App} from "../app";
 import {ValidationBase} from "./base";
 import {ICommonObject} from "../../../../types";
 
